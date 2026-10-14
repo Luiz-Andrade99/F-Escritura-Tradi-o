@@ -124,3 +124,21 @@
 .liturgical-reader{max-width:900px}
 .liturgical-crosslink{margin-top:18px}
 @media(max-width:580px){.liturgical-feature{padding:16px 13px;gap:10px}.liturgical-feature-icon{width:30px;font-size:25px}.liturgical-feature-arrow{font-size:20px}.liturgical-cards{grid-template-columns:1fr}.liturgical-card{min-height:0}}
+
+/* v0.6.0: índice do acervo de Carlo Acutis. */
+.acervo-filters{display:grid;grid-template-columns:minmax(210px,1.3fr) minmax(170px,1fr) minmax(180px,1fr);gap:12px;margin:30px 0 18px}
+.acervo-filters label{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:12px;font-weight:700}
+.acervo-filters input,.acervo-filters select{width:100%;min-width:0;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);padding:11px 12px;font-size:14px;line-height:1.5}
+.acervo-filters input:focus-visible,.acervo-filters select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.acervo-resultados{color:var(--muted);font-size:12px;margin-bottom:13px}
+.acervo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;align-items:stretch}
+.acervo-card{display:flex;flex-direction:column;gap:9px;min-height:138px;padding:19px;border:1px solid var(--line);border-radius:14px;background:var(--paper);transition:border-color .18s,transform .18s}
+.acervo-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.acervo-card[hidden]{display:none!important}
+.acervo-card-overline{font-size:11px;font-weight:700;color:var(--accent);line-height:1.4}
+.acervo-card strong{color:var(--ink);font:550 20px/1.25 Georgia,"Times New Roman",serif;overflow-wrap:anywhere}
+.acervo-card>span:last-child{margin-top:auto;color:var(--accent);font-size:12px;font-weight:700}
+[data-theme=dark] .acervo-filters input,[data-theme=dark] .acervo-filters select{background:var(--paper);color:var(--ink)}
+@media(max-width:900px){.acervo-filters{grid-template-columns:1fr 1fr}.acervo-filters label:first-child{grid-column:1/-1}}
+@media(max-width:580px){.acervo-filters{grid-template-columns:1fr}.acervo-filters label:first-child{grid-column:auto}.acervo-grid{grid-template-columns:1fr 1fr;gap:9px}.acervo-card{min-height:125px;padding:13px}.acervo-card strong{font-size:16px}}
+@media(max-width:390px){.acervo-grid{grid-template-columns:1fr}}

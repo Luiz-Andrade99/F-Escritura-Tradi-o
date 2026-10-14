@@ -1,8 +1,8 @@
-/* FET v0.5.2: arquivos do site usam rede primeiro para evitar versões antigas. */
-const VERSION='fet-v12-2026-10-14-calendario-e-milagres';
+/* FET v0.6.0: arquivos do site usam rede primeiro para evitar versões antigas. */
+const VERSION='fet-v13-2026-10-14-acervo-eucaristico';
 const ASSETS=[
  './','./index.html','./styles.css','./content.js',
- './pesquisa.js','./ampliacao.js','./formacao.js','./calendario-e-milagres.js','./app.js','./manifest.webmanifest',
+ './pesquisa.js','./ampliacao.js','./formacao.js','./calendario-e-milagres.js','./acervo-carlo-acutis.js','./app.js','./manifest.webmanifest',
  './icons/favicon.svg','./icons/icon-512.png','./icons/apple-touch-icon.png',
  './biblia-dados/parte-01.json',
  './biblia-dados/parte-02.json',

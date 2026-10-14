@@ -1,3 +1,16 @@
+# Atualização 0.6.0 — catálogo internacional de Carlo Acutis
+
+- **Acervo pesquisável no próprio site:** 150 fichas de referência construídas a partir dos títulos, países e períodos publicados no índice oficial em português da exposição de Carlo Acutis. São **108 entradas geográficas de 20 países/territórios**, 19 registros de santos/místicos, 5 registros marianos e 18 registros de comunhões extraordinárias. A exposição oficial declara **aproximadamente 136 relatos e 166 painéis**, portanto os 150 registros do site **não são 150 milagres independentes ou aprovados**. Painéis temáticos coletivos foram desdobrados em fichas; isso explica a diferença de contagem.
+- O acervo foi estruturado em `acervo-carlo-acutis.js`. Inclui busca local por nome/ano/categoria e filtros por país ou grupo, e cada ficha possui rota interna `#/relato-eucaristico/<id>`.
+- **Seis estudos individuais** continuam detalhados e podem ser abertos a partir das fichas correspondentes: Lanciano, Bolsena–Orvieto, Santarém, Siena, Legnica e Sokółka.
+- **Direitos autorais:** não foram copiados painéis, fotos nem textos integrais da exposição. São apenas dados factuais do índice com redação original e referência externa para conferência. A gratuidade de download dos painéis não é licença automática de redistribuição irrestrita.
+- **Cautelas históricas:** títulos medievais exigem revisão por fonte primária; incluída referência crítica no registro de Bruxelas, especialmente pela história de acusações antijudaicas. Não são publicadas afirmações de supostos laudos técnicos sem conferência.
+- O índice foi comparado com https://www.miracolieucaristici.org/pr/Liste/list.html e referência oficial da associação https://www.carloacutis.com/pt/association/mostra-miracoli-eucaristici. A reprodução de estudos aprofundados dos demais casos permanece pendente de documentação individual.
+- Revisões de UI: agrupamento separado entre catálogo amplo e seis casos estudados; pesquisa e filtros responsivos; indicação de quantidade correta e contraste em tema escuro; novo service worker que atualiza assets da versão 0.6.0.
+- Não houve alteração dos 73 livros bíblicos, dos textos litúrgicos existentes ou dos estudos do Catecismo.
+
+---
+
 # Versão 0.5.2 — ano litúrgico e milagres eucarísticos
 
 - **Santa Missa:** nova entrada *Ano litúrgico, as festas e as quaresmas*. Contém 6 tempos litúrgicos, 15 solenidades/festas/comemorações, 2 estudos sobre devoções e diferentes usos da palavra "quaresma". Cada tema expõe a origem histórica, a finalidade para a vida cristã, um modo de vivê-lo, referências bíblicas e fontes. Os conteúdos estão integrados ao site em `#/ano-liturgico` e `#/celebracao/<id>`.
