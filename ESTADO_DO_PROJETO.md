@@ -16,3 +16,11 @@
 - Auditoria editorial estrutural efetuada, mas conferência de cada afirmação e revisão independente continuam pendentes. Veja AUDITORIA_EDITORIAL.md.
 - Bíblia integral não disponibilizada por ausência de licença; tradução da CNBB é candidata para solicitação de autorização.
 - URL projetada: https://luiz-andrade99.github.io/F-Escritura-Tradi-o/ (depende da ativação do Pages).
+
+## Atualização funcional 0.3.0
+
+- Navegação pública sem as áreas Meu caderno / Fontes e método. Dados de notas preservados no aparelho.
+- 3 mapas de viagens bíblicas migrados para base cartográfica real do OpenStreetMap; pontos e segmentos narrativos continuam aproximados.
+- Integração da leitura bíblica em português implementada por atalhos de capítulo para a tradução pública de Figueiredo hospedada na Samytech3D. **Texto não está embutido nem offline**.
+- Adoção da tradução no aplicativo como texto embutido exige edição conferida, devido a possíveis defeitos de digitalização e a direitos de elementos editoriais de 1950.
+- Implementação commitada no GitHub; implantação e teste em aparelhos ainda não confirmados.
