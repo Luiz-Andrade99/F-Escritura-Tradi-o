@@ -288,7 +288,7 @@ function mapBiblicalRoute(map,route,routeIndex,seen){
 function initBiblicalMap(routes,initialPlaces){
  const container=$('#biblical-map');
  if(!container)return;
- if(!window.maplibregl||!window.maplibregl.supported()){mapNoWebGLMessage(container);return;}
+ if(!window.maplibregl){mapNoWebGLMessage(container);return;}
  try{
   container.innerHTML='';
   const map=new window.maplibregl.Map({
