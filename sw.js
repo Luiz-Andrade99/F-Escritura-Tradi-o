@@ -1,8 +1,8 @@
-/* FET v0.4.2: arquivos do site usam rede primeiro para evitar versões antigas. */
-const VERSION='fet-v9-2026-10-14-mapas-ptbr';
+/* FET v0.5.0: arquivos do site usam rede primeiro para evitar versões antigas. */
+const VERSION='fet-v10-2026-10-14-formacao';
 const ASSETS=[
  './','./index.html','./styles.css','./content.js',
- './pesquisa.js','./app.js','./manifest.webmanifest',
+ './pesquisa.js','./formacao.js','./app.js','./manifest.webmanifest',
  './icons/favicon.svg','./icons/icon-512.png','./icons/apple-touch-icon.png',
  './biblia-dados/parte-01.json',
  './biblia-dados/parte-02.json',
