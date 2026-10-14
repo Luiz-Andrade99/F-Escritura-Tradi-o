@@ -16,7 +16,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Liturgia Eucarística",
-          "text": "O pão e o vinho são apresentados, a Igreja dá graças na oração eucarística e os fiéis são convidados à comunhão. Palavra e Eucaristia formam um único ato de culto."
+          "text": "O pão e o vinho são preparados para a celebração do sacrifício eucarístico. Pela oração eucarística, a Igreja celebra o memorial sacramental que torna presente o único sacrifício de Cristo na cruz, sem repeti-lo; sob as espécies consagradas, Cristo está realmente presente. A Comunhão nos une a ele e à Igreja. Liturgia da Palavra e Liturgia Eucarística constituem um único ato de culto."
         },
         {
           "heading": "Ritos finais",
@@ -39,6 +39,10 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "Lc 24,13–35",
@@ -61,7 +65,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Glória e coleta",
-          "text": "O Glória é um hino de louvor proclamado em dias previstos pelo calendário litúrgico; a oração coleta reúne as intenções da assembleia numa oração dirigida a Deus."
+          "text": "O Glória é um hino de louvor previsto aos domingos, exceto nos tempos do Advento e da Quaresma, nas solenidades e festas e em determinadas celebrações especiais. A oração coleta reúne as orações da assembleia e é pronunciada pelo sacerdote que preside. Devem-se observar as rubricas do Missal vigente no Brasil."
         }
       ],
       "sources": [
@@ -76,6 +80,10 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "Mt 18,20",
@@ -98,7 +106,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Homilia, Credo e preces",
-          "text": "A homilia explica a Palavra e a sua relação com a vida cristã; quando prescrito, o Credo expressa a fé comum, e a oração universal apresenta súplicas por toda a Igreja e pelo mundo."
+          "text": "A homilia faz parte da própria liturgia e, durante a Missa, é reservada ao bispo, ao presbítero ou ao diácono, conforme as normas. O Credo é professado quando prescrito, e a oração universal apresenta súplicas pelas necessidades da Igreja e do mundo. Uma reflexão feita por um leigo fora da homilia não deve ser confundida com a homilia litúrgica."
         }
       ],
       "sources": [
@@ -113,6 +121,14 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "Redemptionis Sacramentum, nn. 63–67: Evangelho e homilia",
+          "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20040423_redemptionis-sacramentum_po.html"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "Ne 8,1–12; Lc 4,16–21",
@@ -127,7 +143,7 @@ window.FET_DATA = {
       "points": [
         {
           "heading": "Pão e vinho",
-          "text": "São os elementos que serão consagrados na oração eucarística. O ofertório não deve ser confundido com o momento da consagração."
+          "text": "São apresentados pão de trigo e vinho de uva, matérias próprias da Eucaristia no rito romano. A apresentação das oferendas não é o momento da consagração. Na celebração eucarística, o sacrifício de Cristo se torna presente sacramentalmente, e não se realiza um novo sacrifício separado do da cruz."
         },
         {
           "heading": "Água misturada ao vinho",
@@ -150,6 +166,14 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "Redemptionis Sacramentum, nn. 48–50: matéria eucarística",
+          "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20040423_redemptionis-sacramentum_po.html"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "Mt 26,26–29",
@@ -168,7 +192,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Invocação do Espírito e narrativa da instituição",
-          "text": "A oração eucarística inclui a invocação do Espírito Santo e as palavras e ações de Cristo na Última Ceia. A Igreja professa a presença real de Cristo na Eucaristia."
+          "text": "A Oração Eucarística contém a invocação do Espírito Santo e o relato da instituição da Eucaristia. A Igreja professa que, na consagração, o pão e o vinho se tornam Corpo e Sangue de Cristo, permanecendo as aparências de pão e vinho (transubstanciação). Sua proclamação é própria do sacerdote celebrante; a assembleia participa pelas aclamações e pelo grande Amém."
         },
         {
           "heading": "Memorial e doxologia",
@@ -187,6 +211,14 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "Catecismo, nn. 1373–1381; Redemptionis Sacramentum, nn. 51–52",
+          "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20040423_redemptionis-sacramentum_po.html"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "1Cor 11,23–26",
@@ -209,7 +241,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Receber a Eucaristia",
-          "text": "A comunhão supõe as disposições exigidas pela Igreja. Quem tem consciência de pecado grave deve buscar a reconciliação sacramental antes de comungar, salvo as condições excepcionais previstas pela disciplina da Igreja."
+          "text": "Para comungar é necessário estar devidamente disposto. Quem tem consciência de pecado mortal deve procurar antes a confissão sacramental. A exceção prevista pela Igreja exige simultaneamente motivo grave, impossibilidade de confessar-se e ato de contrição perfeita com propósito de confessar-se quanto antes; não é uma licença geral para comungar sem confissão. Ver Catecismo n. 1457 e cân. 916."
         }
       ],
       "sources": [
@@ -224,6 +256,14 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "Catecismo, nn. 1385 e 1457: disposições para a Comunhão",
+          "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap1_1420-1532_po.html"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "Jo 6,51–58; 1Cor 11,27–29",
@@ -261,6 +301,10 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "Tg 2,14–17",
@@ -298,6 +342,10 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "Sl 95(94),6",
@@ -335,6 +383,10 @@ window.FET_DATA = {
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
           "url": "https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/"
+        },
+        {
+          "label": "CNBB (2023): Instrução Geral do Missal Romano ajustada ao Missal brasileiro",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         }
       ],
       "scripture": "Hb 13,10",
@@ -518,7 +570,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Limites sacramentais",
-          "text": "O diácono não consagra a Eucaristia nem concede absolvição sacramental; pode, dentro das normas, batizar e assistir a matrimônios quando devidamente autorizado."
+          "text": "O diácono não pode presidir a Missa, consagrar a Eucaristia, absolver pecados na Confissão nem administrar a Unção dos Enfermos. Pode celebrar o Batismo e assistir validamente ao Matrimônio conforme as condições e competências previstas pela Igreja, inclusive a devida delegação quando exigida. O relato de Atos 6,1–6 é tradicionalmente relacionado ao serviço diaconal, mas não é por si só um manual completo da instituição posterior do diaconato."
         }
       ],
       "sources": [
@@ -533,6 +585,10 @@ window.FET_DATA = {
         {
           "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
+        },
+        {
+          "label": "Redemptionis Sacramentum, nn. 34–35: serviço do diácono",
+          "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20040423_redemptionis-sacramentum_po.html"
         }
       ],
       "scripture": "At 6,1–6",
@@ -547,7 +603,7 @@ window.FET_DATA = {
       "points": [
         {
           "heading": "Leitor e acólito instituídos",
-          "text": "São ministérios confiados de modo estável a fiéis leigos, segundo as normas da Igreja."
+          "text": "São ministérios estáveis confiados a fiéis leigos, homens ou mulheres, mediante instituição litúrgica e observadas as normas da Igreja. A possibilidade de instituição de mulheres foi explicitada por Spiritus Domini (2021), que modificou o cân. 230 §1. Não confundir um leitor designado para determinada Missa com quem recebeu o ministério instituído."
         },
         {
           "heading": "Coroinhas e leitores designados",
@@ -555,7 +611,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Ministro extraordinário da Comunhão",
-          "text": "Auxilia na distribuição da sagrada Comunhão quando as condições previstas pela Igreja o justificam. Não é um ministro ordenado e não substitui o sacerdote na consagração."
+          "text": "É o acólito instituído ou outro fiel devidamente designado, que pode distribuir a sagrada Comunhão nas circunstâncias previstas pelo direito. Os ministros ordinários são o bispo, o presbítero e o diácono. Essa função extraordinária não autoriza fazer a homilia da Missa, presidir a Oração Eucarística ou consagrar o pão e o vinho."
         }
       ],
       "sources": [
@@ -566,6 +622,14 @@ window.FET_DATA = {
         {
           "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
+        },
+        {
+          "label": "Spiritus Domini (2021): acesso de mulheres ao leitorado e acolitado instituídos",
+          "url": "https://www.vatican.va/content/francesco/pt/motu_proprio/documents/papa-francesco-motu-proprio-20210110_spiritus-domini.html"
+        },
+        {
+          "label": "Redemptionis Sacramentum: funções dos leigos e da Comunhão",
+          "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20040423_redemptionis-sacramentum_po.html"
         }
       ],
       "scripture": "1Cor 12,4–7",
@@ -584,7 +648,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Catequista",
-          "text": "Anuncia e ajuda a transmitir a fé da Igreja, numa missão que requer formação e comunhão eclesial."
+          "text": "Transmite a fé e acompanha a formação cristã, em comunhão com a Igreja e com formação apropriada. Há catequistas que exercem o serviço por designação paroquial e também o ministério laical instituído de Catequista, criado em 2021 por Antiquum ministerium, com critérios e rito próprios. Nem toda pessoa que dá catequese recebeu essa instituição estável."
         },
         {
           "heading": "Cantores e equipes",
@@ -599,6 +663,10 @@ window.FET_DATA = {
         {
           "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
+        },
+        {
+          "label": "Antiquum ministerium (2021): ministério instituído de catequista",
+          "url": "https://www.vatican.va/content/francesco/pt/motu_proprio/documents/papa-francesco-motu-proprio-20210510_antiquum-ministerium.html"
         }
       ],
       "scripture": "Cl 3,16",
@@ -613,7 +681,7 @@ window.FET_DATA = {
       "points": [
         {
           "heading": "Vida consagrada",
-          "text": "É uma forma de seguir Cristo por meio dos conselhos evangélicos, com diferentes institutos e carismas."
+          "text": "A vida consagrada é uma forma estável de seguir Cristo mediante a profissão dos conselhos evangélicos de castidade no celibato por causa do Reino, pobreza e obediência, segundo as formas de vida reconhecidas pela Igreja. Não integra, em si mesma, um grau do sacramento da Ordem. Ver Catecismo, nn. 914–933."
         },
         {
           "heading": "Ordens e congregações",
@@ -632,6 +700,10 @@ window.FET_DATA = {
         {
           "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
+        },
+        {
+          "label": "Catecismo, nn. 914–933: vida consagrada",
+          "url": "https://www.vatican.va/archive/cathechism_po/index_new/p1s2cap3_683-1065_po.html"
         }
       ],
       "scripture": "Mt 19,21",
@@ -650,7 +722,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Sinal principal",
-          "text": "A água e a fórmula trinitária integram o rito sacramental. Existem formas de administração reconhecidas pela Igreja."
+          "text": "O sinal essencial inclui a verdadeira água e a invocação trinitária do Pai, do Filho e do Espírito Santo, mediante imersão ou infusão conforme o rito. O ministro ordinário é bispo, presbítero ou diácono; em caso de necessidade, qualquer pessoa com a intenção de fazer o que a Igreja faz pode batizar validamente observando a forma prescrita."
         },
         {
           "heading": "Para aprofundar",
@@ -683,7 +755,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Rito",
-          "text": "A unção com o crisma e a oração sacramental expressam o dom do Espírito Santo."
+          "text": "Na Igreja latina, o sacramento é conferido mediante a unção da fronte com o santo crisma, a imposição da mão e a fórmula sacramental. O ministro ordinário é o bispo; o presbítero também pode confirmar nos casos e com as faculdades previstas pela disciplina eclesial."
         }
       ],
       "sources": [
@@ -704,11 +776,11 @@ window.FET_DATA = {
       "points": [
         {
           "heading": "Memorial de Cristo",
-          "text": "A Igreja celebra sacramentalmente o mistério pascal de Jesus na ação eucarística."
+          "text": "A Eucaristia é o memorial sacramental da Páscoa de Cristo e verdadeiro sacrifício: nela se torna presente, de modo incruento, o único sacrifício da cruz, sem que Cristo seja novamente crucificado. É ao mesmo tempo sacrifício, presença real e banquete da Comunhão. Ver Catecismo, nn. 1362–1367."
         },
         {
           "heading": "Presença real",
-          "text": "A fé católica ensina que Cristo está verdadeira e substancialmente presente sob as espécies eucarísticas."
+          "text": "Pela consagração, o pão e o vinho tornam-se verdadeiramente o Corpo e o Sangue de Cristo. A Igreja chama essa conversão de transubstanciação; permanecem as aparências sensíveis de pão e vinho. Cristo está inteiro sob cada uma das espécies eucarísticas. Ver Catecismo, nn. 1374–1377."
         },
         {
           "heading": "Comunhão",
@@ -737,7 +809,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Atos do penitente",
-          "text": "Contrição, confissão e satisfação fazem parte do caminho sacramental da reconciliação."
+          "text": "Contrição sincera, confissão dos pecados e satisfação penitencial fazem parte do sacramento. Devem ser confessados os pecados mortais de que se tem consciência após exame diligente, em espécie e número, segundo as normas da Igreja. A absolvição é um ato sacramental do sacerdote, não substituível por mero aconselhamento."
         },
         {
           "heading": "Ministro",
@@ -766,7 +838,7 @@ window.FET_DATA = {
       "points": [
         {
           "heading": "A quem se destina",
-          "text": "Não é um sacramento reservado somente aos minutos finais de vida. É celebrado nas condições descritas pela Igreja, relacionadas a enfermidade grave ou velhice."
+          "text": "É oferecida ao fiel que começa a estar em perigo por doença ou velhice, segundo as condições reconhecidas pela Igreja, e não apenas quando a morte é iminente. Não se destina simplesmente a qualquer indisposição passageira. A conveniência e o momento concreto devem ser discernidos pastoralmente."
         },
         {
           "heading": "Quem administra",
@@ -836,7 +908,7 @@ window.FET_DATA = {
         },
         {
           "heading": "Celebração",
-          "text": "As condições de validade e forma canônica dependem das normas e situações previstas pela Igreja."
+          "text": "Na tradição latina, os próprios nubentes são ministros do sacramento ao manifestarem livremente o consentimento. Ordinariamente, o sacerdote ou diácono devidamente habilitado assiste ao consentimento em nome da Igreja, diante de testemunhas. Há situações específicas previstas no direito sobre forma canônica, dispensas e delegações. O consentimento válido é indispensável."
         }
       ],
       "sources": [
@@ -1022,7 +1094,7 @@ window.FET_DATA = {
         },
         {
           "heading": "À mesa",
-          "text": "Ao partir o pão, os discípulos reconhecem Jesus. O episódio inspira uma leitura espiritual da relação entre Palavra e Eucaristia."
+          "text": "No gesto de partir o pão, os discípulos reconhecem Jesus. A tradição cristã encontra nesse relato uma inspiração espiritual para relacionar a escuta da Palavra e o encontro eucarístico. Essa analogia não significa que Lucas 24 descreva literalmente todas as partes e rubricas da Missa atual."
         },
         {
           "heading": "De volta à comunidade",
@@ -1051,7 +1123,7 @@ window.FET_DATA = {
       "points": [
         {
           "heading": "Escritura",
-          "text": "A Bíblia testemunha por escrito a Revelação divina em linguagem humana, com diversos gêneros literários."
+          "text": "A Sagrada Escritura é Palavra de Deus consignada por escrito sob inspiração do Espírito Santo, transmitida em linguagem verdadeiramente humana e em diversos gêneros literários. Sua leitura exige atenção ao sentido pretendido pelos autores humanos e à unidade da fé da Igreja."
         },
         {
           "heading": "Tradição",
@@ -1541,7 +1613,7 @@ window.FET_DATA = {
   ],
   "sources": {
     "igmr": {
-      "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+      "label": "IGMR em inglês, com adaptações para os EUA; NÃO usar como norma própria para o Brasil (consultar tradução brasileira da CNBB)",
       "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
     },
     "cic_euc": {
@@ -1565,7 +1637,7 @@ window.FET_DATA = {
       "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap4_1667-1690_po.html"
     },
     "codigo": {
-      "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+      "label": "Código de Direito Canônico (PDF em português); verificar normas posteriores, como a alteração do cân. 230 §1 em 2021",
       "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
     },
     "dei": {
