@@ -563,7 +563,7 @@ function searchUpdate(){
  matching.sort((a,b)=>rank(b)-rank(a)||a.title.localeCompare(b.title,'pt-BR'));
  const results=matching.slice(0,22);
  target.innerHTML=matching.length?
-  `<p class="search-summary">${matching.length} resultados${matching.length>22?' · exibindo os 22 mais relevantes':''}</p>`+
+  `<p class="search-summary">${matching.length} ${matching.length===1?'resultado':'resultados'}${matching.length>22?' · exibindo os 22 mais relevantes':''}</p>`+
   results.map(x=>`<a class="study-card" href="${x.url}" data-search-result="1"><span class="study-card-content"><small>${esc(x.section)}</small><span class="study-card-title" style="display:block">${esc(x.title)}</span><span class="study-card-summary">${esc(x.summary)}</span></span><span class="study-card-arrow">→</span></a>`).join(''):
   '<div class="empty"><p>Nenhum resultado. Experimente outro tema ou palavra.</p></div>';
 }
