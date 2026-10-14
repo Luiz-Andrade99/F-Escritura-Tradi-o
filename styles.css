@@ -101,3 +101,9 @@
 .catechism-reader{max-width:870px}
 .catechism-editorial,.edition-subtle{font-size:12px;line-height:1.6;color:var(--muted);margin:14px 0 18px}
 .catechism-editorial{margin:24px 0 6px}
+
+/* Mantém acessíveis os novos submenus em telas menores que a navegação. */
+.side-nav{overflow-y:auto;overflow-x:hidden;min-height:0;scrollbar-width:thin;padding-right:3px}
+.sidebar-bottom{flex-shrink:0}
+.nav-group .nav-item{min-width:0}
+.sub-nav a{display:block;overflow-wrap:break-word}
