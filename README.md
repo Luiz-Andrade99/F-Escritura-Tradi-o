@@ -94,3 +94,13 @@ Código e textos desta versão de trabalho foram preparados para o projeto do us
 - **Validação:** verificada sintaxe JS de todos os arquivos, 73/73 nomes de livros mapeados, elementos de navegação ocultos, marcação de crédito OSM e versão do cache. **Ainda não houve teste funcional no iPhone nem validação de todos os links externos capítulo a capítulo**; ao publicar, conferir os links do site de origem, o carregamento das folhas cartográficas e o cache da PWA.
 
 Fontes técnicas: https://leafletjs.com/examples/quick-start/ ; https://operations.osmfoundation.org/policies/tiles/ ; https://www.openstreetmap.org/copyright .
+
+## Correção v0.3.1 — atualização da PWA e Bíblia em português
+
+- Adicionado parâmetro de versão nos recursos CSS/JS do HTML para impedir que o service worker antigo sirva scripts ultrapassados.
+- Service worker usa **rede primeiro** para HTML, JavaScript, CSS e manifesto; mantém fallback local sem conexão.
+- O aplicativo força uma atualização de página uma vez por sessão após a instalação de um novo controlador da PWA.
+- Identificação de versão agora mostra **0.3.1 · Bíblia em português** na lateral.
+- As caixas embutidas **Meu caderno pessoal** foram ocultadas também de livros, estudos e mapas; as notas previamente salvas permanecem intactas no armazenamento local.
+- Leitura da Bíblia de Figueiredo em português continua hospedada externamente em https://santo.samytech3d.com.br/biblia. O projeto não incorpora texto integral não revisado.
+- Para escapar imediatamente do cache antigo, acessar `https://luiz-andrade99.github.io/F-Escritura-Tradi-o/?v=20261014-031-ptbr#/biblia`. A implantação do Pages precisa estar concluída.
