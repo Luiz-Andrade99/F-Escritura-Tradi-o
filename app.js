@@ -274,9 +274,11 @@ function renderWord(w){let key='word:'+w.id;return `<div class="container"><div 
 function mapGroups(){
  return [...new Set(research.rotas.filter(r=>state.mapTestamento==='Todos'||r.testamento===state.mapTestamento).map(r=>r.grupo))];
 }
+const atlasGroupOrder=['Origens','Patriarcas','Êxodo e conquista','Juízes','Monarquia','Reinos e profetas','Exílio e retorno','Livros deuterocanônicos','Infância de Jesus','Vida pública de Jesus','Jerusalém e Páscoa','Igreja nascente','Viagens de Paulo','Apocalipse'];
 function mapVisibleRoutes(){
  return research.rotas.filter(r=>(state.mapTestamento==='Todos'||r.testamento===state.mapTestamento)
- &&(state.mapGrupo==='Todos'||r.grupo===state.mapGrupo));
+ &&(state.mapGrupo==='Todos'||r.grupo===state.mapGrupo))
+ .sort((a,b)=>atlasGroupOrder.indexOf(a.grupo)-atlasGroupOrder.indexOf(b.grupo)||a.titulo.localeCompare(b.titulo,'pt-BR'));
 }
 function selectedMapRoute(){
  const visible=mapVisibleRoutes();
@@ -416,9 +418,27 @@ function initBiblicalMap(routes,initialPlaces){
 }
 function initOverviewMap(){const route=selectedMapRoute();if(route)initBiblicalMap([route],route.locais);}
 function initRouteMap(route){if(route)initBiblicalMap([route],route.locais);}
+
+function mapBibleHref(r){
+ const source=r.fontes?.find(f=>typeof f.url==='string'&&f.url.startsWith('https://bible.usccb.org/bible/'));
+ if(!source)return null;
+ const m=source.url.match(/\/bible\/([a-z0-9]+)\/(\d+)\/?$/);
+ if(!m)return null;
+ const names={
+  genesis:'Gênesis',exodus:'Êxodo',joshua:'Josué',judges:'Juízes',ruth:'Rute',
+  '1samuel':'1 Samuel','2samuel':'2 Samuel','1kings':'1 Reis','2kings':'2 Reis',
+  ezra:'Esdras',nehemiah:'Neemias',tobit:'Tobias',judith:'Judite',esther:'Ester',
+  '1maccabees':'1 Macabeus',amos:'Amós',ezekiel:'Ezequiel',daniel:'Daniel',
+  jonah:'Jonas',matthew:'Mateus',mark:'Marcos',luke:'Lucas',john:'João',
+  acts:'Atos dos Apóstolos',revelation:'Apocalipse'
+ };
+ const name=names[m[1]],chapter=Number(m[2]);
+ return name&&data.books.some(b=>b.name===name)?bibleHref(name,chapter):null;
+}
+
 function renderRoute(r){
  const key='route:'+r.id;
- return `<div class="container"><div class="backline"><a href="#/mapas" class="text-link">← Todos os percursos</a></div><div class="article-card"><span class="eyebrow">${r.testamento==='AT'?'ANTIGO TESTAMENTO':r.testamento==='NT'?'NOVO TESTAMENTO':'ESTUDO BÍBLICO'} · ${esc(r.grupo||'Geografia')} · ${esc(r.texto)}</span><h1>${esc(r.titulo)}</h1><p class="article-lead">${esc(r.subtitulo)}</p><div class="map-frame"><div id="biblical-map" class="biblical-map" role="region" aria-label="Mapa geográfico interativo com pontos aproximados da narrativa bíblica"><div class="map-loading">Carregando mapa geográfico...</div></div></div><p class="map-caption">Mapa geográfico com nomes em português. ${r.tipo==='sequencia'?'A linha tracejada indica apenas a ordem de locais citados; não reconstrói a estrada ou travessia.':'O mapa é contextual e não indica deslocamento nem rota histórica.'} A identificação exata de alguns lugares é discutida.</p><div class="warning"><strong>Como interpretar:</strong> ${esc(r.comentario)}</div><div class="section-title-line"><h2>${r.tipo==='sequencia'?'Locais da sequência bíblica':'Locais e regiões do relato'}</h2></div><div class="route-stops">${r.locais.map((p,i)=>`<div class="route-stop"><span class="stop-number">${i+1}</span><div><strong>${esc(p.nome)}</strong><p>${esc(p.nota)}</p>${link(`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=10/${p.lat}/${p.lon}`,'Ver localização no OpenStreetMap')}</div></div>`).join('')}</div><div class="aside-card" style="margin-top:25px"><h3>Referências</h3>${r.fontes.map(s=>link(s.url,s.label)).join('')}</div></div></div>`;
+ return `<div class="container"><div class="backline"><a href="#/mapas" class="text-link">← Todos os percursos</a></div><div class="article-card"><span class="eyebrow">${r.testamento==='AT'?'ANTIGO TESTAMENTO':r.testamento==='NT'?'NOVO TESTAMENTO':'ESTUDO BÍBLICO'} · ${esc(r.grupo||'Geografia')} · ${esc(r.texto)}</span><h1>${esc(r.titulo)}</h1><p class="article-lead">${esc(r.subtitulo)}</p><div class="map-frame"><div id="biblical-map" class="biblical-map" role="region" aria-label="Mapa geográfico interativo com pontos aproximados da narrativa bíblica"><div class="map-loading">Carregando mapa geográfico...</div></div></div><p class="map-caption">Mapa geográfico com nomes em português. ${r.tipo==='sequencia'?'A linha tracejada indica apenas a ordem de locais citados; não reconstrói a estrada ou travessia.':'O mapa é contextual e não indica deslocamento nem rota histórica.'} A identificação exata de alguns lugares é discutida.</p><div class="warning"><strong>Como interpretar:</strong> ${esc(r.comentario)}</div><div class="map-scripture-link">${mapBibleHref(r)?`<a class="btn secondary" href="${mapBibleHref(r)}">Ler o capítulo bíblico neste site →</a>`:''}</div><div class="section-title-line"><h2>${r.tipo==='sequencia'?'Locais da sequência bíblica':'Locais e regiões do relato'}</h2></div><div class="route-stops">${r.locais.map((p,i)=>`<div class="route-stop"><span class="stop-number">${i+1}</span><div><strong>${esc(p.nome)}</strong><p>${esc(p.nota)}</p>${link(`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=10/${p.lat}/${p.lon}`,'Ver localização no OpenStreetMap')}</div></div>`).join('')}</div><div class="aside-card" style="margin-top:25px"><h3>Referências</h3>${r.fontes.map(s=>link(s.url,s.label)).join('')}</div></div></div>`;
 }
 function renderNotebook(){let entries=Object.entries(store.notes).filter(([,v])=>String(v||'').trim());return `<div class="container">${sectionHead('caderno','ÁREA PESSOAL · ARMAZENADA NESTE DISPOSITIVO')}<div class="summary-bar"><div class="summary-stat"><strong>${entries.length}</strong><span>anotações salvas</span></div><div class="summary-stat"><strong>${store.favorites.length}</strong><span>estudos favoritos</span></div><div class="summary-stat"><strong>Local</strong><span>Sem login ou servidor pago</span></div></div><div class="notebook-actions"><button class="btn" type="button" data-export="1">↓ Exportar meu caderno</button><button class="btn secondary" type="button" data-import="1">↑ Importar backup</button></div><div class="warning">As informações são salvas no navegador deste aparelho. Não há sincronização entre dispositivos; limpar os dados do Safari pode apagar tudo. Exporte um backup periodicamente.</div><div class="section-title-line"><h2>Minhas anotações</h2></div>${entries.length?`<div class="notebook-list">${entries.map(([key,value])=>`<div class="notebook-item"><strong>${esc(describeKey(key))}</strong><p>${esc(String(value).slice(0,1500))}</p><a class="text-link" href="${linkForKey(key)}">Abrir estudo →</a></div>`).join('')}</div>`:`<div class="empty"><h3>Seu caderno está em branco</h3><p>Abra um estudo ou verbete e registre suas próprias descobertas.</p></div>`}<div class="section-title-line"><h2>Favoritos</h2></div>${store.favorites.length?`<div class="mini-list">${store.favorites.map(k=>`<a class="study-card" href="${linkForKey(k)}"><span class="study-icon">☆</span><span class="study-card-content"><span class="study-card-title">${esc(describeKey(k))}</span></span><span class="study-card-arrow">→</span></a>`).join('')}</div>`:`<div class="empty"><p>Você ainda não marcou estudos como favoritos.</p></div>`}</div>`;}
 function describeKey(key){const [type, ...rest]=key.split(':');let target=rest.join(':');if(type==='article')return data.articles.find(x=>x.id===target)?.title||target;if(type==='word')return research.palavras.find(x=>x.id===target)?.titulo||target;if(type==='route')return research.rotas.find(x=>x.id===target)?.titulo||target;if(type==='book')return target;return key;}
