@@ -74,6 +74,8 @@ Na coluna **Ação**, **ampliado** significa correção de incompletude relevant
 - [CNBB: início do uso do Missal em 03/12/2023](https://www.cnbb.org.br/missa-dia-3-12-no-santuario-de-aparecida-marca-o-inicio-do-uso-da-terceira-edicao-tipica-do-missal-romano-na-igreja-no-brasil/).
 - [IGMR no Vaticano em inglês com adaptações dos Estados Unidos](https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html): **não utilizar como fonte das adaptações brasileiras**.
 
+**Norma litúrgica mais recente identificada:** a CNBB anunciou em julho de 2026 uma revisão da tradução brasileira do *Cerimonial dos Bispos*. Quando o aplicativo abordar detalhadamente celebrações pontificais, usar também essa edição, não só rubricas gerais da Missa: https://www.cnbb.org.br/comissao-episcopal-para-a-liturgia-e-edicoes-cnbb-lancam-a-revisao-do-cerimonial-dos-bispos/.
+
 ## Pendências para liberação catequética pública
 
 1. Cotejo **rubrica por rubrica** com a publicação da *Instrução Geral do Missal Romano e Introdução ao Lecionário* da CNBB (2023), não apenas com artigos jornalísticos.
