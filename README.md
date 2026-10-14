@@ -1,3 +1,25 @@
+# Atualização v0.5.0 — 14/10/2026
+
+**Mapas bíblicos:** camada vetorial OpenFreeMap/OSM com todos os rótulos de terceiros ocultados e substituídos por lista curada de países, mares e localidades em português. Percursos e locais bíblicos continuam sinalizados no mapa em português; pontos e segmentos são geográficos aproximados, não reconstruções históricas. Exige internet. O usuário pode precisar de atualização forçada devido ao service worker de versões antigas.
+
+**Milagres Eucarísticos:** menu após Sacramentos, com navegação interna para Lanciano, Bolsena–Orvieto e Santarém, fontes pontifícias, dioceses e estudo de Linoli. Reconhecimento de santuário e devoção não é sinônimo de decreto universal sobre causalidade sobrenatural.
+
+**Catecismo:** guia de estudo interno com quatro partes e doze temas originais referenciados por números do CIC. A **reprodução literal integral** do Catecismo não foi feita e depende dos direitos da Libreria Editrice Vaticana. Não chamar os resumos de edição completa do Catecismo.
+
+**Interface:** removidos quadros gerais de revisão, advertências de IA e botões de roteiro com IA. Tradução bíblica incorporada permanece Pe. Manuel de Matos Soares; documentação de procedência continua no repositório.
+
+**Fontes documentais usadas nos novos estudos:**
+- https://beweb.chiesacattolica.it/percorsitematici/miracoli-eucaristici/il-miracolo-custodito-nella-chiesa-di-san-francesco/lanalisi-scientifica-delle-reliquie/
+- https://pubmed.ncbi.nlm.nih.gov/4950729/
+- https://www.vatican.va/content/benedict-xvi/it/audiences/2010/documents/hf_ben-xvi_aud_20101117.html
+- https://www.diocesiorvietotodi.it/pellegrinaggio-del-corpus-domini-marcia-della-fede-da-bolsena-a-orvieto-nella-notte-tra-il-6-ed-il-7-giugno-2026/
+- https://diocese-santarem.pt/lista/decreto-6/
+- https://diocese-santarem.pt/santuario-do-santissimo-milagre/
+- https://www.vatican.va/archive/cathechism_po/index_new/indice_po.html
+- https://www.vatican.va/roman_curia/institutions_connected/lev/docs_lev/copyright_po.htm
+
+---
+
 # Ajustes de interface — 14/10/2026 (v0.4.2)
 
 - Removidos da página inicial o bloco de instalação no iPhone e o aviso de revisão que o acompanhava.
