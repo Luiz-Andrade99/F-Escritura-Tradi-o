@@ -24,13 +24,43 @@ const sections = [
 ];
 const state = {filter:'Todos'};
 function loadStore(){
-  try {let v=JSON.parse(localStorage.getItem('fet_study_v1')||'{}'); return {notes:v.notes&&typeof v.notes==='object'&&!Array.isArray(v.notes)?v.notes:{},favorites:Array.isArray(v.favorites)?v.favorites:[],theme:v.theme==='dark'?'dark':'light'};}
-  catch {return {notes:{},favorites:[],theme:'light'};}
+  try {let v=JSON.parse(localStorage.getItem('fet_study_v1')||'{}'); return {notes:v.notes&&typeof v.notes==='object'&&!Array.isArray(v.notes)?v.notes:{},favorites:Array.isArray(v.favorites)?v.favorites:[],theme:v.theme==='dark'?'dark':'light',bibleFontSize:Number.isInteger(v.bibleFontSize)&&v.bibleFontSize>=16&&v.bibleFontSize<=28?v.bibleFontSize:0};}
+  catch {return {notes:{},favorites:[],theme:'light',bibleFontSize:0};}
 }
 let store = loadStore();
 function saveStore(){try{localStorage.setItem('fet_study_v1',JSON.stringify(store));}catch(e){toast('Não foi possível salvar no dispositivo. Exporte suas anotações.');}}
 function toast(message){let t=$('#toast');t.textContent=message;t.classList.add('visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('visible'),3400);}
 function theme(){document.documentElement.dataset.theme=store.theme;$('#theme-toggle').setAttribute('aria-label',store.theme==='dark'?'Ativar tema claro':'Ativar tema escuro');}
+
+function applyBibleFontSize(){
+ if(store.bibleFontSize)document.documentElement.style.setProperty('--bible-font-size',store.bibleFontSize+'px');
+ else document.documentElement.style.removeProperty('--bible-font-size');
+}
+function changeBibleFontSize(step){
+ if(![-2,0,2].includes(step))return;
+ const current=store.bibleFontSize||(window.innerWidth<=650?18:20);
+ store.bibleFontSize=step===0?0:Math.max(16,Math.min(28,current+step));
+ saveStore();applyBibleFontSize();
+ const label=$('#bible-font-value');
+ if(label)label.textContent=store.bibleFontSize?store.bibleFontSize+' px':'Padrão';
+}
+async function copyBibleVerse(button){
+ const text=button.closest('.bible-verse')?.querySelector('.verse-text')?.textContent?.trim();
+ const ref=button.dataset.reference;
+ if(!text||!ref)return;
+ const value=ref+' — '+text;
+ try{
+  if(!navigator.clipboard?.writeText)throw Error('Clipboard API indisponível');
+  await navigator.clipboard.writeText(value);
+  toast(ref+' copiado.');
+ }catch{
+  const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.left='-9999px';
+  document.body.appendChild(area);area.select();
+  const ok=document.execCommand('copy');area.remove();
+  toast(ok?ref+' copiado.':'Não foi possível copiar o versículo.');
+ }
+}
+
 function navHtml(s){
  return `<a class="nav-item ${activeSection()===s.id?'active':''}" href="#/${s.id}" ${activeSection()===s.id?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${s.icon}</span>${esc(s.label)}</a>`;
 }
@@ -207,6 +237,12 @@ function renderChapter(name,chapterNumber){
  <article class="article-card bible-reader">
  <div class="eyebrow">SAGRADA ESCRITURA · EDIÇÃO CATÓLICA HISTÓRICA</div>
  <h1>${esc(name)} ${n}</h1><p class="article-lead">Tradução histórica do Pe. Manuel de Matos Soares.</p>
+ <div class="bible-toolbar"><div class="bible-font-tools" role="group" aria-label="Tamanho do texto bíblico"><span>Tamanho da letra:</span>
+ <button type="button" data-bible-font="-2" aria-label="Diminuir letra">A−</button>
+ <output id="bible-font-value" aria-live="polite">${store.bibleFontSize?store.bibleFontSize+' px':'Padrão'}</output>
+ <button type="button" data-bible-font="2" aria-label="Aumentar letra">A+</button>
+ <button type="button" data-bible-font="0" aria-label="Restaurar tamanho padrão">Restaurar</button></div>
+ <p>Toque no número de um versículo para copiar seu texto e referência.</p></div>
  <div class="reading-navigation"><span>${prev?`<a class="btn secondary" href="${prev}">← Anterior</a>`:''}</span><span>${next?`<a class="btn secondary" href="${next}">Próximo →</a>`:''}</span></div>
  <div id="chapter-status" class="bible-loading" role="status" aria-live="polite">Carregando texto do capítulo…</div>
  <div id="chapter-verses" class="bible-verses" aria-label="Texto integral do capítulo"></div>
@@ -224,7 +260,7 @@ async function showBibleChapter(name,chapterNumber){
   if(!atRoute())return;
   const book=books[within],verses=book?.chapters?.[String(n)];
   if(!Array.isArray(verses)||!verses.length)throw new Error('Capítulo não encontrado no pacote bíblico.');
-  target.innerHTML=verses.map(v=>`<p class="bible-verse" id="versiculo-${v.v}"><a class="verse-number" href="#/leitura/${id(name)}/${n}" data-reference="${esc(name)} ${n},${v.v}" title="Versículo ${v.v}">${v.v}</a><span>${esc(v.t)}</span></p>`).join('');
+  target.innerHTML=verses.map(v=>`<p class="bible-verse" id="versiculo-${esc(v.v)}"><button type="button" class="verse-number" data-copy-verse="1" data-reference="${esc(name)} ${n},${esc(v.v)}" aria-label="Copiar versículo ${esc(v.v)} e referência" title="Copiar versículo ${esc(v.v)}">${esc(v.v)}</button><span class="verse-text">${esc(v.t)}</span></p>`).join('');
   status.textContent=`${verses.length} versículos · leitura disponível neste aplicativo`;
  }catch(err){
   if(!atRoute())return;
@@ -497,7 +533,40 @@ function renderMissing(){return `<div class="container"><div class="empty"><h3>C
 function render(){const p=path();let html;const name=p[0]||'inicio';if(name==='inicio')html=renderHome();else if(name==='biblioteca')html=renderAll();else if(name==='biblia')html=renderBible();else if(name==='milagres')html=renderMiracles();else if(name==='acervo-eucaristico')html=renderCatalog();else if(name==='relato-eucaristico'){const r=acervo.registros.find(x=>x.id===p[1]);html=r?renderCatalogEntry(r):renderMissing();}else if(name==='milagre'){const m=formacao.milagres.find(x=>x.id===p[1]);html=m?renderMiracle(m):renderMissing();}else if(name==='catecismo')html=renderCatechism(p[1]);else if(name==='ano-liturgico')html=renderLiturgicalYear();else if(name==='celebracao'){const e=liturgicalEntries().find(x=>x.id===p[1]);html=e?renderLiturgicalDetail(e):renderMissing();}else if(['missa','igreja','sacramentos','oracoes'].includes(name))html=renderSection(name);else if(name==='estudo'){const a=data.articles.find(x=>x.id===p[1]);html=a?renderArticle(a):renderMissing();}else if(name==='livro')html=renderBook(p[1]);else if(name==='leitura')html=renderChapter(p[1],p[2]);else if(name==='idiomas')html=renderWords();else if(name==='palavra')html=research.palavras.find(x=>x.id===p[1])?renderWord(research.palavras.find(x=>x.id===p[1])):renderMissing();else if(name==='mapas')html=renderMaps();else if(name==='rota')html=research.rotas.find(x=>x.id===p[1])?renderRoute(research.rotas.find(x=>x.id===p[1])):renderMissing();else html=renderMissing();if(liveMap){liveMap.remove();liveMap=null;}$('#app').innerHTML=html;renderNav();if(name==='mapas')initOverviewMap();if(name==='rota')initRouteMap(research.rotas.find(x=>x.id===p[1]));if(name==='leitura')showBibleChapter(p[1],p[2]);let s=sections.find(x=>x.id===activeSection());$('#breadcrumbs').innerHTML=`Início <span>/</span> <strong>${esc(s?.label||'Estudos')}</strong>`;document.title=`${s?.label||'Estudos'} | Fé, Escritura & Tradição`;window.scrollTo({top:0,behavior:'instant'});}
 function searchOpen(){let d=$('#search-dialog');d.classList.remove('hidden');$('#search-input').value='';searchUpdate();setTimeout(()=>$('#search-input').focus(),50);}
 function searchClose(){let d=$('#search-dialog');d.classList.add('hidden');$('#search-trigger').focus();}
-function searchUpdate(){let q=$('#search-input').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();let xs=[...data.articles.map(a=>({title:a.title,summary:a.summary,url:'#/estudo/'+id(a.id),section:a.category})),...research.palavras.map(w=>({title:w.titulo+' ('+w.transliteracao+')',summary:w.analise,url:'#/palavra/'+w.id,section:'Idiomas'})),...research.rotas.map(r=>({title:r.titulo,summary:r.subtitulo,url:'#/rota/'+r.id,section:'Mapas'})),...formacao.milagres.map(m=>({title:m.titulo,summary:m.chamada,url:'#/milagre/'+m.id,section:'Milagres Eucarísticos'})),...formacao.catecismo.map(t=>({title:t.titulo,summary:t.resumo,url:'#/catecismo/'+t.id,section:'Catecismo'})),...liturgicalEntries().map(e=>({title:e.titulo,summary:e.finalidade,url:'#/celebracao/'+e.id,section:'Ano litúrgico'})),...acervo.registros.map(r=>({title:r.titulo+' ('+r.pais+')',summary:r.periodo,url:'#/relato-eucaristico/'+r.id,section:'Acervo de Carlo Acutis'}))];if(q)xs=xs.filter(x=>(x.title+' '+x.summary+' '+x.section).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(q));xs=xs.slice(0,22);$('#search-results').innerHTML=xs.length?xs.map(x=>`<a class="study-card" href="${x.url}" data-search-result="1"><span class="study-card-content"><small>${esc(x.section)}</small><span class="study-card-title" style="display:block">${esc(x.title)}</span><span class="study-card-summary">${esc(x.summary)}</span></span><span class="study-card-arrow">→</span></a>`).join(''):'<div class="empty"><p>Nenhum estudo encontrado para esta pesquisa.</p></div>';}
+
+function searchUpdate(){
+ const target=$('#search-results');
+ const q=normalizeCatalogText($('#search-input').value.trim());
+ if(!q){
+  const links=[['Bíblia','#/biblia','Leia os 73 livros'],['Santa Missa','#/missa','Ritos e ano litúrgico'],['Catecismo','#/catecismo','Estudos por tema'],['Milagres Eucarísticos','#/milagres','Histórias e catálogo'],['Mapas bíblicos','#/mapas','Lugares e percursos']];
+  target.innerHTML='<p class="search-summary">Acesso rápido</p>'+links.map(([name,url,summary])=>`<a class="study-card" href="${url}" data-search-result="1"><span class="study-card-content"><span class="study-card-title" style="display:block">${esc(name)}</span><span class="study-card-summary">${esc(summary)}</span></span><span class="study-card-arrow">→</span></a>`).join('');
+  return;
+ }
+ const items=[
+  ...data.articles.map(a=>({title:a.title,summary:a.summary,url:'#/estudo/'+id(a.id),section:a.category})),
+  ...research.palavras.map(w=>({title:w.titulo+' ('+w.transliteracao+')',summary:w.analise,url:'#/palavra/'+w.id,section:'Palavras originais'})),
+  ...research.rotas.map(r=>({title:r.titulo,summary:r.subtitulo,url:'#/rota/'+r.id,section:'Mapas bíblicos'})),
+  ...formacao.milagres.map(m=>({title:m.titulo,summary:m.chamada,url:'#/milagre/'+m.id,section:'Milagres Eucarísticos'})),
+  ...formacao.catecismo.map(t=>({title:t.titulo,summary:t.resumo,url:'#/catecismo/'+t.id,section:'Catecismo'})),
+  ...liturgicalEntries().map(e=>({title:e.titulo,summary:e.finalidade,url:'#/celebracao/'+e.id,section:'Ano litúrgico'})),
+  ...acervo.registros.map(r=>({title:r.titulo+' ('+r.pais+')',summary:r.periodo,url:'#/relato-eucaristico/'+r.id,section:'Acervo de Carlo Acutis'}))
+ ];
+ const terms=q.split(/\s+/).filter(Boolean);
+ const matching=items.filter(x=>terms.every(term=>normalizeCatalogText(x.title+' '+x.summary+' '+x.section).includes(term)));
+ function rank(x){
+  const title=normalizeCatalogText(x.title);
+  let score=title===q?1000:title.startsWith(q)?650:title.includes(q)?350:0;
+  score+=terms.filter(t=>title.includes(t)).length*70;
+  if(x.section==='Milagres Eucarísticos'||x.section==='Catecismo')score+=15;
+  return score;
+ }
+ matching.sort((a,b)=>rank(b)-rank(a)||a.title.localeCompare(b.title,'pt-BR'));
+ const results=matching.slice(0,22);
+ target.innerHTML=matching.length?
+  `<p class="search-summary">${matching.length} resultados${matching.length>22?' · exibindo os 22 mais relevantes':''}</p>`+
+  results.map(x=>`<a class="study-card" href="${x.url}" data-search-result="1"><span class="study-card-content"><small>${esc(x.section)}</small><span class="study-card-title" style="display:block">${esc(x.title)}</span><span class="study-card-summary">${esc(x.summary)}</span></span><span class="study-card-arrow">→</span></a>`).join(''):
+  '<div class="empty"><p>Nenhum resultado. Experimente outro tema ou palavra.</p></div>';
+}
 function exportData(){const output={app:'fe-escritura-tradicao',version:1,date:new Date().toISOString(),notes:store.notes,favorites:store.favorites};const blob=new Blob([JSON.stringify(output,null,2)],{type:'application/json;charset=utf-8'});let href=URL.createObjectURL(blob);let a=document.createElement('a');a.href=href;a.download='meu-caderno-fe-e-tradicao.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(href),3000);toast('Backup exportado. Guarde o arquivo em local seguro.');}
 function promptForArticle(a){return `Analise o tema "${a.title}" (${a.scripture||'sem referência bíblica central'}) em perspectiva católica. Separe: (1) texto e contexto, (2) referências exatas do Catecismo/Magistério, (3) diferentes interpretações históricas, (4) pontos discutidos ou incertos, (5) aplicação espiritual. Consulte fontes originais e apresente links precisos. Não invente citações, não transforme hipóteses em doutrina e sinalize o que não foi verificado.`;}
 function promptForWord(w){return `Faça uma análise verificável da palavra ${w.termo} (${w.transliteracao}), em ${w.referencia}. Inclua grafia, lema, flexão gramatical quando documentável, alcance semântico contextual, ocorrências paralelas, traduções e comentários patrísticos com fontes precisas. Distinga variantes de manuscritos das diferentes interpretações ao longo da história. Use edição crítica identificada e respeite a interpretação católica. Não invente léxicos, etimologias ou citações.`;}
@@ -513,20 +582,20 @@ document.addEventListener('click',e=>{
  if(places?.length)focusBiblicalMap(places,true);
  document.querySelectorAll('[data-map-focus]').forEach(b=>{const selected=b.dataset.mapFocus===requested;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});
 });
-document.addEventListener('click',e=>{let filter=e.target.closest('[data-filter]');if(filter){state.filter=filter.dataset.filter;render();return;}let fav=e.target.closest('[data-favorite]');if(fav){toggleFavorite(fav.dataset.favorite);return;}let article=e.target.closest('[data-copy-prompt]');if(article){let a=data.articles.find(x=>x.id===article.dataset.copyPrompt);if(a)copyText(promptForArticle(a));return;}let word=e.target.closest('[data-copy-word]');if(word){let w=research.palavras.find(x=>x.id===word.dataset.copyWord);if(w)copyText(promptForWord(w));return;}let route=e.target.closest('[data-copy-route]');if(route){let r=research.rotas.find(x=>x.id===route.dataset.copyRoute);if(r)copyText(promptForRoute(r));return;}if(e.target.closest('[data-export]')){exportData();return;}if(e.target.closest('[data-import]')){$('#import-file').click();return;}if(e.target===$('#search-dialog'))searchClose();if(e.target.closest('[data-search-result]'))searchClose();});
+document.addEventListener('click',e=>{const font=e.target.closest('[data-bible-font]');if(font){changeBibleFontSize(Number(font.dataset.bibleFont));return;}const verse=e.target.closest('[data-copy-verse]');if(verse){copyBibleVerse(verse);return;}let filter=e.target.closest('[data-filter]');if(filter){state.filter=filter.dataset.filter;render();return;}let fav=e.target.closest('[data-favorite]');if(fav){toggleFavorite(fav.dataset.favorite);return;}let article=e.target.closest('[data-copy-prompt]');if(article){let a=data.articles.find(x=>x.id===article.dataset.copyPrompt);if(a)copyText(promptForArticle(a));return;}let word=e.target.closest('[data-copy-word]');if(word){let w=research.palavras.find(x=>x.id===word.dataset.copyWord);if(w)copyText(promptForWord(w));return;}let route=e.target.closest('[data-copy-route]');if(route){let r=research.rotas.find(x=>x.id===route.dataset.copyRoute);if(r)copyText(promptForRoute(r));return;}if(e.target.closest('[data-export]')){exportData();return;}if(e.target.closest('[data-import]')){$('#import-file').click();return;}if(e.target===$('#search-dialog'))searchClose();if(e.target.closest('[data-search-result]'))searchClose();});
 document.addEventListener('change',e=>{if(e.target.matches('#acervo-categoria, #acervo-pais'))updateCatalogFilters();});
 document.addEventListener('input',e=>{if(e.target.matches('[data-note]')){store.notes[e.target.dataset.note]=e.target.value.slice(0,25000);saveStore();let status=$('#note-status');if(status)status.textContent='Anotação salva localmente.';}if(e.target===$('#search-input'))searchUpdate();if(e.target.matches('#acervo-pesquisa'))updateCatalogFilters();});
 $('#search-trigger').addEventListener('click',searchOpen);$('#search-close').addEventListener('click',searchClose);
 $('#theme-toggle').addEventListener('click',()=>{store.theme=store.theme==='dark'?'light':'dark';saveStore();theme();if(['mapas','rota'].includes(path()[0]))render();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#search-dialog').classList.contains('hidden'))searchClose();if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)&&$('#search-dialog').classList.contains('hidden')){e.preventDefault();searchOpen();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#search-dialog').classList.contains('hidden'))searchClose();if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)&&!document.activeElement?.isContentEditable&&$('#search-dialog').classList.contains('hidden')){e.preventDefault();searchOpen();}});
 $('#import-file').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;if(file.size>2000000){toast('O backup ultrapassa o limite de 2 MB.');return;}try{const imported=JSON.parse(await file.text());if(imported.app!=='fe-escritura-tradicao'||imported.version!==1||!imported.notes||!Array.isArray(imported.favorites))throw Error('Formato inválido');const notes=Object.fromEntries(Object.entries(imported.notes).filter(([k,v])=>typeof k==='string'&&typeof v==='string'&&k.length<200&&v.length<=25000));const favorites=imported.favorites.filter(x=>typeof x==='string'&&x.length<200).slice(0,500);if(!confirm('Importar backup substituirá as anotações e favoritos atuais. Deseja continuar?'))return;store.notes=notes;store.favorites=favorites;saveStore();render();toast('Backup importado com sucesso.');}catch{toast('Arquivo inválido. Use um backup exportado por este aplicativo.');}});
-if(!location.hash)location.hash='#/inicio';theme();render();
+if(!location.hash)location.hash='#/inicio';theme();applyBibleFontSize();render();
 if('serviceWorker' in navigator && location.protocol!=='file:') {
   window.addEventListener('load',()=>{
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{
       if(refreshing)return;
-      const marker='fet-reloaded-20261014-060';
+      const marker='fet-reloaded-20261014-061';
       if(sessionStorage.getItem(marker)==='1')return;
       refreshing=true;
       sessionStorage.setItem(marker,'1');
