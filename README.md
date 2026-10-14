@@ -83,3 +83,14 @@ Veja [AUDITORIA_EDITORIAL.md](AUDITORIA_EDITORIAL.md) para os 35 artigos e as ve
 ## Licença
 
 Código e textos desta versão de trabalho foram preparados para o projeto do usuário. Não há concessão automática de licença para conteúdos externos. Antes da publicação colaborativa, recomenda-se definir uma licença específica para o código e outra para os textos editoriais.
+
+## Atualização 0.3.0 — 14/10/2026
+
+- As seções **Meu caderno** e **Fontes e método** foram retiradas da navegação pública e não possuem mais rotas acessíveis pela interface. As notas locais, favoritos e referências por estudo foram preservados, sem perda de dados. O código dessas páginas foi conservado para futura reativação.
+- **Mapas bíblicos**: substituída a imagem esquemática por mapa geográfico interativo Leaflet 1.9.4 + OpenStreetMap, com indicação e localização aproximada dos pontos relatados no texto. A linha tracejada mostra exclusivamente a sequência narrativa; **não é reconstrução arqueológica** da estrada percorrida. Requer internet para baixar os mapas modernos e segue a política de uso dos tiles OSM. Os mapas não são pré-carregados para uso offline.
+- **Bíblia em português**: cada um dos 73 livros oferece seleção de seus capítulos, com leitura por links externos em https://santo.samytech3d.com.br/biblia. Trata-se da tradução clássica de Pe. Antônio Pereira de Figueiredo, a partir da Vulgata. O texto original é de domínio público, mas a transcrição digital da edição de 1950 apresenta possíveis erros de OCR (ex.: Jo 3; Gn 1). **Não copiamos o texto do site para o repositório**, ainda exigindo confronto crítico e esclarecimento quanto a elementos editoriais dessa digitalização.
+- O catálogo contém os 73 livros católicos. Algumas abreviações nos links correspondem à edição histórica; numeração da Vulgata pode diferir de outras Bíblias, principalmente Salmos e Ester.
+- **Privacidade e rede:** recursos do mapa carregam CSS e JS estáticos por https://unpkg.com e tiles por https://tile.openstreetmap.org; a leitura da Bíblia leva ao site Samytech3D. Esses serviços de terceiros são acessados apenas conforme a navegação do usuário, com suas próprias políticas de privacidade.
+- **Validação:** verificada sintaxe JS de todos os arquivos, 73/73 nomes de livros mapeados, elementos de navegação ocultos, marcação de crédito OSM e versão do cache. **Ainda não houve teste funcional no iPhone nem validação de todos os links externos capítulo a capítulo**; ao publicar, conferir os links do site de origem, o carregamento das folhas cartográficas e o cache da PWA.
+
+Fontes técnicas: https://leafletjs.com/examples/quick-start/ ; https://operations.osmfoundation.org/policies/tiles/ ; https://www.openstreetmap.org/copyright .
