@@ -1,3 +1,5 @@
+> **Revisão doutrinária de 14/10/2026:** os 35 artigos receberam uma primeira auditoria individual e os principais esclarecimentos já foram incorporados. **Não há declaração de aprovação eclesiástica.** Leia [REVISAO_DOUTRINARIA_2026-10-14.md](./REVISAO_DOUTRINARIA_2026-10-14.md) para a matriz por artigo, fontes primárias e pendências de liturgia brasileira.
+
 # Fé, Escritura & Tradição
 
 **Versão 0.2.0 | PWA gratuita de formação na Igreja Católica Apostólica Romana | Português (Brasil)**
