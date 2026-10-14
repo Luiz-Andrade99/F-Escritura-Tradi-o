@@ -1,3 +1,13 @@
+# Atualização editorial — 14/10/2026
+
+- Auditoria individual dos **35 artigos** realizada; esclarecimentos prioritários sobre Eucaristia, ministérios e sacramentos incorporados ao conteúdo.
+- A interface agora sinaliza que os estudos têm revisão documental inicial **sem aprovação eclesiástica formal**.
+- Necessário cotejar posturas e adaptações com o texto integral da IGMR brasileira da CNBB, atualizar referências canônicas e obter revisão humana independente.
+- Estão pendentes auditoria acadêmica dos 6 verbetes e 3 rotas, e licenciamento de tradução bíblica integral.
+- Consulte [REVISAO_DOUTRINARIA_2026-10-14.md](./REVISAO_DOUTRINARIA_2026-10-14.md).
+
+---
+
 # Estado do projeto em 14/10/2026 — v0.2.0
 
 - Código PWA pronto para repositório público `Luiz-Andrade99/F-Escritura-Tradi-o`.
