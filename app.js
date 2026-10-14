@@ -3,6 +3,7 @@
 const data = window.FET_DATA;
 const research = window.FET_PESQUISA;
 const formacao = window.FET_FORMACAO;
+const acervo = window.FET_ACERVO;
 const $ = (q, root=document) => root.querySelector(q);
 const $$ = (q, root=document) => [...root.querySelectorAll(q)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -33,7 +34,7 @@ function theme(){document.documentElement.dataset.theme=store.theme;$('#theme-to
 function navHtml(s){
  return `<a class="nav-item ${activeSection()===s.id?'active':''}" href="#/${s.id}" ${activeSection()===s.id?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${s.icon}</span>${esc(s.label)}</a>`;
 }
-function activeSection(){const p=path();if(p[0]==='estudo'){const a=data.articles.find(x=>x.id===p[1]);return a?.section||'inicio';}if(p[0]==='palavra')return 'idiomas';if(p[0]==='rota')return 'mapas';if(p[0]==='ano-liturgico'||p[0]==='celebracao')return 'missa';if(p[0]==='milagre')return 'milagres';if(p[0]==='livro')return 'biblia';return p[0]||'inicio';}
+function activeSection(){const p=path();if(p[0]==='estudo'){const a=data.articles.find(x=>x.id===p[1]);return a?.section||'inicio';}if(p[0]==='palavra')return 'idiomas';if(p[0]==='rota')return 'mapas';if(p[0]==='ano-liturgico'||p[0]==='celebracao')return 'missa';if(p[0]==='milagre'||p[0]==='acervo-eucaristico'||p[0]==='relato-eucaristico')return 'milagres';if(p[0]==='livro')return 'biblia';return p[0]||'inicio';}
 function renderNav(){
  $('#side-nav').innerHTML=sections.map(navHtml).join('');
  const mobile = [{id:'inicio',label:'Início',icon:'⌂'},{id:'biblia',label:'Bíblia',icon:'☷'},{id:'missa',label:'Missa',icon:'✝'},{id:'mapas',label:'Mapas',icon:'⌖'},{id:'biblioteca',label:'Mais',icon:'☰'}];
@@ -360,10 +361,15 @@ function renderSources(){const src=[
  ['Geografia','OpenStreetMap','Links externos com localização moderna aproximada; não é prova de trajetos históricos.','https://www.openstreetmap.org/']
 ];const groups=[...new Set(src.map(x=>x[0]))];return `<div class="container">${sectionHead('fontes','METODOLOGIA E TRANSPARÊNCIA')}<div class="article-card"><h2>Nem toda informação tem o mesmo peso</h2><p class="article-lead">O projeto distingue o ensinamento da Igreja, os relatos bíblicos, os resultados da pesquisa acadêmica e as hipóteses de reconstrução.</p><div class="source-levels"><div><span class="tag">Fonte eclesial</span><p>Doutrina e liturgia com referência ao documento e parágrafo.</p></div><div><span class="tag muted">Dado acadêmico</span><p>Edição, autor, licença, manuscrito ou evidência histórica identificável.</p></div><div><span class="tag muted">Interpretação</span><p>Explicação autoral que pode ser revista, sempre com fontes consultáveis.</p></div><div><span class="tag muted">Hipótese</span><p>Afirmação ou rota incerta, explicitamente marcada como tal.</p></div></div><div class="article-body">${groups.map(g=>`<section><h3>${esc(g)}</h3><div class="mini-list">${src.filter(s=>s[0]===g).map(s=>`<div class="reference-row"><strong>${esc(s[1])}</strong><p>${esc(s[2])}</p>${link(s[3],'Abrir fonte')}</div>`).join('')}</div></section>`).join('')}</div><div class="article-tip"><strong>Sobre direitos autorais</strong>Um documento estar disponível na internet não significa que pode ser copiado integralmente para outro aplicativo. Os textos originais em grego e hebraico listados possuem licenças específicas; traduções modernas, Missal e Catecismo devem ser tratados conforme os direitos de cada publicação.</div><p class="article-lead" style="margin-top:18px">Independente, gratuito, sem publicidade nesta versão. Sem autenticação ou coleta de dados por nosso projeto; links externos têm suas próprias políticas.</p></div></div>`;}
 
+
 function renderMiracles(){
  return `<div class="container">${sectionHead('milagres','DEVOÇÃO E HISTÓRIA EUCARÍSTICA')}
- <div class="section-title-line"><h2>Milagres eucarísticos</h2><span class="lesson-count">${formacao.milagres.length} estudos</span></div>
- <div class="mini-list">${formacao.milagres.map(m=>`<a class="study-card" href="#/milagre/${id(m.id)}"><span class="study-icon">✧</span><span class="study-card-content"><small>${esc(m.local)} · ${esc(m.epoca)}</small><span class="study-card-title" style="display:block">${esc(m.titulo)}</span><span class="study-card-summary">${esc(m.chamada)}</span></span><span class="study-card-arrow">→</span></a>`).join('')}</div></div>`;
+ <a href="#/acervo-eucaristico" class="liturgical-feature"><span class="liturgical-feature-icon">✧</span>
+ <span class="liturgical-feature-text"><span class="eyebrow">ACERVO INTERNACIONAL</span><strong>Conheça o catálogo de Carlo Acutis</strong>
+ <small>${acervo.registros.length} fichas de consulta sobre relatos, santos e devoções eucarísticas organizadas por lugar e tema.</small></span><span class="liturgical-feature-arrow">→</span></a>
+ <div class="section-title-line"><h2>Estudos documentados em detalhe</h2><span class="lesson-count">${formacao.milagres.length} estudos</span></div>
+ <div class="mini-list">${formacao.milagres.map(m=>`<a class="study-card" href="#/milagre/${id(m.id)}"><span class="study-icon">✧</span><span class="study-card-content"><small>${esc(m.local)} · ${esc(m.epoca)}</small><span class="study-card-title" style="display:block">${esc(m.titulo)}</span><span class="study-card-summary">${esc(m.chamada)}</span></span><span class="study-card-arrow">→</span></a>`).join('')}</div>
+ </div>`;
 }
 function renderMiracle(m){
  const i=formacao.milagres.indexOf(m),prev=formacao.milagres[i-1],next=formacao.milagres[i+1];
@@ -375,6 +381,57 @@ function renderMiracle(m){
  <div class="article-actions"><a href="#/catecismo/eucaristia" class="btn secondary">Entender a Eucaristia no Catecismo →</a></div>
  <div class="reading-navigation"><span>${prev?`<a class="btn secondary" href="#/milagre/${id(prev.id)}">← ${esc(prev.titulo)}</a>`:''}</span><span>${next?`<a class="btn secondary" href="#/milagre/${id(next.id)}">${esc(next.titulo)} →</a>`:''}</span></div></article>
  <aside class="article-aside"><div class="aside-card"><h3>Fontes e documentos</h3>${m.fontes.map(([label,url])=>link(url,label)).join('')}</div></aside></div></div>`;
+}
+
+function normalizeCatalogText(value){return String(value??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();}
+function detailedMiracle(r){
+ const title=normalizeCatalogText(r.titulo);
+ return formacao.milagres.find(m=>normalizeCatalogText(m.titulo)===title) || null;
+}
+function renderCatalog(){
+ const rows=acervo.registros,categories=[...new Set(rows.map(r=>r.categoria))],countries=[...new Set(rows.filter(r=>r.categoria==='Relatos por país').map(r=>r.pais))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+ return `<div class="container"><div class="backline"><a class="text-link" href="#/milagres">← Milagres Eucarísticos</a></div>
+ <div class="page-header"><span class="eyebrow">EXPOSIÇÃO ASSOCIADA A CARLO ACUTIS</span><h1>Acervo eucarístico</h1>
+ <p>Explore os lugares, as tradições e as pessoas presentes na exposição internacional, com um índice em português.</p></div>
+ <div class="summary-bar"><div class="summary-stat"><strong>${rows.length}</strong><span>fichas indexadas</span></div>
+ <div class="summary-stat"><strong>${countries.length}</strong><span>países e territórios</span></div>
+ <div class="summary-stat"><strong>${formacao.milagres.length}</strong><span>estudos aprofundados</span></div></div>
+ <div class="acervo-filters"><label>Pesquisar <input id="acervo-pesquisa" type="search" placeholder="Ex.: Lanciano, Fátima, 1730" autocomplete="off"></label>
+ <label>Assunto <select id="acervo-categoria"><option value="">Todas as categorias</option>${categories.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('')}</select></label>
+ <label>País <select id="acervo-pais"><option value="">Todos os lugares</option>${countries.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('')}</select></label></div>
+ <p id="acervo-resultado" class="acervo-resultados" role="status" aria-live="polite">${rows.length} fichas</p>
+ <div id="acervo-lista" class="acervo-grid">${rows.map(r=>`<a class="acervo-card" href="#/relato-eucaristico/${id(r.id)}" data-index="${esc(normalizeCatalogText([r.titulo,r.pais,r.periodo,r.categoria].join(' ')))}" data-category="${esc(r.categoria)}" data-country="${esc(r.pais)}">
+ <span class="acervo-card-overline">${esc(r.categoria==='Relatos por país'?r.pais:r.categoria)} · ${esc(r.periodo)}</span><strong>${esc(r.titulo)}</strong><span>Conhecer esta ficha →</span></a>`).join('')}</div>
+ <p class="catechism-editorial">A exposição informa cerca de 136 relatos em aproximadamente 166 painéis. Aqui, painéis coletivos sobre comunhões são desdobrados em fichas individuais, e o índice inclui também santos e temas marianos. Por isso, o número de fichas não equivale ao total de milagres distintos ou formalmente reconhecidos.</p></div>`;
+}
+function renderCatalogEntry(r){
+ const featured=detailedMiracle(r);
+ const caution=acervo.verificacao_especial?.[r.id]||'';
+ const thematic=r.categoria!=='Relatos por país';
+ return `<div class="container"><div class="backline"><a class="text-link" href="#/acervo-eucaristico">← Acervo eucarístico</a></div>
+ <div class="article-layout"><article class="article-card"><span class="eyebrow">${esc(r.categoria)} · ${esc(r.pais)}</span>
+ <h1>${esc(r.titulo)}</h1><p class="article-lead">${esc(r.periodo)}</p>
+ <div class="article-body"><section><h3>No catálogo da exposição</h3>
+ <p>${thematic?'O índice da exposição internacional reúne este tema entre as tradições, os santos e as experiências espirituais relacionadas à Eucaristia. Não se trata necessariamente de um milagre ocorrido em um local específico.':'O índice da exposição internacional apresenta um relato eucarístico associado a '+esc(r.titulo)+' ('+esc(r.pais)+'), com a indicação cronológica exibida acima.'}</p></section>
+ <section><h3>Contexto para o estudo</h3><p>Esta ficha registra o nome e o período informados no catálogo. A história do episódio e a natureza de seu reconhecimento eclesial precisam ser avaliadas nas respectivas fontes históricas; não são deduzidas apenas de sua presença na exposição.</p></section>
+ ${caution?`<section><h3>Nota histórica</h3><p>${esc(caution)}</p></section>`:''}</div>
+ ${featured?`<div class="article-actions"><a class="btn" href="#/milagre/${id(featured.id)}">Ler o estudo completo sobre ${esc(featured.titulo)} →</a></div>`:''}
+ <div class="article-actions"><a class="btn secondary" href="#/catecismo/eucaristia">A presença real na doutrina católica →</a></div>
+ </article><aside class="article-aside"><div class="aside-card"><h3>Fonte do registro</h3><p>Índice original da exposição internacional de Carlo Acutis.</p>
+ ${link(acervo.fonte.catalogo,'Consultar o catálogo oficial')}</div></aside></div></div>`;
+}
+function updateCatalogFilters(){
+ const list=document.querySelector('#acervo-lista');if(!list)return;
+ const q=normalizeCatalogText(document.querySelector('#acervo-pesquisa')?.value||'').trim();
+ const category=document.querySelector('#acervo-categoria')?.value||'';
+ const country=document.querySelector('#acervo-pais')?.value||'';
+ let count=0;
+ list.querySelectorAll('.acervo-card').forEach(card=>{
+  const ok=(!q||card.dataset.index.includes(q))&&(!category||card.dataset.category===category)&&(!country||card.dataset.country===country);
+  card.hidden=!ok;if(ok)count++;
+ });
+ const countElement=document.querySelector('#acervo-resultado');
+ if(countElement)countElement.textContent=count?count+' fichas encontradas':'Nenhuma ficha encontrada com esses filtros.';
 }
 function renderCatechism(selection){
  const topic=formacao.catecismo.find(t=>t.id===selection);
@@ -437,10 +494,10 @@ function renderLiturgicalDetail(e){
 }
 
 function renderMissing(){return `<div class="container"><div class="empty"><h3>Conteúdo não encontrado</h3><p>Este estudo pode ter sido movido ou ainda não estar disponível.</p><a class="btn" href="#/inicio">Ir para o início</a></div></div>`;}
-function render(){const p=path();let html;const name=p[0]||'inicio';if(name==='inicio')html=renderHome();else if(name==='biblioteca')html=renderAll();else if(name==='biblia')html=renderBible();else if(name==='milagres')html=renderMiracles();else if(name==='milagre'){const m=formacao.milagres.find(x=>x.id===p[1]);html=m?renderMiracle(m):renderMissing();}else if(name==='catecismo')html=renderCatechism(p[1]);else if(name==='ano-liturgico')html=renderLiturgicalYear();else if(name==='celebracao'){const e=liturgicalEntries().find(x=>x.id===p[1]);html=e?renderLiturgicalDetail(e):renderMissing();}else if(['missa','igreja','sacramentos','oracoes'].includes(name))html=renderSection(name);else if(name==='estudo'){const a=data.articles.find(x=>x.id===p[1]);html=a?renderArticle(a):renderMissing();}else if(name==='livro')html=renderBook(p[1]);else if(name==='leitura')html=renderChapter(p[1],p[2]);else if(name==='idiomas')html=renderWords();else if(name==='palavra')html=research.palavras.find(x=>x.id===p[1])?renderWord(research.palavras.find(x=>x.id===p[1])):renderMissing();else if(name==='mapas')html=renderMaps();else if(name==='rota')html=research.rotas.find(x=>x.id===p[1])?renderRoute(research.rotas.find(x=>x.id===p[1])):renderMissing();else html=renderMissing();if(liveMap){liveMap.remove();liveMap=null;}$('#app').innerHTML=html;renderNav();if(name==='mapas')initOverviewMap();if(name==='rota')initRouteMap(research.rotas.find(x=>x.id===p[1]));if(name==='leitura')showBibleChapter(p[1],p[2]);let s=sections.find(x=>x.id===activeSection());$('#breadcrumbs').innerHTML=`Início <span>/</span> <strong>${esc(s?.label||'Estudos')}</strong>`;document.title=`${s?.label||'Estudos'} | Fé, Escritura & Tradição`;window.scrollTo({top:0,behavior:'instant'});}
+function render(){const p=path();let html;const name=p[0]||'inicio';if(name==='inicio')html=renderHome();else if(name==='biblioteca')html=renderAll();else if(name==='biblia')html=renderBible();else if(name==='milagres')html=renderMiracles();else if(name==='acervo-eucaristico')html=renderCatalog();else if(name==='relato-eucaristico'){const r=acervo.registros.find(x=>x.id===p[1]);html=r?renderCatalogEntry(r):renderMissing();}else if(name==='milagre'){const m=formacao.milagres.find(x=>x.id===p[1]);html=m?renderMiracle(m):renderMissing();}else if(name==='catecismo')html=renderCatechism(p[1]);else if(name==='ano-liturgico')html=renderLiturgicalYear();else if(name==='celebracao'){const e=liturgicalEntries().find(x=>x.id===p[1]);html=e?renderLiturgicalDetail(e):renderMissing();}else if(['missa','igreja','sacramentos','oracoes'].includes(name))html=renderSection(name);else if(name==='estudo'){const a=data.articles.find(x=>x.id===p[1]);html=a?renderArticle(a):renderMissing();}else if(name==='livro')html=renderBook(p[1]);else if(name==='leitura')html=renderChapter(p[1],p[2]);else if(name==='idiomas')html=renderWords();else if(name==='palavra')html=research.palavras.find(x=>x.id===p[1])?renderWord(research.palavras.find(x=>x.id===p[1])):renderMissing();else if(name==='mapas')html=renderMaps();else if(name==='rota')html=research.rotas.find(x=>x.id===p[1])?renderRoute(research.rotas.find(x=>x.id===p[1])):renderMissing();else html=renderMissing();if(liveMap){liveMap.remove();liveMap=null;}$('#app').innerHTML=html;renderNav();if(name==='mapas')initOverviewMap();if(name==='rota')initRouteMap(research.rotas.find(x=>x.id===p[1]));if(name==='leitura')showBibleChapter(p[1],p[2]);let s=sections.find(x=>x.id===activeSection());$('#breadcrumbs').innerHTML=`Início <span>/</span> <strong>${esc(s?.label||'Estudos')}</strong>`;document.title=`${s?.label||'Estudos'} | Fé, Escritura & Tradição`;window.scrollTo({top:0,behavior:'instant'});}
 function searchOpen(){let d=$('#search-dialog');d.classList.remove('hidden');$('#search-input').value='';searchUpdate();setTimeout(()=>$('#search-input').focus(),50);}
 function searchClose(){let d=$('#search-dialog');d.classList.add('hidden');$('#search-trigger').focus();}
-function searchUpdate(){let q=$('#search-input').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();let xs=[...data.articles.map(a=>({title:a.title,summary:a.summary,url:'#/estudo/'+id(a.id),section:a.category})),...research.palavras.map(w=>({title:w.titulo+' ('+w.transliteracao+')',summary:w.analise,url:'#/palavra/'+w.id,section:'Idiomas'})),...research.rotas.map(r=>({title:r.titulo,summary:r.subtitulo,url:'#/rota/'+r.id,section:'Mapas'})),...formacao.milagres.map(m=>({title:m.titulo,summary:m.chamada,url:'#/milagre/'+m.id,section:'Milagres Eucarísticos'})),...formacao.catecismo.map(t=>({title:t.titulo,summary:t.resumo,url:'#/catecismo/'+t.id,section:'Catecismo'})),...liturgicalEntries().map(e=>({title:e.titulo,summary:e.finalidade,url:'#/celebracao/'+e.id,section:'Ano litúrgico'}))];if(q)xs=xs.filter(x=>(x.title+' '+x.summary+' '+x.section).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(q));xs=xs.slice(0,22);$('#search-results').innerHTML=xs.length?xs.map(x=>`<a class="study-card" href="${x.url}" data-search-result="1"><span class="study-card-content"><small>${esc(x.section)}</small><span class="study-card-title" style="display:block">${esc(x.title)}</span><span class="study-card-summary">${esc(x.summary)}</span></span><span class="study-card-arrow">→</span></a>`).join(''):'<div class="empty"><p>Nenhum estudo encontrado para esta pesquisa.</p></div>';}
+function searchUpdate(){let q=$('#search-input').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();let xs=[...data.articles.map(a=>({title:a.title,summary:a.summary,url:'#/estudo/'+id(a.id),section:a.category})),...research.palavras.map(w=>({title:w.titulo+' ('+w.transliteracao+')',summary:w.analise,url:'#/palavra/'+w.id,section:'Idiomas'})),...research.rotas.map(r=>({title:r.titulo,summary:r.subtitulo,url:'#/rota/'+r.id,section:'Mapas'})),...formacao.milagres.map(m=>({title:m.titulo,summary:m.chamada,url:'#/milagre/'+m.id,section:'Milagres Eucarísticos'})),...formacao.catecismo.map(t=>({title:t.titulo,summary:t.resumo,url:'#/catecismo/'+t.id,section:'Catecismo'})),...liturgicalEntries().map(e=>({title:e.titulo,summary:e.finalidade,url:'#/celebracao/'+e.id,section:'Ano litúrgico'})),...acervo.registros.map(r=>({title:r.titulo+' ('+r.pais+')',summary:r.periodo,url:'#/relato-eucaristico/'+r.id,section:'Acervo de Carlo Acutis'}))];if(q)xs=xs.filter(x=>(x.title+' '+x.summary+' '+x.section).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(q));xs=xs.slice(0,22);$('#search-results').innerHTML=xs.length?xs.map(x=>`<a class="study-card" href="${x.url}" data-search-result="1"><span class="study-card-content"><small>${esc(x.section)}</small><span class="study-card-title" style="display:block">${esc(x.title)}</span><span class="study-card-summary">${esc(x.summary)}</span></span><span class="study-card-arrow">→</span></a>`).join(''):'<div class="empty"><p>Nenhum estudo encontrado para esta pesquisa.</p></div>';}
 function exportData(){const output={app:'fe-escritura-tradicao',version:1,date:new Date().toISOString(),notes:store.notes,favorites:store.favorites};const blob=new Blob([JSON.stringify(output,null,2)],{type:'application/json;charset=utf-8'});let href=URL.createObjectURL(blob);let a=document.createElement('a');a.href=href;a.download='meu-caderno-fe-e-tradicao.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(href),3000);toast('Backup exportado. Guarde o arquivo em local seguro.');}
 function promptForArticle(a){return `Analise o tema "${a.title}" (${a.scripture||'sem referência bíblica central'}) em perspectiva católica. Separe: (1) texto e contexto, (2) referências exatas do Catecismo/Magistério, (3) diferentes interpretações históricas, (4) pontos discutidos ou incertos, (5) aplicação espiritual. Consulte fontes originais e apresente links precisos. Não invente citações, não transforme hipóteses em doutrina e sinalize o que não foi verificado.`;}
 function promptForWord(w){return `Faça uma análise verificável da palavra ${w.termo} (${w.transliteracao}), em ${w.referencia}. Inclua grafia, lema, flexão gramatical quando documentável, alcance semântico contextual, ocorrências paralelas, traduções e comentários patrísticos com fontes precisas. Distinga variantes de manuscritos das diferentes interpretações ao longo da história. Use edição crítica identificada e respeite a interpretação católica. Não invente léxicos, etimologias ou citações.`;}
@@ -457,7 +514,8 @@ document.addEventListener('click',e=>{
  document.querySelectorAll('[data-map-focus]').forEach(b=>{const selected=b.dataset.mapFocus===requested;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});
 });
 document.addEventListener('click',e=>{let filter=e.target.closest('[data-filter]');if(filter){state.filter=filter.dataset.filter;render();return;}let fav=e.target.closest('[data-favorite]');if(fav){toggleFavorite(fav.dataset.favorite);return;}let article=e.target.closest('[data-copy-prompt]');if(article){let a=data.articles.find(x=>x.id===article.dataset.copyPrompt);if(a)copyText(promptForArticle(a));return;}let word=e.target.closest('[data-copy-word]');if(word){let w=research.palavras.find(x=>x.id===word.dataset.copyWord);if(w)copyText(promptForWord(w));return;}let route=e.target.closest('[data-copy-route]');if(route){let r=research.rotas.find(x=>x.id===route.dataset.copyRoute);if(r)copyText(promptForRoute(r));return;}if(e.target.closest('[data-export]')){exportData();return;}if(e.target.closest('[data-import]')){$('#import-file').click();return;}if(e.target===$('#search-dialog'))searchClose();if(e.target.closest('[data-search-result]'))searchClose();});
-document.addEventListener('input',e=>{if(e.target.matches('[data-note]')){store.notes[e.target.dataset.note]=e.target.value.slice(0,25000);saveStore();let status=$('#note-status');if(status)status.textContent='Anotação salva localmente.';}if(e.target===$('#search-input'))searchUpdate();});
+document.addEventListener('change',e=>{if(e.target.matches('#acervo-categoria, #acervo-pais'))updateCatalogFilters();});
+document.addEventListener('input',e=>{if(e.target.matches('[data-note]')){store.notes[e.target.dataset.note]=e.target.value.slice(0,25000);saveStore();let status=$('#note-status');if(status)status.textContent='Anotação salva localmente.';}if(e.target===$('#search-input'))searchUpdate();if(e.target.matches('#acervo-pesquisa'))updateCatalogFilters();});
 $('#search-trigger').addEventListener('click',searchOpen);$('#search-close').addEventListener('click',searchClose);
 $('#theme-toggle').addEventListener('click',()=>{store.theme=store.theme==='dark'?'light':'dark';saveStore();theme();if(['mapas','rota'].includes(path()[0]))render();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#search-dialog').classList.contains('hidden'))searchClose();if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)&&$('#search-dialog').classList.contains('hidden')){e.preventDefault();searchOpen();}});
@@ -468,7 +526,7 @@ if('serviceWorker' in navigator && location.protocol!=='file:') {
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{
       if(refreshing)return;
-      const marker='fet-reloaded-20261014-052';
+      const marker='fet-reloaded-20261014-060';
       if(sessionStorage.getItem(marker)==='1')return;
       refreshing=true;
       sessionStorage.setItem(marker,'1');
