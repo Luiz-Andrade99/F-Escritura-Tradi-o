@@ -1,3 +1,14 @@
+# Atualização v0.4.0 — Bíblia integrada
+
+- Leitura integral **dentro do aplicativo**: 73 livros, 1.334 capítulos e 35.816 versículos, em 10 arquivos JSON (~5 MB).
+- Tradução da base integral: **Pe. Manuel de Matos Soares** (domínio público no Brasil desde 2026). **Difere da tradução de Figueiredo inicialmente indicada pelo usuário**; essa edição específica ainda não foi incorporada.
+- Base estruturada e revisada em caráter independente, disponibilizada em CC0 pelo projeto bibliacatolica/biblia. A integridade estrutural foi verificada; a literalidade textual contra impresso segue pendente.
+- Cache da PWA inclui os dez pacotes bíblicos para leitura sem conexão após completar a instalação/atualização.
+- Nenhum texto bíblico é carregado de uma API externa na tela de leitura.
+- Veja [ORIGEM_E_LICENCA.md](./biblia-dados/ORIGEM_E_LICENCA.md).
+
+---
+
 # Atualização editorial — 14/10/2026
 
 - Auditoria individual dos **35 artigos** realizada; esclarecimentos prioritários sobre Eucaristia, ministérios e sacramentos incorporados ao conteúdo.
