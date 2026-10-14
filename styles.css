@@ -89,11 +89,7 @@
 .biblical-map .maplibregl-ctrl-attrib a{color:#244f5a}
 @media(max-width:580px){.map-pin-name{font-size:10px;max-width:110px;padding:3px 4px}.map-biblical-pin{max-width:140px}}
 
-/* Navegação hierárquica e leitores de formação, v0.5.0 */
-.nav-group{display:grid;gap:2px}
-.sub-nav{display:grid;gap:3px;margin:0 0 7px 37px;border-left:1px solid var(--line);padding-left:10px}
-.sub-nav a{font-size:11px;line-height:1.4;color:var(--muted);padding:5px 8px;border-radius:7px}
-.sub-nav a:hover,.sub-nav a.active{color:var(--accent);background:var(--gold-pale)}
+/* Áreas de formação abertas pelo menu principal, sem submenus laterais. */
 .catechism-pills{display:flex;flex-wrap:wrap;gap:9px;margin:21px 0 24px}
 .catechism-group{margin:34px 0}
 .catechism-group .section-title-line{margin-bottom:5px}
@@ -102,8 +98,6 @@
 .catechism-editorial,.edition-subtle{font-size:12px;line-height:1.6;color:var(--muted);margin:14px 0 18px}
 .catechism-editorial{margin:24px 0 6px}
 
-/* Mantém acessíveis os novos submenus em telas menores que a navegação. */
+/* Menu principal rolável em telas menores. */
 .side-nav{overflow-y:auto;overflow-x:hidden;min-height:0;scrollbar-width:thin;padding-right:3px}
 .sidebar-bottom{flex-shrink:0}
-.nav-group .nav-item{min-width:0}
-.sub-nav a{display:block;overflow-wrap:break-word}

@@ -31,11 +31,7 @@ function saveStore(){try{localStorage.setItem('fet_study_v1',JSON.stringify(stor
 function toast(message){let t=$('#toast');t.textContent=message;t.classList.add('visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('visible'),3400);}
 function theme(){document.documentElement.dataset.theme=store.theme;$('#theme-toggle').setAttribute('aria-label',store.theme==='dark'?'Ativar tema claro':'Ativar tema escuro');}
 function navHtml(s){
- const active=activeSection()===s.id;
- const primary=`<a class="nav-item ${active?'active':''}" href="#/${s.id}" ${active?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${s.icon}</span>${esc(s.label)}</a>`;
- if(s.id==='milagres')return `<div class="nav-group">${primary}<div class="sub-nav">${formacao.milagres.map(m=>`<a href="#/milagre/${id(m.id)}" class="${path()[0]==='milagre'&&path()[1]===m.id?'active':''}">${esc(m.titulo)}</a>`).join('')}</div></div>`;
- if(s.id==='catecismo')return `<div class="nav-group">${primary}<div class="sub-nav">${formacao.pilares.map(p=>`<a href="#/catecismo/${id(p.id)}" class="${path()[1]===p.id?'active':''}">${esc(p.nome)}</a>`).join('')}</div></div>`;
- return primary;
+ return `<a class="nav-item ${activeSection()===s.id?'active':''}" href="#/${s.id}" ${activeSection()===s.id?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${s.icon}</span>${esc(s.label)}</a>`;
 }
 function activeSection(){const p=path();if(p[0]==='estudo'){const a=data.articles.find(x=>x.id===p[1]);return a?.section||'inicio';}if(p[0]==='palavra')return 'idiomas';if(p[0]==='rota')return 'mapas';if(p[0]==='milagre')return 'milagres';if(p[0]==='livro')return 'biblia';return p[0]||'inicio';}
 function renderNav(){
@@ -435,7 +431,7 @@ if('serviceWorker' in navigator && location.protocol!=='file:') {
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{
       if(refreshing)return;
-      const marker='fet-reloaded-20261014-050';
+      const marker='fet-reloaded-20261014-051';
       if(sessionStorage.getItem(marker)==='1')return;
       refreshing=true;
       sessionStorage.setItem(marker,'1');

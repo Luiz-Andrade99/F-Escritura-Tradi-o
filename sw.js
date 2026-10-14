@@ -1,8 +1,8 @@
-/* FET v0.5.0: arquivos do site usam rede primeiro para evitar versões antigas. */
-const VERSION='fet-v10-2026-10-14-formacao';
+/* FET v0.5.1: arquivos do site usam rede primeiro para evitar versões antigas. */
+const VERSION='fet-v11-2026-10-14-complementos';
 const ASSETS=[
  './','./index.html','./styles.css','./content.js',
- './pesquisa.js','./formacao.js','./app.js','./manifest.webmanifest',
+ './pesquisa.js','./ampliacao.js','./formacao.js','./app.js','./manifest.webmanifest',
  './icons/favicon.svg','./icons/icon-512.png','./icons/apple-touch-icon.png',
  './biblia-dados/parte-01.json',
  './biblia-dados/parte-02.json',

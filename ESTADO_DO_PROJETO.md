@@ -1,3 +1,26 @@
+# Atualização v0.5.1 — 14/10/2026
+
+## Navegação
+- "Milagres Eucarísticos" e "Catecismo" aparecem na barra lateral apenas como áreas principais, exatamente como "Sacramentos"; os itens internos ficam disponíveis ao entrar na seção.
+- Os textos de milagres e temas catequéticos não foram apagados.
+
+## Auditoria temática e ampliação
+- **Santa Missa:** 9 → 12 estudos. Novos: ano litúrgico e cores; memorial, sacrifício e banquete; participação interior e exterior dos fiéis. Referências: IGMR, CNBB, `Sacrosanctum Concilium` 14 e 47–48, CIC 1322–1419.
+- **A Igreja:** 9 → 12 estudos. Novos: diocese/paróquia; vocação dos leigos; Magistério, concílios e limites da infalibilidade. Referências: `Lumen gentium` 18–25/30–38, CIC 871–933, cânn. 368–369 e 515–519.
+- **Palavras originais:** 6 → 10 verbetes. Novos: `χάρις`, `πίστις`, `רוּחַ`, `בְּרִית`. Interpretações não derivam da etimologia isolada; distinção entre campo semântico e doutrina.
+- **Mapas bíblicos:** 3 → 5 roteiros. Novos: Abraão, Harã→Siquém→Betel→Neguebe (Gn 12,4–9), e infância de Jesus, Belém→Egito→Nazaré (Mt 2). Coordenadas e linhas são **aproximações geográficas e não reconstrução arqueológica**. O local egípcio da estada da Sagrada Família não é indicado pelo Evangelho; marcador regional não indica uma cidade visitada.
+- Ampliações estão em `ampliacao.js`, com ids únicos e checagem contra inserções duplicadas; corpus da Bíblia e documentos originais preservados.
+
+## Fontes primárias
+- https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19631204_sacrosanctum-concilium_po.html
+- https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19641121_lumen-gentium_po.html
+- https://www.vatican.va/archive/cathechism_po/index_new/p1s2cap3_683-1065_po.html
+- https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap1_1210-1419_po.html
+- https://bible.usccb.org/bible/genesis/12
+- https://bible.usccb.org/bible/matthew/2
+
+---
+
 # Atualização v0.5.0 — 14/10/2026
 
 **Mapas bíblicos:** camada vetorial OpenFreeMap/OSM com todos os rótulos de terceiros ocultados e substituídos por lista curada de países, mares e localidades em português. Percursos e locais bíblicos continuam sinalizados no mapa em português; pontos e segmentos são geográficos aproximados, não reconstruções históricas. Exige internet. O usuário pode precisar de atualização forçada devido ao service worker de versões antigas.
