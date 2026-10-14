@@ -101,3 +101,26 @@
 /* Menu principal rolável em telas menores. */
 .side-nav{overflow-y:auto;overflow-x:hidden;min-height:0;scrollbar-width:thin;padding-right:3px}
 .sidebar-bottom{flex-shrink:0}
+
+/* v0.5.2 — calendário litúrgico dentro de Santa Missa */
+.liturgical-feature{display:flex;align-items:center;gap:17px;background:var(--gold-pale);border:1px solid var(--line);border-radius:16px;padding:19px 23px;margin:4px 0 27px;transition:border .15s,transform .15s;color:var(--ink)}
+.liturgical-feature:hover{border-color:var(--accent);transform:translateY(-1px)}
+.liturgical-feature-icon{font-family:Georgia,serif;font-size:30px;color:var(--accent);width:43px;flex:none;text-align:center}
+.liturgical-feature-text{display:flex;flex-direction:column;gap:5px;min-width:0}
+.liturgical-feature-text .eyebrow{margin:0;font-size:10px}
+.liturgical-feature-text strong{font-family:Georgia,serif;font-size:clamp(17px,2.1vw,22px);font-weight:550;line-height:1.28}
+.liturgical-feature-text small{font-size:12px;line-height:1.6;color:var(--muted)}
+.liturgical-feature-arrow{margin-left:auto;font-size:25px;color:var(--accent)}
+.liturgical-group{margin:35px 0 42px}
+.liturgical-group .section-title-line{margin-bottom:9px}
+.liturgical-intro{font-size:14px;line-height:1.65;color:var(--muted);margin-bottom:19px}
+.liturgical-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px}
+.liturgical-card{border-radius:15px;border:1px solid var(--line);background:var(--paper);padding:19px 19px 16px;display:flex;flex-direction:column;gap:9px;min-height:188px}
+.liturgical-card:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+.liturgical-card small{font-size:11px;color:var(--accent);line-height:1.5;font-weight:650}
+.liturgical-card strong{font-family:Georgia,serif;font-weight:550;font-size:19px;line-height:1.3}
+.liturgical-card p{font-size:12px;line-height:1.6;color:var(--muted);margin-bottom:8px}
+.liturgical-card span{margin-top:auto;color:var(--accent);font-weight:650;font-size:12px}
+.liturgical-reader{max-width:900px}
+.liturgical-crosslink{margin-top:18px}
+@media(max-width:580px){.liturgical-feature{padding:16px 13px;gap:10px}.liturgical-feature-icon{width:30px;font-size:25px}.liturgical-feature-arrow{font-size:20px}.liturgical-cards{grid-template-columns:1fr}.liturgical-card{min-height:0}}

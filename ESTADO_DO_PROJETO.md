@@ -1,3 +1,14 @@
+# Versão 0.5.2 — ano litúrgico e milagres eucarísticos
+
+- **Santa Missa:** nova entrada *Ano litúrgico, as festas e as quaresmas*. Contém 6 tempos litúrgicos, 15 solenidades/festas/comemorações, 2 estudos sobre devoções e diferentes usos da palavra "quaresma". Cada tema expõe a origem histórica, a finalidade para a vida cristã, um modo de vivê-lo, referências bíblicas e fontes. Os conteúdos estão integrados ao site em `#/ano-liturgico` e `#/celebracao/<id>`.
+- A Quaresma oficial prepara para a Páscoa. A chamada Quaresma de São Miguel é uma **devoção franciscana**, não uma estação litúrgica universal nem obrigação geral de jejum.
+- **Milagres Eucarísticos:** os três casos inicialmente cadastrados não eram o total. Foram acrescentados Siena (1730), Legnica (2013–2016) e Sokółka (2008–2011), totalizando 6 estudos. Textos identificam separadamente tradição, documentos e forma de reconhecimento eclesial. O catálogo de Carlo Acutis tem aproximadamente 136 relatos, mas a existência de painel na coleção **não equivale** a um decreto universal de aprovação de cada episódio.
+- Os novos textos estão em `calendario-e-milagres.js`, carregado após `formacao.js` e antes de `app.js`. Cache PWA atualizado; os dados da Bíblia permanecem intactos.
+- Revisão documental usou `Sacrosanctum Concilium`, `Mysterii Paschalis`, bula `Transiturus de mundo`, audiência de Leão XIV em 2026, documentação da Ordem Franciscana e documentos diocesanos sobre Siena, Legnica e Sokółka.
+- A confirmação de publicação e o teste visual em navegadores devem ser verificados depois do commit.
+
+---
+
 # Atualização v0.5.1 — 14/10/2026
 
 ## Navegação
