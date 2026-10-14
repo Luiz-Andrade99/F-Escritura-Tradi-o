@@ -1,3 +1,14 @@
+# Ajustes de interface — 14/10/2026 (v0.4.2)
+
+- Removidos da página inicial o bloco de instalação no iPhone e o aviso de revisão que o acompanhava.
+- Removida do rodapé de cada capítulo a caixa “Nota de exatidão”. A identificação da tradução e os documentos de procedência e limitações permanecem no projeto.
+- O leitor agora usa cor dinâmica no modo escuro, em vez do tom quase preto fixo. Também foram corrigidos o contraste do cabeçalho principal e a legibilidade de textos secundários.
+- Mapas com OpenFreeMap/MapLibre: rótulos geográficos priorizam `name:pt`; quando o dado não tem tradução, aplica-se grafia latina, inglesa ou original. Locais e percursos bíblicos ficam rotulados em português no próprio mapa.
+- Dependências remotas: MapLibre JS/CSS e mapas vetoriais OpenFreeMap; não há API paga ou chave privada.
+- Os arquivos da Bíblia e a tradução Matos Soares existente não foram modificados. A revisão textual continua pendente.
+
+---
+
 > **ATUALIZAÇÃO 0.4.1 — 14/10/2026.** O menu de Meu caderno e Fontes e método permanece oculto, sem apagar notas locais. A seção Mapas bíblicos agora traz **um mapa real e interativo na própria página**, além dos três mapas dos percursos. É necessário acesso à internet para os mapas. A Bíblia **já está embutida para leitura**, mas continua sendo a edição de **Pe. Manuel de Matos Soares, não a versão do Pe. Antônio Pereira de Figueiredo** solicitada. A edição de Figueiredo na Samytech3D contém possíveis defeitos de OCR; não a atribuímos erroneamente à base digital existente. Substituir a tradução exige obter a transcrição integral, validar a procedência editorial e comparar os textos.
 
 > **VERSÃO 0.4.0 — 14/10/2026.** Leitor bíblico interno com **73 livros, 1.334 capítulos, 35.816 versículos**. **Tradução exibida: Pe. Manuel de Matos Soares**, e **não** a Figueiredo indicada antes; veja [proveniência, licença e ressalvas](./biblia-dados/ORIGEM_E_LICENCA.md). A tradução de Matos Soares está em domínio público no Brasil desde 2026, e a compilação digital foi oferecida sob CC0 pelo mantenedor; a transcrição ainda pode conter erros de OCR. Os dez arquivos JSON são pré-armazenados na PWA para leitura offline, após a instalação/atualização bem-sucedida. Não há cobrança por leitura, API ou servidor.

@@ -1,3 +1,14 @@
+# Ajustes de interface — 14/10/2026 (v0.4.2)
+
+- Removidos da página inicial o bloco de instalação no iPhone e o aviso de revisão que o acompanhava.
+- Removida do rodapé de cada capítulo a caixa “Nota de exatidão”. A identificação da tradução e os documentos de procedência e limitações permanecem no projeto.
+- O leitor agora usa cor dinâmica no modo escuro, em vez do tom quase preto fixo. Também foram corrigidos o contraste do cabeçalho principal e a legibilidade de textos secundários.
+- Mapas com OpenFreeMap/MapLibre: rótulos geográficos priorizam `name:pt`; quando o dado não tem tradução, aplica-se grafia latina, inglesa ou original. Locais e percursos bíblicos ficam rotulados em português no próprio mapa.
+- Dependências remotas: MapLibre JS/CSS e mapas vetoriais OpenFreeMap; não há API paga ou chave privada.
+- Os arquivos da Bíblia e a tradução Matos Soares existente não foram modificados. A revisão textual continua pendente.
+
+---
+
 # Atualização v0.4.1 — mapa geral dos percursos
 
 - Menu público: Meu caderno e Fontes e método continuam ocultos; anotações salvas não são excluídas.

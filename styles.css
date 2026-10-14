@@ -60,10 +60,31 @@
 .bible-reader{max-width:810px;margin:auto}
 .bible-reader h1{margin:13px 0}
 .bible-loading{color:var(--muted);font-size:13px;margin:17px 0;padding:12px 0;border-bottom:1px solid var(--line)}
-.bible-verses{margin:24px 0 30px;display:grid;gap:1px;font-family:Georgia,"Times New Roman",serif;color:var(--text,#253027)}
+.bible-verses{margin:24px 0 30px;display:grid;gap:1px;font-family:Georgia,"Times New Roman",serif;color:var(--ink)}
 .bible-verse{display:grid;grid-template-columns:33px 1fr;gap:10px;margin:0;padding:7px 0;font-size:clamp(17px,2.1vw,20px);line-height:1.75}
 .verse-number{font:600 12px/2 system-ui,Arial,sans-serif;color:var(--accent);text-align:right;text-decoration:none;position:relative;top:2px}
 .verse-number:hover,.verse-number:focus-visible{text-decoration:underline}
 .reading-navigation{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0}
 .reading-navigation .btn{font-size:13px}
 @media(max-width:650px){.bible-verse{grid-template-columns:26px 1fr;gap:9px;font-size:18px;line-height:1.78}.bible-reader{padding:22px 18px}.reading-navigation .btn{font-size:12px}}
+
+/* Ajustes de contraste noturno e rótulos portugueses (v0.4.2). */
+[data-theme=dark]{--muted:#c2ccc4;--ink:#f1f4ef}
+[data-theme=dark] .hero{background:#2a332f;border-color:#4d5b50}
+[data-theme=dark] .hero .eyebrow{color:#f0c9ac}
+[data-theme=dark] .hero h1{color:#f6f5f0}
+[data-theme=dark] .hero p{color:#e3e9e1}
+[data-theme=dark] .hero-art{background:radial-gradient(circle at 45% 55%,#48544b,#303d36 60%,#242e29)}
+[data-theme=dark] .art-top,[data-theme=dark] .art-bottom{color:#efe4d5}
+[data-theme=dark] .article-card,[data-theme=dark] .article-body,[data-theme=dark] .bible-reader,[data-theme=dark] .bible-verses,[data-theme=dark] .bible-verse span{color:var(--ink)}
+[data-theme=dark] .map-loading,[data-theme=dark] .biblical-map{background:#222b27;color:#e9f0e8}
+.map-biblical-pin{display:flex;align-items:center;gap:5px;cursor:pointer;max-width:190px;min-height:22px}
+.map-pin-dot{width:12px;height:12px;flex:none;border-radius:50%;border:2px solid #fff;background:var(--pin-color,#a44b4a);box-shadow:0 1px 6px rgba(0,0,0,.45)}
+.map-pin-name{display:inline-block;max-width:155px;padding:3px 6px;border-radius:5px;background:rgba(255,255,255,.95);color:#172a26;font:700 11px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;white-space:normal;box-shadow:0 1px 6px rgba(0,0,0,.2)}
+[data-theme=dark] .map-pin-name{background:rgba(30,37,34,.94);color:#f4f8f2}
+.biblical-map .maplibregl-popup-content{color:#20302a;background:#fffdf8;border-radius:10px;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;line-height:1.5}
+.biblical-map .maplibregl-popup-content a{color:#874c3a;text-decoration:underline;font-weight:700}
+.biblical-map .maplibregl-popup-content p{margin:7px 0}
+.biblical-map .maplibregl-ctrl-attrib{font-size:10px;color:#25332e}
+.biblical-map .maplibregl-ctrl-attrib a{color:#244f5a}
+@media(max-width:580px){.map-pin-name{font-size:10px;max-width:110px;padding:3px 4px}.map-biblical-pin{max-width:140px}}

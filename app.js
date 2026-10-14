@@ -48,7 +48,7 @@ return `<div class="container home">
  <div class="grid">${topics.map(s=>`<a class="tile" href="#/${s.id}"><span class="tile-icon">${s.icon}</span><span class="tile-title">${esc(s.label)}</span><span class="tile-description">${esc(s.desc)}</span><span class="tile-arrow">↗</span></a>`).join('')}</div>
  <div class="section-title-line"><h2>Comece por aqui</h2></div>
  <div class="mini-list">${highlights.map(articleCard).join('')}</div>
- <div class="install-info"><h3>Instale no iPhone sem App Store</h3><p>Após publicar no GitHub Pages, abra o endereço no Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”. Os estudos já visitados podem funcionar offline após o primeiro carregamento.</p><p style="margin-top:10px">Esta é uma iniciativa independente de formação católica e está em revisão documental. Os estudos foram ampliados à luz do Catecismo e de fontes eclesiais, mas não possuem aprovação formal da Igreja. Confira sempre a fonte primária e procure orientação pastoral para dúvidas pessoais.</p></div>
+ 
  </div>`;
 }
 function renderSection(section){
@@ -205,7 +205,7 @@ function renderChapter(name,chapterNumber){
  <div id="chapter-status" class="bible-loading" role="status" aria-live="polite">Carregando texto do capítulo…</div>
  <div id="chapter-verses" class="bible-verses" aria-label="Texto integral do capítulo"></div>
  <div class="reading-navigation"><span>${prev?`<a class="btn secondary" href="${prev}">← Anterior</a>`:''}</span><span>${next?`<a class="btn secondary" href="${next}">Próximo →</a>`:''}</span></div>
- <div class="warning"><strong>Nota de exatidão:</strong> versão transcrita e corrigida de OCR por terceiros, não confrontada integralmente com a edição impressa. O texto não é o de Figueiredo. Se encontrar falhas, registre a passagem para revisão.</div></article></div>`;
+ </article></div>`;
 }
 async function showBibleChapter(name,chapterNumber){
  const n=Number(chapterNumber),idx=data.books.findIndex(b=>b.name===name);
@@ -231,78 +231,95 @@ function renderWord(w){let key='word:'+w.id;return `<div class="container"><div 
 function renderMaps(){
  const buttons=[{id:'all',label:'Todas as rotas'},...research.rotas.map(r=>({id:r.id,label:r.titulo}))];
  return `<div class="container">${sectionHead('mapas','GEOGRAFIA DAS ESCRITURAS')}
- <div class="warning"><strong>Mapa real e interativo:</strong> a base cartográfica é o OpenStreetMap. Os locais são aproximações geográficas modernas; as linhas tracejadas indicam apenas a ordem do relato, sem reconstruir caminhos antigos. Alguns lugares não têm localização histórica comprovada. O mapa necessita de internet.</div>
+ <div class="warning"><strong>Mapa real e interativo:</strong> a base cartográfica é o OpenFreeMap, priorizando os nomes geográficos em português. Os locais são aproximações geográficas modernas; as linhas tracejadas indicam apenas a ordem do relato, sem reconstruir caminhos antigos. Alguns lugares não têm localização histórica comprovada. O mapa necessita de internet.</div>
  <div class="section-title-line"><h2>Explore as localizações bíblicas</h2></div>
  <div class="map-controls" role="group" aria-label="Selecionar percurso mostrado no mapa">${buttons.map((b,i)=>`<button type="button" class="map-focus ${i===0?'selected':''}" data-map-focus="${esc(b.id)}" aria-pressed="${i===0?'true':'false'}">${i>0?`<span class="map-swatch" style="background:${MAP_COLORS[(i-1)%MAP_COLORS.length]}" aria-hidden="true"></span>`:''}${esc(b.label)}</button>`).join('')}</div>
  <div class="map-frame"><div id="biblical-map" class="biblical-map map-overview" role="region" aria-label="Mapa interativo com as localizações dos percursos bíblicos"><div class="map-loading">Carregando mapa geográfico...</div></div></div>
- <p class="map-caption">Base: © OpenStreetMap contributors. Pontos aproximados. Linhas tracejadas são sequência narrativa, não estradas confirmadas. Se o mapa estiver indisponível, abra uma rota abaixo para acessar seus lugares e coordenadas.</p>
+ <p class="map-caption">Base vetorial: OpenFreeMap, com dados © OpenStreetMap. Os nomes são exibidos em português quando disponíveis. Pontos aproximados; linhas tracejadas não são estradas confirmadas. Se o mapa estiver indisponível, abra uma rota abaixo para acessar seus lugares e coordenadas.</p>
  <div class="section-title-line"><h2>Percursos para estudar</h2></div>
  <div class="mini-list">${research.rotas.map(r=>`<a class="study-card" href="#/rota/${id(r.id)}"><span class="study-icon">⌖</span><span class="study-card-content"><small>${esc(r.texto)}</small><span class="study-card-title" style="display:block">${esc(r.titulo)}</span><span class="study-card-summary">${esc(r.subtitulo)} · ${esc(r.qualidade)}</span></span><span class="study-card-arrow">→</span></a>`).join('')}</div></div>`;
 }
 let liveMap=null;
-
 const MAP_COLORS=['#a44b4a','#236e88','#746090'];
-function initOverviewMap(){
+const MAP_STYLE_LIGHT='https://tiles.openfreemap.org/styles/bright';
+const MAP_STYLE_DARK='https://tiles.openfreemap.org/styles/dark';
+const MAP_LABEL_PT=['coalesce',['get','name:pt'],['get','name:latin'],['get','name_en'],['get','name']];
+function mapNoWebGLMessage(container){
+ container.innerHTML='<div class="map-loading">Não foi possível abrir o mapa vetorial neste navegador. Consulte os lugares e as coordenadas na lista dos percursos.</div>';
+}
+function mapPortugueseLabels(map){
+ for(const layer of map.getStyle().layers||[]){
+  const field=layer.layout?.['text-field'];
+  if(layer.type!=='symbol'||field===undefined||!JSON.stringify(field).includes('name'))continue;
+  try{map.setLayoutProperty(layer.id,'text-field',MAP_LABEL_PT);}catch(e){}
+ }
+}
+function geographicalBounds(places){
+ let minLon=Infinity,maxLon=-Infinity,minLat=Infinity,maxLat=-Infinity;
+ for(const p of places){minLon=Math.min(minLon,p.lon);maxLon=Math.max(maxLon,p.lon);minLat=Math.min(minLat,p.lat);maxLat=Math.max(maxLat,p.lat);}
+ return [[minLon,minLat],[maxLon,maxLat]];
+}
+function focusBiblicalMap(places,animate=false){
+ if(!liveMap||!places?.length)return;
+ liveMap.fitBounds(geographicalBounds(places),{padding:{top:55,right:45,bottom:65,left:45},maxZoom:9,duration:animate?450:0});
+}
+function mapBiblicalRoute(map,route,routeIndex,seen){
+ const color=MAP_COLORS[Math.max(0,routeIndex)%MAP_COLORS.length];
+ const coordinates=route.locais.map(p=>[p.lon,p.lat]);
+ map.addSource('rota-'+route.id,{type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'LineString',coordinates}}});
+ map.addLayer({id:'linha-'+route.id,type:'line',source:'rota-'+route.id,layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':color,'line-width':3,'line-opacity':.88,'line-dasharray':[2,2.5]}});
+ route.locais.forEach((p,i)=>{
+  const key=p.nome+'|'+p.lat+'|'+p.lon;
+  if(seen.has(key))return;
+  seen.add(key);
+  const marker=document.createElement('div');
+  marker.className='map-biblical-pin';
+  marker.style.setProperty('--pin-color',color);
+  const dot=document.createElement('span');dot.className='map-pin-dot';dot.setAttribute('aria-hidden','true');
+  const name=document.createElement('span');name.className='map-pin-name';name.textContent=p.nome;
+  marker.append(dot,name);
+  const popup='<strong>'+esc(p.nome)+'</strong><p>'+esc(p.nota)+'</p><p><small>Posição aproximada, sem comprovação do caminho exato.</small></p><a href="#/rota/'+id(route.id)+'">Abrir percurso →</a>';
+  new window.maplibregl.Marker({element:marker,anchor:'left',offset:[-7,0]})
+    .setLngLat([p.lon,p.lat])
+    .setPopup(new window.maplibregl.Popup({offset:16,maxWidth:'290px'}).setHTML(popup))
+    .addTo(map);
+ });
+}
+function initBiblicalMap(routes,initialPlaces){
  const container=$('#biblical-map');
  if(!container)return;
- if(!window.L){
-  container.innerHTML='<div class="map-loading">Não foi possível carregar a biblioteca do mapa. Abra um dos percursos abaixo para conferir os locais e as coordenadas.</div>';
-  return;
- }
+ if(!window.maplibregl||!window.maplibregl.supported()){mapNoWebGLMessage(container);return;}
  try{
-  const L=window.L;
   container.innerHTML='';
-  liveMap=L.map(container,{scrollWheelZoom:false,zoomControl:true});
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
-   minZoom:2,maxZoom:18,
-   attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',
-   referrerPolicy:'strict-origin-when-cross-origin'
-  }).addTo(liveMap);
-  const all=[];
-  research.rotas.forEach((route,idx)=>{
-   const coords=route.locais.map(p=>[p.lat,p.lon]);
-   const color=MAP_COLORS[idx%MAP_COLORS.length];
-   L.polyline(coords,{color,weight:3,dashArray:'7,8',opacity:.85}).addTo(liveMap);
-   route.locais.forEach((p,i)=>{
-    const popup='<strong>'+esc(route.titulo)+'</strong><p>'+(i+1)+'. '+esc(p.nome)+'</p><p>'+esc(p.nota)+'</p><a href="#/rota/'+id(route.id)+'">Abrir percurso no site →</a><small style="display:block;margin-top:8px">Coordenada aproximada; não comprova rota histórica.</small>';
-    L.circleMarker([p.lat,p.lon],{radius:7,color:'#ffffff',weight:2,fillColor:color,fillOpacity:1}).addTo(liveMap).bindPopup(popup);
-    all.push([p.lat,p.lon]);
-   });
+  const map=new window.maplibregl.Map({
+   container,
+   style:document.documentElement.dataset.theme==='dark'?MAP_STYLE_DARK:MAP_STYLE_LIGHT,
+   center:[29,37],zoom:4,attributionControl:false,
+   locale:{'NavigationControl.ZoomIn':'Aproximar','NavigationControl.ZoomOut':'Afastar','AttributionControl.ToggleAttribution':'Mostrar atribuições'}
   });
-  liveMap.fitBounds(L.latLngBounds(all).pad(.18),{maxZoom:9});
-  requestAnimationFrame(()=>liveMap&&liveMap.invalidateSize());
+  liveMap=map;
+  map.addControl(new window.maplibregl.NavigationControl({showCompass:false}),'top-right');
+  map.addControl(new window.maplibregl.AttributionControl({
+   compact:false,
+   customAttribution:'<a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© colaboradores OpenStreetMap</a>'
+  }),'bottom-right');
+  map.on('load',()=>{
+   if(liveMap!==map)return;
+   mapPortugueseLabels(map);
+   const seen=new Set();
+   routes.forEach(r=>mapBiblicalRoute(map,r,research.rotas.findIndex(x=>x.id===r.id),seen));
+   focusBiblicalMap(initialPlaces);
+  });
  }catch(error){
-  if(liveMap){liveMap.remove();liveMap=null;}
-  container.innerHTML='<div class="map-loading">Não foi possível abrir o mapa agora. Os locais e suas coordenadas permanecem listados em cada percurso.</div>';
+  if(liveMap){try{liveMap.remove();}catch(e){}liveMap=null;}
+  mapNoWebGLMessage(container);
  }
 }
-
-function initRouteMap(r){
- const container=$('#biblical-map');
- if(!container||!r)return;
- if(!window.L){container.innerHTML='<div class="map-loading">Mapa online indisponível nesta conexão. Consulte as localizações pelo OpenStreetMap na lista abaixo.</div>';return;}
- try{
-  container.innerHTML='';
-  const L=window.L;
-  liveMap=L.map(container,{scrollWheelZoom:false,zoomControl:true});
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
-   maxZoom:18,minZoom:2,
-   attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',
-   referrerPolicy:'strict-origin-when-cross-origin'
-  }).addTo(liveMap);
-  const coordinates=r.locais.map(p=>[p.lat,p.lon]);
-  L.polyline(coordinates,{color:'#7a433f',weight:3,dashArray:'6,9',opacity:.88}).addTo(liveMap);
-  r.locais.forEach((p,i)=>{
-   const text='<strong>'+(i+1)+'. '+esc(p.nome)+'</strong><p>'+esc(p.nota)+'</p><small>Localização aproximada, não prova de rota histórica.</small>';
-   L.circleMarker([p.lat,p.lon],{radius:8,color:'#fffdf7',weight:2,fillColor:'#7a433f',fillOpacity:1}).addTo(liveMap).bindPopup(text);
-  });
-  liveMap.fitBounds(L.latLngBounds(coordinates).pad(.24),{maxZoom:9});
-  requestAnimationFrame(()=>liveMap&&liveMap.invalidateSize());
- }catch(error){container.innerHTML='<div class="map-loading">Não foi possível abrir o mapa interativo. As localizações estão disponíveis na lista abaixo.</div>';liveMap=null;}
-}
+function initOverviewMap(){initBiblicalMap(research.rotas,research.rotas.flatMap(r=>r.locais));}
+function initRouteMap(route){if(route)initBiblicalMap([route],route.locais);}
 function renderRoute(r){
  const key='route:'+r.id;
- return `<div class="container"><div class="backline"><a href="#/mapas" class="text-link">← Todos os percursos</a></div><div class="article-card"><span class="eyebrow">${esc(r.texto)} · ${esc(r.qualidade)}</span><h1>${esc(r.titulo)}</h1><p class="article-lead">${esc(r.subtitulo)}</p><div class="map-frame"><div id="biblical-map" class="biblical-map" role="region" aria-label="Mapa geográfico interativo com pontos aproximados da narrativa bíblica"><div class="map-loading">Carregando mapa geográfico...</div></div></div><p class="map-caption">Base cartográfica atual: © OpenStreetMap contributors (ODbL). Pontos geográficos aproximados; linhas tracejadas apenas unem a sequência narrativa, não são estradas nem rotas antigas comprovadas. O mapa exige internet.</p><div class="warning"><strong>Como interpretar:</strong> ${esc(r.comentario)}</div><div class="section-title-line"><h2>Etapas identificadas</h2></div><div class="route-stops">${r.locais.map((p,i)=>`<div class="route-stop"><span class="stop-number">${i+1}</span><div><strong>${esc(p.nome)}</strong><p>${esc(p.nota)}</p>${link(`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=10/${p.lat}/${p.lon}`,'Ver localização no OpenStreetMap')}</div></div>`).join('')}</div><div class="article-actions"><button class="btn secondary" type="button" data-copy-route="${r.id}">✣ Pesquisar itinerário com IA</button></div><div class="aside-card" style="margin-top:25px"><h3>Referências</h3>${r.fontes.map(s=>link(s.url,s.label)).join('')}</div></div></div>`;
+ return `<div class="container"><div class="backline"><a href="#/mapas" class="text-link">← Todos os percursos</a></div><div class="article-card"><span class="eyebrow">${esc(r.texto)} · ${esc(r.qualidade)}</span><h1>${esc(r.titulo)}</h1><p class="article-lead">${esc(r.subtitulo)}</p><div class="map-frame"><div id="biblical-map" class="biblical-map" role="region" aria-label="Mapa geográfico interativo com pontos aproximados da narrativa bíblica"><div class="map-loading">Carregando mapa geográfico...</div></div></div><p class="map-caption">Mapa vetorial OpenFreeMap, com dados do OpenStreetMap e nomes em português quando disponíveis. Pontos aproximados; as linhas tracejadas indicam apenas a sequência da narrativa. É necessária conexão.</p><div class="warning"><strong>Como interpretar:</strong> ${esc(r.comentario)}</div><div class="section-title-line"><h2>Etapas identificadas</h2></div><div class="route-stops">${r.locais.map((p,i)=>`<div class="route-stop"><span class="stop-number">${i+1}</span><div><strong>${esc(p.nome)}</strong><p>${esc(p.nota)}</p>${link(`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=10/${p.lat}/${p.lon}`,'Ver localização no OpenStreetMap')}</div></div>`).join('')}</div><div class="article-actions"><button class="btn secondary" type="button" data-copy-route="${r.id}">✣ Pesquisar itinerário com IA</button></div><div class="aside-card" style="margin-top:25px"><h3>Referências</h3>${r.fontes.map(s=>link(s.url,s.label)).join('')}</div></div></div>`;
 }
 function renderNotebook(){let entries=Object.entries(store.notes).filter(([,v])=>String(v||'').trim());return `<div class="container">${sectionHead('caderno','ÁREA PESSOAL · ARMAZENADA NESTE DISPOSITIVO')}<div class="summary-bar"><div class="summary-stat"><strong>${entries.length}</strong><span>anotações salvas</span></div><div class="summary-stat"><strong>${store.favorites.length}</strong><span>estudos favoritos</span></div><div class="summary-stat"><strong>Local</strong><span>Sem login ou servidor pago</span></div></div><div class="notebook-actions"><button class="btn" type="button" data-export="1">↓ Exportar meu caderno</button><button class="btn secondary" type="button" data-import="1">↑ Importar backup</button></div><div class="warning">As informações são salvas no navegador deste aparelho. Não há sincronização entre dispositivos; limpar os dados do Safari pode apagar tudo. Exporte um backup periodicamente.</div><div class="section-title-line"><h2>Minhas anotações</h2></div>${entries.length?`<div class="notebook-list">${entries.map(([key,value])=>`<div class="notebook-item"><strong>${esc(describeKey(key))}</strong><p>${esc(String(value).slice(0,1500))}</p><a class="text-link" href="${linkForKey(key)}">Abrir estudo →</a></div>`).join('')}</div>`:`<div class="empty"><h3>Seu caderno está em branco</h3><p>Abra um estudo ou verbete e registre suas próprias descobertas.</p></div>`}<div class="section-title-line"><h2>Favoritos</h2></div>${store.favorites.length?`<div class="mini-list">${store.favorites.map(k=>`<a class="study-card" href="${linkForKey(k)}"><span class="study-icon">☆</span><span class="study-card-content"><span class="study-card-title">${esc(describeKey(k))}</span></span><span class="study-card-arrow">→</span></a>`).join('')}</div>`:`<div class="empty"><p>Você ainda não marcou estudos como favoritos.</p></div>`}</div>`;}
 function describeKey(key){const [type, ...rest]=key.split(':');let target=rest.join(':');if(type==='article')return data.articles.find(x=>x.id===target)?.title||target;if(type==='word')return research.palavras.find(x=>x.id===target)?.titulo||target;if(type==='route')return research.rotas.find(x=>x.id===target)?.titulo||target;if(type==='book')return target;return key;}
@@ -336,14 +353,14 @@ document.addEventListener('click',e=>{
  const button=e.target.closest('[data-map-focus]');
  if(!button)return;
  const requested=button.dataset.mapFocus;
- const coords=requested==='all'?research.rotas.flatMap(r=>r.locais.map(p=>[p.lat,p.lon])):research.rotas.find(r=>r.id===requested)?.locais.map(p=>[p.lat,p.lon]);
- if(liveMap&&window.L&&coords?.length)liveMap.fitBounds(window.L.latLngBounds(coords).pad(.28),{maxZoom:9,animate:true});
+ const places=requested==='all'?research.rotas.flatMap(r=>r.locais):research.rotas.find(r=>r.id===requested)?.locais;
+ if(places?.length)focusBiblicalMap(places,true);
  document.querySelectorAll('[data-map-focus]').forEach(b=>{const selected=b.dataset.mapFocus===requested;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});
 });
 document.addEventListener('click',e=>{let filter=e.target.closest('[data-filter]');if(filter){state.filter=filter.dataset.filter;render();return;}let fav=e.target.closest('[data-favorite]');if(fav){toggleFavorite(fav.dataset.favorite);return;}let article=e.target.closest('[data-copy-prompt]');if(article){let a=data.articles.find(x=>x.id===article.dataset.copyPrompt);if(a)copyText(promptForArticle(a));return;}let word=e.target.closest('[data-copy-word]');if(word){let w=research.palavras.find(x=>x.id===word.dataset.copyWord);if(w)copyText(promptForWord(w));return;}let route=e.target.closest('[data-copy-route]');if(route){let r=research.rotas.find(x=>x.id===route.dataset.copyRoute);if(r)copyText(promptForRoute(r));return;}if(e.target.closest('[data-export]')){exportData();return;}if(e.target.closest('[data-import]')){$('#import-file').click();return;}if(e.target===$('#search-dialog'))searchClose();if(e.target.closest('[data-search-result]'))searchClose();});
 document.addEventListener('input',e=>{if(e.target.matches('[data-note]')){store.notes[e.target.dataset.note]=e.target.value.slice(0,25000);saveStore();let status=$('#note-status');if(status)status.textContent='Anotação salva localmente.';}if(e.target===$('#search-input'))searchUpdate();});
 $('#search-trigger').addEventListener('click',searchOpen);$('#search-close').addEventListener('click',searchClose);
-$('#theme-toggle').addEventListener('click',()=>{store.theme=store.theme==='dark'?'light':'dark';saveStore();theme();});
+$('#theme-toggle').addEventListener('click',()=>{store.theme=store.theme==='dark'?'light':'dark';saveStore();theme();if(['mapas','rota'].includes(path()[0]))render();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#search-dialog').classList.contains('hidden'))searchClose();if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)&&$('#search-dialog').classList.contains('hidden')){e.preventDefault();searchOpen();}});
 $('#import-file').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;if(file.size>2000000){toast('O backup ultrapassa o limite de 2 MB.');return;}try{const imported=JSON.parse(await file.text());if(imported.app!=='fe-escritura-tradicao'||imported.version!==1||!imported.notes||!Array.isArray(imported.favorites))throw Error('Formato inválido');const notes=Object.fromEntries(Object.entries(imported.notes).filter(([k,v])=>typeof k==='string'&&typeof v==='string'&&k.length<200&&v.length<=25000));const favorites=imported.favorites.filter(x=>typeof x==='string'&&x.length<200).slice(0,500);if(!confirm('Importar backup substituirá as anotações e favoritos atuais. Deseja continuar?'))return;store.notes=notes;store.favorites=favorites;saveStore();render();toast('Backup importado com sucesso.');}catch{toast('Arquivo inválido. Use um backup exportado por este aplicativo.');}});
 if(!location.hash)location.hash='#/inicio';theme();render();

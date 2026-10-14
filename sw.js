@@ -1,5 +1,5 @@
-/* FET v0.4.1: arquivos do site usam rede primeiro para evitar versões antigas. */
-const VERSION='fet-v8-2026-10-14-mapas-gerais';
+/* FET v0.4.2: arquivos do site usam rede primeiro para evitar versões antigas. */
+const VERSION='fet-v9-2026-10-14-mapas-ptbr';
 const ASSETS=[
  './','./index.html','./styles.css','./content.js',
  './pesquisa.js','./app.js','./manifest.webmanifest',
