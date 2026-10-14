@@ -1,5 +1,5 @@
 /* Cache offline de assets próprios. Links externos não são interceptados. */
-const VERSION='fet-v2-2026-10-14-r1';
+const VERSION='fet-v3-2026-10-14-revisao-doutrinaria';
 const ASSETS=['./','./index.html','./styles.css','./content.js','./pesquisa.js','./app.js','./manifest.webmanifest','./icons/favicon.svg','./icons/icon-512.png','./icons/apple-touch-icon.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('fet-')&&k!==VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
