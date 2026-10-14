@@ -33,3 +33,16 @@
 .article-card>.btn{margin:10px 0}
 .article-card .reference-row{margin-bottom:10px}
 @media(max-width:580px){.page-header p{font-size:13px}.source-levels{grid-template-columns:1fr}.route-map{min-height:170px}.original-title{font-size:52px}.word-original{font-size:32px}}
+
+/* Mapas bíblicos sobre cartografia real do OpenStreetMap. */
+.biblical-map{height:430px;min-height:280px;width:100%;background:#dce5db;position:relative}
+.map-loading{display:flex;align-items:center;justify-content:center;height:100%;padding:16px;font-size:14px;color:#355149;text-align:center}
+.map-caption{font-size:12px;line-height:1.6;color:var(--muted);padding:4px 2px 0}
+.map-attribution-note{font-size:12px;line-height:1.5;margin-top:10px}
+.biblical-map .leaflet-container{font-family:inherit}
+.biblical-map .leaflet-control-attribution{font-size:10px;line-height:1.4;background:rgba(255,255,255,.92)}
+.biblical-map .leaflet-popup-content{font-size:13px;line-height:1.45}
+.chapter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(49px,1fr));gap:7px;margin-top:12px}
+.chapter-link{display:flex;align-items:center;justify-content:center;min-height:43px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-weight:650;color:var(--ink);text-decoration:none}
+.chapter-link:hover,.chapter-link:focus-visible{border-color:var(--accent);background:var(--sage)}
+@media(max-width:580px){.biblical-map{height:330px;min-height:240px}.chapter-grid{grid-template-columns:repeat(auto-fill,minmax(44px,1fr))}}
