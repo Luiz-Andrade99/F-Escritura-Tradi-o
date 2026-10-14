@@ -1,3 +1,5 @@
+> **VERSÃO 0.4.0 — 14/10/2026.** Leitor bíblico interno com **73 livros, 1.334 capítulos, 35.816 versículos**. **Tradução exibida: Pe. Manuel de Matos Soares**, e **não** a Figueiredo indicada antes; veja [proveniência, licença e ressalvas](./biblia-dados/ORIGEM_E_LICENCA.md). A tradução de Matos Soares está em domínio público no Brasil desde 2026, e a compilação digital foi oferecida sob CC0 pelo mantenedor; a transcrição ainda pode conter erros de OCR. Os dez arquivos JSON são pré-armazenados na PWA para leitura offline, após a instalação/atualização bem-sucedida. Não há cobrança por leitura, API ou servidor.
+
 > **Revisão doutrinária de 14/10/2026:** os 35 artigos receberam uma primeira auditoria individual e os principais esclarecimentos já foram incorporados. **Não há declaração de aprovação eclesiástica.** Leia [REVISAO_DOUTRINARIA_2026-10-14.md](./REVISAO_DOUTRINARIA_2026-10-14.md) para a matriz por artigo, fontes primárias e pendências de liturgia brasileira.
 
 # Fé, Escritura & Tradição
