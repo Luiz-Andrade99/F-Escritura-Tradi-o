@@ -1,3 +1,16 @@
+# Versão 0.7.0 — atlas bíblico ampliado
+
+- Atlas com **71 mapas**: 66 novos, adicionados aos 5 existentes, abrangendo **38 do Antigo Testamento** e **33 do Novo Testamento**. O novo arquivo `atlas-biblico.js` contém geografia, referências por capítulo, locais, coordenadas aproximadas e limitações.
+- Temas no Antigo Testamento: narrativas das origens, patriarcas, Êxodo, conquista, Juízes, monarquia, reinos, profetas, exílio, retorno, livros deuterocanônicos (Tobias, Judite e Macabeus).
+- Temas no Novo Testamento: infância, vida pública, Paixão, Ressurreição, Pentecostes, Igreja nascente, viagens de Paulo, Apocalipse.
+- UI: filtros por Antigo/Novo Testamento, seleção por assunto, pesquisa por palavras e passagem; mapa central exibe um estudo de cada vez para evitar sobreposição. Lista de estudos ao lado do mapa, com zoom adequado a região e celulares.
+- `tipo: "quadro"` representa cenários bíblicos independentes SEM ligar pontos por linhas. `tipo: "sequencia"` liga pontos por **linha esquemática**, não reconstrução de estradas, rotas marítimas ou local exato do percurso.
+- Para eventos sem localização inequívoca (Éden, Éxodo e passagem do mar, Sinai, Transfiguração, Emaús, Betúlia, regiões de Samaria, Betsaida e outros), o atlas indica apenas contexto geográfico, hipótese/tradição ou ausência de marcador.
+- Referências por estudo à Bíblia e notas da USCCB. Textos de mapas são sínteses autorais em português, não cópias da tradução da USCCB.
+- A tradução bíblica local Matos Soares, os 73 livros, os estudos do Catecismo e o catálogo eucarístico não foram modificados.
+
+---
+
 # Versão 0.6.1 — leitura e busca
 
 - O leitor da Bíblia oferece controles A− / A+ / Restaurar (de 16 a 28 px), com preferência salva localmente, respeitando o tema escuro.
