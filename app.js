@@ -383,7 +383,7 @@ function renderMiracle(m){
  <aside class="article-aside"><div class="aside-card"><h3>Fontes e documentos</h3>${m.fontes.map(([label,url])=>link(url,label)).join('')}</div></aside></div></div>`;
 }
 
-function normalizeCatalogText(value){return String(value??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();}
+function normalizeCatalogText(value){return String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/ł/g,'l').replace(/ø/g,'o').replace(/ß/g,'ss');}
 function detailedMiracle(r){
  const title=normalizeCatalogText(r.titulo);
  return formacao.milagres.find(m=>normalizeCatalogText(m.titulo)===title) || null;
