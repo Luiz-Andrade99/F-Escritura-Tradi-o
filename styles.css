@@ -61,12 +61,12 @@
 .bible-reader h1{margin:13px 0}
 .bible-loading{color:var(--muted);font-size:13px;margin:17px 0;padding:12px 0;border-bottom:1px solid var(--line)}
 .bible-verses{margin:24px 0 30px;display:grid;gap:1px;font-family:Georgia,"Times New Roman",serif;color:var(--ink)}
-.bible-verse{display:grid;grid-template-columns:33px 1fr;gap:10px;margin:0;padding:7px 0;font-size:clamp(17px,2.1vw,20px);line-height:1.75}
+.bible-verse{display:grid;grid-template-columns:33px 1fr;gap:10px;margin:0;padding:7px 0;font-size:var(--bible-font-size,clamp(17px,2.1vw,20px));line-height:1.75}
 .verse-number{font:600 12px/2 system-ui,Arial,sans-serif;color:var(--accent);text-align:right;text-decoration:none;position:relative;top:2px}
 .verse-number:hover,.verse-number:focus-visible{text-decoration:underline}
 .reading-navigation{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0}
 .reading-navigation .btn{font-size:13px}
-@media(max-width:650px){.bible-verse{grid-template-columns:26px 1fr;gap:9px;font-size:18px;line-height:1.78}.bible-reader{padding:22px 18px}.reading-navigation .btn{font-size:12px}}
+@media(max-width:650px){.bible-verse{grid-template-columns:26px 1fr;gap:9px;font-size:var(--bible-font-size,18px);line-height:1.78}.bible-reader{padding:22px 18px}.reading-navigation .btn{font-size:12px}}
 
 /* Ajustes de contraste noturno e rótulos portugueses (v0.4.2). */
 [data-theme=dark]{--muted:#c2ccc4;--ink:#f1f4ef}
@@ -142,3 +142,14 @@
 @media(max-width:900px){.acervo-filters{grid-template-columns:1fr 1fr}.acervo-filters label:first-child{grid-column:1/-1}}
 @media(max-width:580px){.acervo-filters{grid-template-columns:1fr}.acervo-filters label:first-child{grid-column:auto}.acervo-grid{grid-template-columns:1fr 1fr;gap:9px}.acervo-card{min-height:125px;padding:13px}.acervo-card strong{font-size:16px}}
 @media(max-width:390px){.acervo-grid{grid-template-columns:1fr}}
+
+/* v0.6.1 — opções de leitura bíblica e atalhos de pesquisa */
+.bible-toolbar{display:grid;gap:7px;margin:18px 0 8px}
+.bible-toolbar p{font-size:12px;color:var(--muted);line-height:1.5}
+.bible-font-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.bible-font-tools button{border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:13px;font-weight:650;padding:8px 11px;min-height:36px}
+.bible-font-tools button:hover{background:var(--gold-pale);border-color:var(--accent)}
+.bible-font-tools output{min-width:55px;color:var(--ink);font-size:12px;text-align:center}
+.bible-verse button.verse-number{border:0;background:transparent;padding:1px 0;font:600 12px/2 system-ui,Arial,sans-serif;color:var(--accent);cursor:pointer}
+.bible-verse button.verse-number:hover,.bible-verse button.verse-number:focus-visible{text-decoration:underline}
+.search-summary{font-size:12px;font-weight:650;color:var(--muted);line-height:1.6;padding:3px 0 8px}

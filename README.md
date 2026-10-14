@@ -1,3 +1,13 @@
+# Versão 0.6.1 — leitura e busca
+
+- O leitor da Bíblia oferece controles A− / A+ / Restaurar (de 16 a 28 px), com preferência salva localmente, respeitando o tema escuro.
+- O número do versículo é um botão que copia a referência e seu texto; antes era um link para o próprio capítulo.
+- Busca global exibe atalhos quando o campo está vazio, aceita palavras em qualquer ordem, prioriza correspondência com títulos e informa o total de resultados.
+- O atalho '/' não interrompe a digitação em campos de seleção e edição.
+- Corpus bíblico e conteúdos doutrinários não foram alterados; testes visuais reais ainda precisam ser executados.
+
+---
+
 # Atualização 0.6.0 — catálogo internacional de Carlo Acutis
 
 - **Acervo pesquisável no próprio site:** 150 fichas de referência construídas a partir dos títulos, países e períodos publicados no índice oficial em português da exposição de Carlo Acutis. São **108 entradas geográficas de 20 países/territórios**, 19 registros de santos/místicos, 5 registros marianos e 18 registros de comunhões extraordinárias. A exposição oficial declara **aproximadamente 136 relatos e 166 painéis**, portanto os 150 registros do site **não são 150 milagres independentes ou aprovados**. Painéis temáticos coletivos foram desdobrados em fichas; isso explica a diferença de contagem.

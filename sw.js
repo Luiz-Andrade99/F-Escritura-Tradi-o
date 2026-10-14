@@ -1,5 +1,5 @@
-/* FET v0.6.0: arquivos do site usam rede primeiro para evitar versões antigas. */
-const VERSION='fet-v13-2026-10-14-acervo-eucaristico';
+/* FET v0.6.1: arquivos do site usam rede primeiro para evitar versões antigas. */
+const VERSION='fet-v14-2026-10-14-leitura-busca';
 const ASSETS=[
  './','./index.html','./styles.css','./content.js',
  './pesquisa.js','./ampliacao.js','./formacao.js','./calendario-e-milagres.js','./acervo-carlo-acutis.js','./app.js','./manifest.webmanifest',
