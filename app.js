@@ -2,6 +2,7 @@
 'use strict';
 const data = window.FET_DATA;
 const research = window.FET_PESQUISA;
+const formacao = window.FET_FORMACAO;
 const $ = (q, root=document) => root.querySelector(q);
 const $$ = (q, root=document) => [...root.querySelectorAll(q)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -13,6 +14,8 @@ const sections = [
   {id:'missa',label:'Santa Missa',icon:'✝',desc:'Cada rito, gesto e significado'},
   {id:'igreja',label:'A Igreja',icon:'♜',desc:'Ministérios, hierarquia e vocações'},
   {id:'sacramentos',label:'Sacramentos',icon:'✦',desc:'Os sete sacramentos e os ritos'},
+  {id:'milagres',label:'Milagres Eucarísticos',icon:'✧',desc:'Tradições eucarísticas com culto documentado'},
+  {id:'catecismo',label:'Catecismo',icon:'▤',desc:'Guia de estudo da fé católica'},
   {id:'idiomas',label:'Palavras originais',icon:'α',desc:'Grego e hebraico com contexto'},
   {id:'mapas',label:'Mapas bíblicos',icon:'⌖',desc:'Percursos narrados, localizações e cautelas'},
   {id:'oracoes',label:'Vida de oração',icon:'❦',desc:'Métodos, orações e devoções'},
@@ -27,18 +30,24 @@ let store = loadStore();
 function saveStore(){try{localStorage.setItem('fet_study_v1',JSON.stringify(store));}catch(e){toast('Não foi possível salvar no dispositivo. Exporte suas anotações.');}}
 function toast(message){let t=$('#toast');t.textContent=message;t.classList.add('visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('visible'),3400);}
 function theme(){document.documentElement.dataset.theme=store.theme;$('#theme-toggle').setAttribute('aria-label',store.theme==='dark'?'Ativar tema claro':'Ativar tema escuro');}
-function navHtml(s){return `<a class="nav-item ${activeSection()===s.id?'active':''}" href="#/${s.id}" ${activeSection()===s.id?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${s.icon}</span>${esc(s.label)}</a>`;}
-function activeSection(){const p=path();if(p[0]==='estudo'){const a=data.articles.find(x=>x.id===p[1]);return a?.section||'inicio';}if(p[0]==='palavra')return 'idiomas';if(p[0]==='rota')return 'mapas';if(p[0]==='livro')return 'biblia';return p[0]||'inicio';}
+function navHtml(s){
+ const active=activeSection()===s.id;
+ const primary=`<a class="nav-item ${active?'active':''}" href="#/${s.id}" ${active?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${s.icon}</span>${esc(s.label)}</a>`;
+ if(s.id==='milagres')return `<div class="nav-group">${primary}<div class="sub-nav">${formacao.milagres.map(m=>`<a href="#/milagre/${id(m.id)}" class="${path()[0]==='milagre'&&path()[1]===m.id?'active':''}">${esc(m.titulo)}</a>`).join('')}</div></div>`;
+ if(s.id==='catecismo')return `<div class="nav-group">${primary}<div class="sub-nav">${formacao.pilares.map(p=>`<a href="#/catecismo/${id(p.id)}" class="${path()[1]===p.id?'active':''}">${esc(p.nome)}</a>`).join('')}</div></div>`;
+ return primary;
+}
+function activeSection(){const p=path();if(p[0]==='estudo'){const a=data.articles.find(x=>x.id===p[1]);return a?.section||'inicio';}if(p[0]==='palavra')return 'idiomas';if(p[0]==='rota')return 'mapas';if(p[0]==='milagre')return 'milagres';if(p[0]==='livro')return 'biblia';return p[0]||'inicio';}
 function renderNav(){
  $('#side-nav').innerHTML=sections.map(navHtml).join('');
  const mobile = [{id:'inicio',label:'Início',icon:'⌂'},{id:'biblia',label:'Bíblia',icon:'☷'},{id:'missa',label:'Missa',icon:'✝'},{id:'mapas',label:'Mapas',icon:'⌖'},{id:'biblioteca',label:'Mais',icon:'☰'}];
- const active=activeSection();$('#mobile-nav').innerHTML=mobile.map(s=>`<a href="#/${s.id}" class="mobile-item ${s.id===active||s.id==='biblioteca'&&['igreja','sacramentos','idiomas','oracoes','biblioteca'].includes(active)?'active':''}" ${s.id===active?'aria-current="page"':''}><span>${s.icon}</span><small>${s.label}</small></a>`).join('');
+ const active=activeSection();$('#mobile-nav').innerHTML=mobile.map(s=>`<a href="#/${s.id}" class="mobile-item ${s.id===active||s.id==='biblioteca'&&['igreja','sacramentos','milagres','catecismo','idiomas','oracoes','biblioteca'].includes(active)?'active':''}" ${s.id===active?'aria-current="page"':''}><span>${s.icon}</span><small>${s.label}</small></a>`).join('');
 }
 function path(){return location.hash.replace(/^#\/?/,'').split('/').filter(Boolean).map(x=>{try{return decodeURIComponent(x)}catch{return x}});}
 function sectionHead(k,eyebrow){let s=sections.find(x=>x.id===k);return `<div class="page-header"><span class="eyebrow">${esc(eyebrow||'BIBLIOTECA DE FORMAÇÃO')}</span><h1>${esc(s?.label||'Estudos')}</h1><p>${esc(s?.desc||'Aprofunde sua formação com referências verificáveis.')}</p></div>`;}
 function articleCard(a){return `<a class="study-card" href="#/estudo/${id(a.id)}"><span class="study-icon">${a.section==='missa'?'✝':a.section==='biblia'?'☷':a.section==='igreja'?'♜':a.section==='sacramentos'?'✦':'❦'}</span><span class="study-card-content"><small>${esc(a.category||a.section)}</small><span class="study-card-title" style="display:block">${esc(a.title)}</span><span class="study-card-summary">${esc(a.summary)}</span></span><span class="study-card-arrow">→</span></a>`;}
 function renderHome(){
-const topics=[...sections.slice(1,7),sections[7]];
+const topics=sections.filter(s=>s.id!=='inicio');
 const highlights=['biblia-lucas9','missa-visao','igreja-visao'].map(i=>data.articles.find(x=>x.id===i)).filter(Boolean);
 // Contagem de notas ocultada temporariamente na interface pública.
 return `<div class="container home">
@@ -249,9 +258,26 @@ function mapNoWebGLMessage(container){
 }
 function mapPortugueseLabels(map){
  for(const layer of map.getStyle().layers||[]){
-  const field=layer.layout?.['text-field'];
-  if(layer.type!=='symbol'||field===undefined||!JSON.stringify(field).includes('name'))continue;
-  try{map.setLayoutProperty(layer.id,'text-field',MAP_LABEL_PT);}catch(e){}
+  if(layer.type!=='symbol'||layer.layout?.['text-field']===undefined)continue;
+  try{map.setLayoutProperty(layer.id,'visibility','none');}catch(e){}
+ }
+ const labels=[
+ ['Itália',12.5,42.2,'pais'],['Grécia',22.8,39.1,'pais'],['Turquia',33.3,39.3,'pais'],
+ ['Bulgária',25.4,42.7,'pais'],['Albânia',20,41.1,'pais'],['Macedônia do Norte',21.7,41.5,'pais'],
+ ['Chipre',33.1,35.1,'pais'],['Síria',38.4,35.2,'pais'],['Líbano',35.85,33.92,'pais'],
+ ['Israel',34.85,31.52,'pais'],['Jordânia',36.1,31,'pais'],['Egito',29,27.4,'pais'],
+ ['Mar Mediterrâneo',18,34,'mar'],['Mar Egeu',25.3,38,'mar'],['Mar Negro',34.3,42.7,'mar'],['Mar Morto',35.5,31.48,'mar'],
+ ['Roma',12.5,41.9,'cidade'],['Atenas',23.73,37.98,'cidade'],['Istambul',28.98,41.01,'cidade'],
+ ['Tessalônica',22.94,40.64,'cidade'],['Damasco',36.3,33.5,'cidade'],['Jerusalém',35.23,31.78,'cidade'],
+ ['Nazaré',35.3,32.7,'cidade'],['Filipos',24.29,41.01,'cidade'],['Trôade',26.16,39.76,'cidade']
+ ];
+ map.addSource('lugares-pt',{type:'geojson',data:{type:'FeatureCollection',features:labels.map(([nome,lon,lat,tipo])=>({type:'Feature',properties:{nome,tipo},geometry:{type:'Point',coordinates:[lon,lat]}}))}});
+ const dark=document.documentElement.dataset.theme==='dark';
+ for(const [tipo,minzoom,size] of [['pais',2,14],['mar',2,12],['cidade',5,12]]){
+  map.addLayer({id:'nomes-portugues-'+tipo,type:'symbol',source:'lugares-pt',minzoom,
+   filter:['==',['get','tipo'],tipo],
+   layout:{'text-field':['get','nome'],'text-font':['Noto Sans Regular'],'text-size':size,'text-anchor':'center','text-padding':6},
+   paint:{'text-color':dark?'#edf4ee':'#263c35','text-halo-color':dark?'#28302d':'#f9fbf7','text-halo-width':2}});
  }
 }
 function geographicalBounds(places){
@@ -369,7 +395,7 @@ if('serviceWorker' in navigator && location.protocol!=='file:') {
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{
       if(refreshing)return;
-      const marker='fet-reloaded-20261014-031-ptbr';
+      const marker='fet-reloaded-20261014-050';
       if(sessionStorage.getItem(marker)==='1')return;
       refreshing=true;
       sessionStorage.setItem(marker,'1');
