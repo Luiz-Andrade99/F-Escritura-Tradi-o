@@ -33,7 +33,7 @@ function theme(){document.documentElement.dataset.theme=store.theme;$('#theme-to
 function navHtml(s){
  return `<a class="nav-item ${activeSection()===s.id?'active':''}" href="#/${s.id}" ${activeSection()===s.id?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${s.icon}</span>${esc(s.label)}</a>`;
 }
-function activeSection(){const p=path();if(p[0]==='estudo'){const a=data.articles.find(x=>x.id===p[1]);return a?.section||'inicio';}if(p[0]==='palavra')return 'idiomas';if(p[0]==='rota')return 'mapas';if(p[0]==='milagre')return 'milagres';if(p[0]==='livro')return 'biblia';return p[0]||'inicio';}
+function activeSection(){const p=path();if(p[0]==='estudo'){const a=data.articles.find(x=>x.id===p[1]);return a?.section||'inicio';}if(p[0]==='palavra')return 'idiomas';if(p[0]==='rota')return 'mapas';if(p[0]==='ano-liturgico'||p[0]==='celebracao')return 'missa';if(p[0]==='milagre')return 'milagres';if(p[0]==='livro')return 'biblia';return p[0]||'inicio';}
 function renderNav(){
  $('#side-nav').innerHTML=sections.map(navHtml).join('');
  const mobile = [{id:'inicio',label:'Início',icon:'⌂'},{id:'biblia',label:'Bíblia',icon:'☷'},{id:'missa',label:'Missa',icon:'✝'},{id:'mapas',label:'Mapas',icon:'⌖'},{id:'biblioteca',label:'Mais',icon:'☰'}];
@@ -61,7 +61,7 @@ function renderSection(section){
  let cat=['Todos',...new Set(items.map(x=>x.category||'Geral'))];
  if(!cat.includes(state.filter))state.filter='Todos';
  let visible=state.filter==='Todos'?items:items.filter(x=>x.category===state.filter);
- return `<div class="container">${sectionHead(section)}<div class="section-title-line"><h2>Estudos disponíveis</h2><span class="lesson-count">${items.length} temas</span></div><div class="filterbar" role="group" aria-label="Filtrar por categoria">${cat.map(x=>`<button type="button" class="filter ${x===state.filter?'active':''}" data-filter="${esc(x)}">${esc(x)}</button>`).join('')}</div><div class="mini-list">${visible.map(articleCard).join('')}</div>${section==='missa'?`<div class="warning"><strong>Importante:</strong> a sequência e as normas aqui descritas se referem à Missa no rito romano. Dias, celebrações e normas particulares podem alterar elementos previstos.</div>`:''}</div>`;
+ return `<div class="container">${sectionHead(section)}${section==='missa'?`<a href="#/ano-liturgico" class="liturgical-feature"><span class="liturgical-feature-icon">✝</span><span class="liturgical-feature-text"><span class="eyebrow">CALENDÁRIO CRISTÃO</span><strong>O ano litúrgico, as festas e as quaresmas</strong><small>Descubra como surgiram e sua finalidade na vida cristã. Estude cada tempo e celebração.</small></span><span class="liturgical-feature-arrow">→</span></a>`:''}<div class="section-title-line"><h2>Estudos disponíveis</h2><span class="lesson-count">${items.length} temas</span></div><div class="filterbar" role="group" aria-label="Filtrar por categoria">${cat.map(x=>`<button type="button" class="filter ${x===state.filter?'active':''}" data-filter="${esc(x)}">${esc(x)}</button>`).join('')}</div><div class="mini-list">${visible.map(articleCard).join('')}</div></div>`;
 }
 function renderAll(){return `<div class="container">${sectionHead('biblioteca','SEU CAMINHO DE ESTUDO')}<div class="grid">${sections.slice(1).map(s=>`<a class="tile" href="#/${s.id}"><span class="tile-icon">${s.icon}</span><span class="tile-title">${esc(s.label)}</span><span class="tile-description">${esc(s.desc)}</span><span class="tile-arrow">↗</span></a>`).join('')}</div></div>`;}
 function renderArticle(a){
@@ -399,11 +399,48 @@ function renderCatechismTopic(t){
  <p class="catechism-editorial">Síntese para estudo, não transcrição literal. Referência: ${esc(t.refs)}.</p></article></div>`;
 }
 
+
+const liturgicalEntries=()=>{
+ const c=formacao.calendario;
+ return [...c.tempos,...c.festas,...c.devocoes];
+};
+function renderLiturgicalYear(){
+ const c=formacao.calendario;
+ const groups=[
+  {title:'Tempos litúrgicos',lead:'O caminho anual da Igreja, da espera do Salvador à celebração da Páscoa e à vida cotidiana de fé.',items:c.tempos},
+  {title:'Solenidades, festas e comemorações',lead:'Os grandes acontecimentos celebrados pela Igreja. Datas móveis ou transferidas seguem o calendário litúrgico de cada ano e país.',items:c.festas},
+  {title:'Quaresmas e devoções',lead:'A Quaresma oficial e as práticas de oração que surgiram na espiritualidade cristã. Elas não possuem a mesma obrigatoriedade.',items:c.devocoes}
+ ];
+ return `<div class="container"><div class="backline"><a href="#/missa" class="text-link">← Santa Missa</a></div>
+ <div class="page-header"><span class="eyebrow">A FÉ CELEBRADA DURANTE O ANO</span><h1>Ano litúrgico e festividades</h1>
+ <p>Descubra quando a Igreja celebra cada mistério, como essas tradições surgiram e como vivê-las no cotidiano.</p></div>
+ ${groups.map(g=>`<section class="liturgical-group"><div class="section-title-line"><h2>${esc(g.title)}</h2><span class="lesson-count">${g.items.length} temas</span></div>
+ <p class="liturgical-intro">${esc(g.lead)}</p>
+ <div class="liturgical-cards">${g.items.map(e=>`<a class="liturgical-card" href="#/celebracao/${id(e.id)}"><small>${esc(e.periodo)}</small><strong>${esc(e.titulo)}</strong><p>${esc(e.finalidade)}</p><span>Conhecer a história →</span></a>`).join('')}</div></section>`).join('')}
+ </div>`;
+}
+function renderLiturgicalDetail(e){
+ const collection=liturgicalEntries(),i=collection.indexOf(e),prev=collection[i-1],next=collection[i+1];
+ return `<div class="container"><div class="backline"><a href="#/ano-liturgico" class="text-link">← Ano litúrgico e festividades</a></div>
+ <div class="article-layout"><article class="article-card liturgical-reader">
+ <span class="eyebrow">${esc(e.grupo)}</span><h1>${esc(e.titulo)}</h1><p class="article-lead">${esc(e.periodo)}</p>
+ <div class="article-body">
+ <section><h3>Como surgiu</h3><p>${esc(e.origem)}</p></section>
+ <section><h3>Qual é a finalidade na vida cristã?</h3><p>${esc(e.finalidade)}</p></section>
+ <section><h3>Como viver este tempo ou festa</h3><p>${esc(e.vivencia)}</p></section>
+ <section><h3>Para ler na Bíblia</h3><p>${esc(e.biblia)}</p></section>
+ </div>
+ ${e.id==='corpus-christi'?'<p class="liturgical-crosslink"><a class="btn secondary" href="#/milagres">Conheça os milagres eucarísticos →</a></p>':''}
+ <div class="reading-navigation"><span>${prev?`<a class="btn secondary" href="#/celebracao/${id(prev.id)}">← Anterior</a>`:''}</span><span>${next?`<a class="btn secondary" href="#/celebracao/${id(next.id)}">Próximo →</a>`:''}</span></div>
+ </article>
+ <aside class="article-aside"><div class="aside-card"><h3>Documentos e fontes</h3>${e.fontes.map(f=>link(f.url,f.label)).join('')}</div></aside></div></div>`;
+}
+
 function renderMissing(){return `<div class="container"><div class="empty"><h3>Conteúdo não encontrado</h3><p>Este estudo pode ter sido movido ou ainda não estar disponível.</p><a class="btn" href="#/inicio">Ir para o início</a></div></div>`;}
-function render(){const p=path();let html;const name=p[0]||'inicio';if(name==='inicio')html=renderHome();else if(name==='biblioteca')html=renderAll();else if(name==='biblia')html=renderBible();else if(name==='milagres')html=renderMiracles();else if(name==='milagre'){const m=formacao.milagres.find(x=>x.id===p[1]);html=m?renderMiracle(m):renderMissing();}else if(name==='catecismo')html=renderCatechism(p[1]);else if(['missa','igreja','sacramentos','oracoes'].includes(name))html=renderSection(name);else if(name==='estudo'){const a=data.articles.find(x=>x.id===p[1]);html=a?renderArticle(a):renderMissing();}else if(name==='livro')html=renderBook(p[1]);else if(name==='leitura')html=renderChapter(p[1],p[2]);else if(name==='idiomas')html=renderWords();else if(name==='palavra')html=research.palavras.find(x=>x.id===p[1])?renderWord(research.palavras.find(x=>x.id===p[1])):renderMissing();else if(name==='mapas')html=renderMaps();else if(name==='rota')html=research.rotas.find(x=>x.id===p[1])?renderRoute(research.rotas.find(x=>x.id===p[1])):renderMissing();else html=renderMissing();if(liveMap){liveMap.remove();liveMap=null;}$('#app').innerHTML=html;renderNav();if(name==='mapas')initOverviewMap();if(name==='rota')initRouteMap(research.rotas.find(x=>x.id===p[1]));if(name==='leitura')showBibleChapter(p[1],p[2]);let s=sections.find(x=>x.id===activeSection());$('#breadcrumbs').innerHTML=`Início <span>/</span> <strong>${esc(s?.label||'Estudos')}</strong>`;document.title=`${s?.label||'Estudos'} | Fé, Escritura & Tradição`;window.scrollTo({top:0,behavior:'instant'});}
+function render(){const p=path();let html;const name=p[0]||'inicio';if(name==='inicio')html=renderHome();else if(name==='biblioteca')html=renderAll();else if(name==='biblia')html=renderBible();else if(name==='milagres')html=renderMiracles();else if(name==='milagre'){const m=formacao.milagres.find(x=>x.id===p[1]);html=m?renderMiracle(m):renderMissing();}else if(name==='catecismo')html=renderCatechism(p[1]);else if(name==='ano-liturgico')html=renderLiturgicalYear();else if(name==='celebracao'){const e=liturgicalEntries().find(x=>x.id===p[1]);html=e?renderLiturgicalDetail(e):renderMissing();}else if(['missa','igreja','sacramentos','oracoes'].includes(name))html=renderSection(name);else if(name==='estudo'){const a=data.articles.find(x=>x.id===p[1]);html=a?renderArticle(a):renderMissing();}else if(name==='livro')html=renderBook(p[1]);else if(name==='leitura')html=renderChapter(p[1],p[2]);else if(name==='idiomas')html=renderWords();else if(name==='palavra')html=research.palavras.find(x=>x.id===p[1])?renderWord(research.palavras.find(x=>x.id===p[1])):renderMissing();else if(name==='mapas')html=renderMaps();else if(name==='rota')html=research.rotas.find(x=>x.id===p[1])?renderRoute(research.rotas.find(x=>x.id===p[1])):renderMissing();else html=renderMissing();if(liveMap){liveMap.remove();liveMap=null;}$('#app').innerHTML=html;renderNav();if(name==='mapas')initOverviewMap();if(name==='rota')initRouteMap(research.rotas.find(x=>x.id===p[1]));if(name==='leitura')showBibleChapter(p[1],p[2]);let s=sections.find(x=>x.id===activeSection());$('#breadcrumbs').innerHTML=`Início <span>/</span> <strong>${esc(s?.label||'Estudos')}</strong>`;document.title=`${s?.label||'Estudos'} | Fé, Escritura & Tradição`;window.scrollTo({top:0,behavior:'instant'});}
 function searchOpen(){let d=$('#search-dialog');d.classList.remove('hidden');$('#search-input').value='';searchUpdate();setTimeout(()=>$('#search-input').focus(),50);}
 function searchClose(){let d=$('#search-dialog');d.classList.add('hidden');$('#search-trigger').focus();}
-function searchUpdate(){let q=$('#search-input').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();let xs=[...data.articles.map(a=>({title:a.title,summary:a.summary,url:'#/estudo/'+id(a.id),section:a.category})),...research.palavras.map(w=>({title:w.titulo+' ('+w.transliteracao+')',summary:w.analise,url:'#/palavra/'+w.id,section:'Idiomas'})),...research.rotas.map(r=>({title:r.titulo,summary:r.subtitulo,url:'#/rota/'+r.id,section:'Mapas'})),...formacao.milagres.map(m=>({title:m.titulo,summary:m.chamada,url:'#/milagre/'+m.id,section:'Milagres Eucarísticos'})),...formacao.catecismo.map(t=>({title:t.titulo,summary:t.resumo,url:'#/catecismo/'+t.id,section:'Catecismo'}))];if(q)xs=xs.filter(x=>(x.title+' '+x.summary+' '+x.section).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(q));xs=xs.slice(0,22);$('#search-results').innerHTML=xs.length?xs.map(x=>`<a class="study-card" href="${x.url}" data-search-result="1"><span class="study-card-content"><small>${esc(x.section)}</small><span class="study-card-title" style="display:block">${esc(x.title)}</span><span class="study-card-summary">${esc(x.summary)}</span></span><span class="study-card-arrow">→</span></a>`).join(''):'<div class="empty"><p>Nenhum estudo encontrado para esta pesquisa.</p></div>';}
+function searchUpdate(){let q=$('#search-input').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();let xs=[...data.articles.map(a=>({title:a.title,summary:a.summary,url:'#/estudo/'+id(a.id),section:a.category})),...research.palavras.map(w=>({title:w.titulo+' ('+w.transliteracao+')',summary:w.analise,url:'#/palavra/'+w.id,section:'Idiomas'})),...research.rotas.map(r=>({title:r.titulo,summary:r.subtitulo,url:'#/rota/'+r.id,section:'Mapas'})),...formacao.milagres.map(m=>({title:m.titulo,summary:m.chamada,url:'#/milagre/'+m.id,section:'Milagres Eucarísticos'})),...formacao.catecismo.map(t=>({title:t.titulo,summary:t.resumo,url:'#/catecismo/'+t.id,section:'Catecismo'})),...liturgicalEntries().map(e=>({title:e.titulo,summary:e.finalidade,url:'#/celebracao/'+e.id,section:'Ano litúrgico'}))];if(q)xs=xs.filter(x=>(x.title+' '+x.summary+' '+x.section).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(q));xs=xs.slice(0,22);$('#search-results').innerHTML=xs.length?xs.map(x=>`<a class="study-card" href="${x.url}" data-search-result="1"><span class="study-card-content"><small>${esc(x.section)}</small><span class="study-card-title" style="display:block">${esc(x.title)}</span><span class="study-card-summary">${esc(x.summary)}</span></span><span class="study-card-arrow">→</span></a>`).join(''):'<div class="empty"><p>Nenhum estudo encontrado para esta pesquisa.</p></div>';}
 function exportData(){const output={app:'fe-escritura-tradicao',version:1,date:new Date().toISOString(),notes:store.notes,favorites:store.favorites};const blob=new Blob([JSON.stringify(output,null,2)],{type:'application/json;charset=utf-8'});let href=URL.createObjectURL(blob);let a=document.createElement('a');a.href=href;a.download='meu-caderno-fe-e-tradicao.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(href),3000);toast('Backup exportado. Guarde o arquivo em local seguro.');}
 function promptForArticle(a){return `Analise o tema "${a.title}" (${a.scripture||'sem referência bíblica central'}) em perspectiva católica. Separe: (1) texto e contexto, (2) referências exatas do Catecismo/Magistério, (3) diferentes interpretações históricas, (4) pontos discutidos ou incertos, (5) aplicação espiritual. Consulte fontes originais e apresente links precisos. Não invente citações, não transforme hipóteses em doutrina e sinalize o que não foi verificado.`;}
 function promptForWord(w){return `Faça uma análise verificável da palavra ${w.termo} (${w.transliteracao}), em ${w.referencia}. Inclua grafia, lema, flexão gramatical quando documentável, alcance semântico contextual, ocorrências paralelas, traduções e comentários patrísticos com fontes precisas. Distinga variantes de manuscritos das diferentes interpretações ao longo da história. Use edição crítica identificada e respeite a interpretação católica. Não invente léxicos, etimologias ou citações.`;}
@@ -431,7 +468,7 @@ if('serviceWorker' in navigator && location.protocol!=='file:') {
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{
       if(refreshing)return;
-      const marker='fet-reloaded-20261014-051';
+      const marker='fet-reloaded-20261014-052';
       if(sessionStorage.getItem(marker)==='1')return;
       refreshing=true;
       sessionStorage.setItem(marker,'1');
