@@ -173,3 +173,7 @@
 .map-study-item .study-card-content{min-width:0}
 .map-study-item .study-card-summary{max-width:100%}
 @media(max-width:650px){.map-filters{gap:7px}.map-testament{font-size:12px;padding:9px 10px}.map-search-row{grid-template-columns:1fr}.map-selected-header{align-items:stretch}.map-route-picker{max-width:100%;min-width:0}.map-overview{height:385px}}
+
+/* Estudo geográfico: acesso direto ao texto bíblico interno. */
+.map-scripture-link{margin:18px 0 26px;display:flex;flex-wrap:wrap;gap:10px}
+.map-scripture-link .btn{white-space:normal;text-align:center}
