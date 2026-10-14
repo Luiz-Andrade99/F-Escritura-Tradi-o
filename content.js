@@ -33,8 +33,8 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap1_1210-1419_po.html"
         },
         {
-          "label": "CNBB, formação sobre a terceira edição típica do Missal Romano",
-          "url": "https://www.cnbb.org.br/comissao-para-a-liturgia-e-edicoes-cnbb-lancam-formacao-sobre-a-terceira-edicao-tipica-do-missal-romano/"
+          "label": "CNBB: publicação da IGMR e Introdução ao Lecionário adaptada à terceira edição brasileira",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         },
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
@@ -336,8 +336,8 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
-          "label": "CNBB, formação sobre a terceira edição típica do Missal Romano",
-          "url": "https://www.cnbb.org.br/comissao-para-a-liturgia-e-edicoes-cnbb-lancam-formacao-sobre-a-terceira-edicao-tipica-do-missal-romano/"
+          "label": "CNBB: publicação da IGMR e Introdução ao Lecionário adaptada à terceira edição brasileira",
+          "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
         },
         {
           "label": "CNBB — adoção no Brasil da tradução da 3ª edição do Missal Romano em 3/12/2023 (referência normativa; texto dos ritos ainda requer conferência)",
@@ -1645,8 +1645,8 @@ window.FET_DATA = {
       "url": "https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19651118_dei-verbum_po.html"
     },
     "cnbb": {
-      "label": "CNBB, formação sobre a terceira edição típica do Missal Romano",
-      "url": "https://www.cnbb.org.br/comissao-para-a-liturgia-e-edicoes-cnbb-lancam-formacao-sobre-a-terceira-edicao-tipica-do-missal-romano/"
+      "label": "CNBB: edição 2023 da IGMR e Introdução ao Lecionário para o Brasil",
+      "url": "https://www.cnbb.org.br/edicoes-cnbb-lanca-instrucao-geral-do-missal-romano-e-introducao-ao-lecionario-e-estudo-da-cnbb-no-115-sobre-as-vestes-liturgicas/"
     },
     "comp": {
       "label": "Compêndio do Catecismo da Igreja Católica",
