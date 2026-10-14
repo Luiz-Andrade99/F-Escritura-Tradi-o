@@ -46,3 +46,15 @@
 .chapter-link{display:flex;align-items:center;justify-content:center;min-height:43px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-weight:650;color:var(--ink);text-decoration:none}
 .chapter-link:hover,.chapter-link:focus-visible{border-color:var(--accent);background:var(--sage)}
 @media(max-width:580px){.biblical-map{height:330px;min-height:240px}.chapter-grid{grid-template-columns:repeat(auto-fill,minmax(44px,1fr))}}
+
+/* Leitura bíblica interna — versão 0.4.0 */
+.bible-reader{max-width:810px;margin:auto}
+.bible-reader h1{margin:13px 0}
+.bible-loading{color:var(--muted);font-size:13px;margin:17px 0;padding:12px 0;border-bottom:1px solid var(--line)}
+.bible-verses{margin:24px 0 30px;display:grid;gap:1px;font-family:Georgia,"Times New Roman",serif;color:var(--text,#253027)}
+.bible-verse{display:grid;grid-template-columns:33px 1fr;gap:10px;margin:0;padding:7px 0;font-size:clamp(17px,2.1vw,20px);line-height:1.75}
+.verse-number{font:600 12px/2 system-ui,Arial,sans-serif;color:var(--accent);text-align:right;text-decoration:none;position:relative;top:2px}
+.verse-number:hover,.verse-number:focus-visible{text-decoration:underline}
+.reading-navigation{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0}
+.reading-navigation .btn{font-size:13px}
+@media(max-width:650px){.bible-verse{grid-template-columns:26px 1fr;gap:9px;font-size:18px;line-height:1.78}.bible-reader{padding:22px 18px}.reading-navigation .btn{font-size:12px}}
