@@ -25,7 +25,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -70,7 +70,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -111,7 +111,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -156,7 +156,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -201,7 +201,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -246,7 +246,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -291,7 +291,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -332,7 +332,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -373,7 +373,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
@@ -418,7 +418,7 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap3_1533-1666_po.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         }
       ],
@@ -447,7 +447,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         },
         {
@@ -480,7 +480,7 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         }
       ],
@@ -513,7 +513,7 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap3_1533-1666_po.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         }
       ],
@@ -546,7 +546,7 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap3_1533-1666_po.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         }
       ],
@@ -579,11 +579,11 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap3_1533-1666_po.html"
         },
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         },
         {
@@ -616,11 +616,11 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         },
         {
@@ -657,11 +657,11 @@ window.FET_DATA = {
       ],
       "sources": [
         {
-          "label": "Instrução Geral do Missal Romano, nn. 27–111 (edição em inglês para os EUA; verificar adaptações brasileiras)",
+          "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; NÃO substitui o Missal e a IGMR da CNBB para o Brasil)",
           "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         },
         {
@@ -698,7 +698,7 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap3_1533-1666_po.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         },
         {
@@ -822,7 +822,7 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap1_1420-1532_po.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         }
       ],
@@ -855,7 +855,7 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap1_1420-1532_po.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         }
       ],
@@ -917,7 +917,7 @@ window.FET_DATA = {
           "url": "https://www.vatican.va/archive/cathechism_po/index_new/p2s2cap3_1533-1666_po.html"
         },
         {
-          "label": "Código de Direito Canônico (cânones sobre os ofícios e ministérios)",
+          "label": "Código de Direito Canônico, edição online da Santa Sé (consultar também alterações posteriores, especialmente Spiritus Domini, 2021)",
           "url": "https://press.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf"
         }
       ],
@@ -1613,7 +1613,7 @@ window.FET_DATA = {
   ],
   "sources": {
     "igmr": {
-      "label": "IGMR em inglês, com adaptações para os EUA; NÃO usar como norma própria para o Brasil (consultar tradução brasileira da CNBB)",
+      "label": "IGMR em inglês com adaptações dos EUA (referência auxiliar; para as normas brasileiras consultar a edição CNBB de 2023)",
       "url": "https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html"
     },
     "cic_euc": {
