@@ -1,9 +1,19 @@
 /* FET v0.3.1: páginas/scripts usam rede primeiro para evitar versões antigas da Bíblia. */
-const VERSION='fet-v6-2026-10-14-fix-ptbr';
+const VERSION='fet-v7-2026-10-14-biblia-73-livros';
 const ASSETS=[
  './','./index.html','./styles.css','./content.js',
  './pesquisa.js','./app.js','./manifest.webmanifest',
- './icons/favicon.svg','./icons/icon-512.png','./icons/apple-touch-icon.png'
+ './icons/favicon.svg','./icons/icon-512.png','./icons/apple-touch-icon.png',
+ './biblia-dados/parte-01.json',
+ './biblia-dados/parte-02.json',
+ './biblia-dados/parte-03.json',
+ './biblia-dados/parte-04.json',
+ './biblia-dados/parte-05.json',
+ './biblia-dados/parte-06.json',
+ './biblia-dados/parte-07.json',
+ './biblia-dados/parte-08.json',
+ './biblia-dados/parte-09.json',
+ './biblia-dados/parte-10.json'
 ];
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
