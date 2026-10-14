@@ -22,7 +22,7 @@ const sections = [
   {id:'oracoes',label:'Vida de oração',icon:'❦',desc:'Métodos, orações e devoções'},
   // Páginas de Caderno e Fontes ocultas temporariamente da interface pública.
 ];
-const state = {filter:'Todos'};
+const state = {filter:'Todos',mapTestamento:'Todos',mapGrupo:'Todos',mapSelectedId:'exodo-regioes'};
 function loadStore(){
   try {let v=JSON.parse(localStorage.getItem('fet_study_v1')||'{}'); return {notes:v.notes&&typeof v.notes==='object'&&!Array.isArray(v.notes)?v.notes:{},favorites:Array.isArray(v.favorites)?v.favorites:[],theme:v.theme==='dark'?'dark':'light',bibleFontSize:Number.isInteger(v.bibleFontSize)&&v.bibleFontSize>=16&&v.bibleFontSize<=28?v.bibleFontSize:0};}
   catch {return {notes:{},favorites:[],theme:'light',bibleFontSize:0};}
@@ -270,16 +270,50 @@ async function showBibleChapter(name,chapterNumber){
 }
 function renderWords(){return `<div class="container">${sectionHead('idiomas','LEITURA E PESQUISA BÍBLICA')}<div class="warning"><strong>Como ler estes estudos:</strong> cada palavra admite nuances de sentido. A etimologia isolada não prova a interpretação de um versículo; a gramática, o gênero literário, o contexto e a tradição interpretativa também importam.</div><div class="section-title-line"><h2>Palavras em contexto</h2><span class="lesson-count">${research.palavras.length} verbetes iniciais</span></div><div class="grid two">${research.palavras.map(w=>`<a href="#/palavra/${w.id}" class="tile"><span class="word-original">${esc(w.termo)}</span><span class="tile-title">${esc(w.titulo)}</span><span class="tile-description">${esc(w.transliteracao)} · ${esc(w.idioma)} · ${esc(w.referencia)}</span><span class="tile-arrow">↗</span></a>`).join('')}</div></div>`;}
 function renderWord(w){let key='word:'+w.id;return `<div class="container"><div class="backline"><a href="#/idiomas" class="text-link">← Palavras originais</a></div><div class="article-layout"><article class="article-card"><span class="eyebrow">${esc(w.idioma)} · ${esc(w.nivel)}</span><div class="original-title" lang="${w.idioma.startsWith('Hebraico')?'he':'el'}">${esc(w.termo)}</div><h1>${esc(w.titulo)}</h1><div class="tags"><span class="tag">${esc(w.transliteracao)}</span><span class="tag muted">${esc(w.referencia)}</span></div><div class="article-body"><section><h3>Significados encontrados</h3><ul class="meaning-list">${w.sentidos.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></section><section><h3>Contexto e interpretação</h3><p>${esc(w.analise)}</p></section><section><h3>Variações e história das interpretações</h3><ol class="meaning-list">${(w.leituras||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section><section><h3>Outras passagens para comparar</h3><p>${esc(w.passagens.join(' · '))}</p></section></div><div class="article-tip"><strong>Cuidado com conclusões apressadas</strong>${esc(w.cuidado)}</div></article><aside class="article-aside"><div class="aside-card"><h3>Fontes e edições</h3><p>São recursos linguísticos acadêmicos; não constituem aprovação eclesiástica.</p>${w.fontes.map(s=>link(s.url,s.label)).join('')}</div></aside></div></div>`;}
+
+function mapGroups(){
+ return [...new Set(research.rotas.filter(r=>state.mapTestamento==='Todos'||r.testamento===state.mapTestamento).map(r=>r.grupo))];
+}
+function mapVisibleRoutes(){
+ return research.rotas.filter(r=>(state.mapTestamento==='Todos'||r.testamento===state.mapTestamento)
+ &&(state.mapGrupo==='Todos'||r.grupo===state.mapGrupo));
+}
+function selectedMapRoute(){
+ const visible=mapVisibleRoutes();
+ if(!visible.some(r=>r.id===state.mapSelectedId))state.mapSelectedId=(visible.find(r=>r.id==='exodo-regioes')||visible[0])?.id||'';
+ return visible.find(r=>r.id===state.mapSelectedId)||null;
+}
 function renderMaps(){
- const buttons=[{id:'all',label:'Todas as rotas'},...research.rotas.map(r=>({id:r.id,label:r.titulo}))];
- return `<div class="container">${sectionHead('mapas','GEOGRAFIA DAS ESCRITURAS')}
- <p class="edition-subtle">Mapa atual com lugares em português. As linhas mostram a sequência do relato, não o caminho histórico exato.</p>
- <div class="section-title-line"><h2>Explore as localizações bíblicas</h2></div>
- <div class="map-controls" role="group" aria-label="Selecionar percurso mostrado no mapa">${buttons.map((b,i)=>`<button type="button" class="map-focus ${i===0?'selected':''}" data-map-focus="${esc(b.id)}" aria-pressed="${i===0?'true':'false'}">${i>0?`<span class="map-swatch" style="background:${MAP_COLORS[(i-1)%MAP_COLORS.length]}" aria-hidden="true"></span>`:''}${esc(b.label)}</button>`).join('')}</div>
- <div class="map-frame"><div id="biblical-map" class="biblical-map map-overview" role="region" aria-label="Mapa interativo com as localizações dos percursos bíblicos"><div class="map-loading">Carregando mapa geográfico...</div></div></div>
- <p class="map-caption">Base vetorial: OpenFreeMap, com dados © OpenStreetMap. Os nomes são exibidos em português quando disponíveis. Pontos aproximados; linhas tracejadas não são estradas confirmadas. Se o mapa estiver indisponível, abra uma rota abaixo para acessar seus lugares e coordenadas.</p>
- <div class="section-title-line"><h2>Percursos para estudar</h2></div>
- <div class="mini-list">${research.rotas.map(r=>`<a class="study-card" href="#/rota/${id(r.id)}"><span class="study-icon">⌖</span><span class="study-card-content"><small>${esc(r.texto)}</small><span class="study-card-title" style="display:block">${esc(r.titulo)}</span><span class="study-card-summary">${esc(r.subtitulo)} · ${esc(r.qualidade)}</span></span><span class="study-card-arrow">→</span></a>`).join('')}</div></div>`;
+ const routes=mapVisibleRoutes();
+ const selected=selectedMapRoute();
+ const counts={AT:research.rotas.filter(r=>r.testamento==='AT').length,NT:research.rotas.filter(r=>r.testamento==='NT').length};
+ const groups=mapGroups();
+ return `<div class="container">${sectionHead('mapas','ATLAS DA GEOGRAFIA BÍBLICA')}
+ <p class="edition-subtle">Explore um mapa por vez. Os pontos representam cidades, regiões ou identificações tradicionais; quando a Bíblia não permite saber onde ocorreu um acontecimento, isso é indicado no estudo.</p>
+ <div class="map-filters" role="group" aria-label="Filtrar mapas por Testamento">
+ ${[{id:'Todos',label:'Todos os mapas',count:research.rotas.length},{id:'AT',label:'Antigo Testamento',count:counts.AT},{id:'NT',label:'Novo Testamento',count:counts.NT}].map(x=>`<button type="button" class="map-testament ${state.mapTestamento===x.id?'selected':''}" data-map-testament="${x.id}" aria-pressed="${state.mapTestamento===x.id?'true':'false'}">${x.label} <span>${x.count}</span></button>`).join('')}</div>
+ <div class="map-search-row">
+ <label>Assunto <select id="map-group-select"><option value="Todos">Todos os assuntos</option>${groups.map(g=>`<option value="${esc(g)}" ${state.mapGrupo===g?'selected':''}>${esc(g)}</option>`).join('')}</select></label>
+ <label>Pesquisar passagem ou tema <input type="search" id="map-search" placeholder="Ex.: Êxodo, Daniel, Atos, Jerusalém" autocomplete="off"></label>
+ </div>
+ <div class="map-selected-header"><div><span class="eyebrow">MAPA EM DESTAQUE</span><h2 id="map-selected-title">${esc(selected?.titulo||'Selecione um mapa')}</h2><p id="map-selected-ref">${esc(selected?.texto||'')} · ${esc(selected?.qualidade||'')}</p></div>
+ <label class="map-route-picker">Mudar o mapa <select id="map-route-select" aria-label="Selecionar mapa bíblico">${routes.map(r=>`<option value="${esc(r.id)}" ${r.id===selected?.id?'selected':''}>${esc(r.titulo)}</option>`).join('')}</select></label></div>
+ <div class="map-frame"><div id="biblical-map" class="biblical-map map-overview" role="region" aria-label="Mapa real das localidades bíblicas selecionadas"><div class="map-loading">Carregando mapa...</div></div></div>
+ <p class="map-caption">Cartografia: OpenFreeMap e dados OpenStreetMap. Nas sequências narrativas, as linhas tracejadas apenas unem lugares citados: não indicam estradas, rios atravessados nem a posição exata de acontecimentos antigos. Mapas contextuais exibem somente marcadores.</p>
+ <div class="section-title-line"><h2>Escolha um estudo geográfico</h2><span id="map-count" class="lesson-count">${routes.length} mapas</span></div>
+ <div id="map-study-list" class="mini-list">${routes.map(r=>`<a class="study-card map-study-item" data-map-study="1" data-map-searchable="${esc(normalizeCatalogText([r.titulo,r.texto,r.grupo,r.subtitulo].join(' ')))}" href="#/rota/${id(r.id)}">
+ <span class="study-icon">⌖</span><span class="study-card-content"><small>${r.testamento==='AT'?'Antigo Testamento':'Novo Testamento'} · ${esc(r.grupo)} · ${esc(r.texto)}</small>
+ <span class="study-card-title" style="display:block">${esc(r.titulo)}</span><span class="study-card-summary">${esc(r.qualidade)}</span></span>
+ <span class="study-card-arrow">→</span></a>`).join('')}</div>
+ <p id="map-empty" class="edition-subtle" hidden>Nenhum mapa corresponde à pesquisa. Experimente outro termo.</p></div>`;
+}
+function filterMapStudies(){
+ const q=normalizeCatalogText($('#map-search')?.value||'').trim();
+ const cards=$$('[data-map-study]');
+ let found=0;
+ cards.forEach(card=>{const visible=!q||card.dataset.mapSearchable.includes(q);card.hidden=!visible;if(visible)found++;});
+ const label=$('#map-count');if(label)label.textContent=found+' '+(found===1?'mapa':'mapas');
+ const empty=$('#map-empty');if(empty)empty.hidden=found>0;
 }
 let liveMap=null;
 const MAP_COLORS=['#a44b4a','#236e88','#746090'];
@@ -320,13 +354,19 @@ function geographicalBounds(places){
 }
 function focusBiblicalMap(places,animate=false){
  if(!liveMap||!places?.length)return;
- liveMap.fitBounds(geographicalBounds(places),{padding:{top:55,right:45,bottom:65,left:45},maxZoom:9,duration:animate?450:0});
+ if(places.length===1){
+  liveMap.easeTo({center:[places[0].lon,places[0].lat],zoom:9,duration:animate?450:0});
+  return;
+ }
+ liveMap.fitBounds(geographicalBounds(places),{padding:{top:60,right:50,bottom:65,left:50},maxZoom:places.length<=5?12:9,duration:animate?450:0});
 }
 function mapBiblicalRoute(map,route,routeIndex,seen){
  const color=MAP_COLORS[Math.max(0,routeIndex)%MAP_COLORS.length];
- const coordinates=route.locais.map(p=>[p.lon,p.lat]);
- map.addSource('rota-'+route.id,{type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'LineString',coordinates}}});
- map.addLayer({id:'linha-'+route.id,type:'line',source:'rota-'+route.id,layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':color,'line-width':3,'line-opacity':.88,'line-dasharray':[2,2.5]}});
+ if(route.tipo==='sequencia'&&route.locais.length>=2){
+  const coordinates=route.locais.map(p=>[p.lon,p.lat]);
+  map.addSource('rota-'+route.id,{type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'LineString',coordinates}}});
+  map.addLayer({id:'linha-'+route.id,type:'line',source:'rota-'+route.id,layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':color,'line-width':3,'line-opacity':.88,'line-dasharray':[2,2.5]}});
+ }
  route.locais.forEach((p,i)=>{
   const key=p.nome+'|'+p.lat+'|'+p.lon;
   if(seen.has(key))return;
@@ -374,11 +414,11 @@ function initBiblicalMap(routes,initialPlaces){
   mapNoWebGLMessage(container);
  }
 }
-function initOverviewMap(){initBiblicalMap(research.rotas,research.rotas.flatMap(r=>r.locais));}
+function initOverviewMap(){const route=selectedMapRoute();if(route)initBiblicalMap([route],route.locais);}
 function initRouteMap(route){if(route)initBiblicalMap([route],route.locais);}
 function renderRoute(r){
  const key='route:'+r.id;
- return `<div class="container"><div class="backline"><a href="#/mapas" class="text-link">← Todos os percursos</a></div><div class="article-card"><span class="eyebrow">${esc(r.texto)} · ${esc(r.qualidade)}</span><h1>${esc(r.titulo)}</h1><p class="article-lead">${esc(r.subtitulo)}</p><div class="map-frame"><div id="biblical-map" class="biblical-map" role="region" aria-label="Mapa geográfico interativo com pontos aproximados da narrativa bíblica"><div class="map-loading">Carregando mapa geográfico...</div></div></div><p class="map-caption">Mapa vetorial OpenFreeMap, com dados do OpenStreetMap e nomes em português quando disponíveis. Pontos aproximados; as linhas tracejadas indicam apenas a sequência da narrativa. É necessária conexão.</p><div class="warning"><strong>Como interpretar:</strong> ${esc(r.comentario)}</div><div class="section-title-line"><h2>Etapas identificadas</h2></div><div class="route-stops">${r.locais.map((p,i)=>`<div class="route-stop"><span class="stop-number">${i+1}</span><div><strong>${esc(p.nome)}</strong><p>${esc(p.nota)}</p>${link(`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=10/${p.lat}/${p.lon}`,'Ver localização no OpenStreetMap')}</div></div>`).join('')}</div><div class="aside-card" style="margin-top:25px"><h3>Referências</h3>${r.fontes.map(s=>link(s.url,s.label)).join('')}</div></div></div>`;
+ return `<div class="container"><div class="backline"><a href="#/mapas" class="text-link">← Todos os percursos</a></div><div class="article-card"><span class="eyebrow">${r.testamento==='AT'?'ANTIGO TESTAMENTO':r.testamento==='NT'?'NOVO TESTAMENTO':'ESTUDO BÍBLICO'} · ${esc(r.grupo||'Geografia')} · ${esc(r.texto)}</span><h1>${esc(r.titulo)}</h1><p class="article-lead">${esc(r.subtitulo)}</p><div class="map-frame"><div id="biblical-map" class="biblical-map" role="region" aria-label="Mapa geográfico interativo com pontos aproximados da narrativa bíblica"><div class="map-loading">Carregando mapa geográfico...</div></div></div><p class="map-caption">Mapa geográfico com nomes em português. ${r.tipo==='sequencia'?'A linha tracejada indica apenas a ordem de locais citados; não reconstrói a estrada ou travessia.':'O mapa é contextual e não indica deslocamento nem rota histórica.'} A identificação exata de alguns lugares é discutida.</p><div class="warning"><strong>Como interpretar:</strong> ${esc(r.comentario)}</div><div class="section-title-line"><h2>${r.tipo==='sequencia'?'Locais da sequência bíblica':'Locais e regiões do relato'}</h2></div><div class="route-stops">${r.locais.map((p,i)=>`<div class="route-stop"><span class="stop-number">${i+1}</span><div><strong>${esc(p.nome)}</strong><p>${esc(p.nota)}</p>${link(`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=10/${p.lat}/${p.lon}`,'Ver localização no OpenStreetMap')}</div></div>`).join('')}</div><div class="aside-card" style="margin-top:25px"><h3>Referências</h3>${r.fontes.map(s=>link(s.url,s.label)).join('')}</div></div></div>`;
 }
 function renderNotebook(){let entries=Object.entries(store.notes).filter(([,v])=>String(v||'').trim());return `<div class="container">${sectionHead('caderno','ÁREA PESSOAL · ARMAZENADA NESTE DISPOSITIVO')}<div class="summary-bar"><div class="summary-stat"><strong>${entries.length}</strong><span>anotações salvas</span></div><div class="summary-stat"><strong>${store.favorites.length}</strong><span>estudos favoritos</span></div><div class="summary-stat"><strong>Local</strong><span>Sem login ou servidor pago</span></div></div><div class="notebook-actions"><button class="btn" type="button" data-export="1">↓ Exportar meu caderno</button><button class="btn secondary" type="button" data-import="1">↑ Importar backup</button></div><div class="warning">As informações são salvas no navegador deste aparelho. Não há sincronização entre dispositivos; limpar os dados do Safari pode apagar tudo. Exporte um backup periodicamente.</div><div class="section-title-line"><h2>Minhas anotações</h2></div>${entries.length?`<div class="notebook-list">${entries.map(([key,value])=>`<div class="notebook-item"><strong>${esc(describeKey(key))}</strong><p>${esc(String(value).slice(0,1500))}</p><a class="text-link" href="${linkForKey(key)}">Abrir estudo →</a></div>`).join('')}</div>`:`<div class="empty"><h3>Seu caderno está em branco</h3><p>Abra um estudo ou verbete e registre suas próprias descobertas.</p></div>`}<div class="section-title-line"><h2>Favoritos</h2></div>${store.favorites.length?`<div class="mini-list">${store.favorites.map(k=>`<a class="study-card" href="${linkForKey(k)}"><span class="study-icon">☆</span><span class="study-card-content"><span class="study-card-title">${esc(describeKey(k))}</span></span><span class="study-card-arrow">→</span></a>`).join('')}</div>`:`<div class="empty"><p>Você ainda não marcou estudos como favoritos.</p></div>`}</div>`;}
 function describeKey(key){const [type, ...rest]=key.split(':');let target=rest.join(':');if(type==='article')return data.articles.find(x=>x.id===target)?.title||target;if(type==='word')return research.palavras.find(x=>x.id===target)?.titulo||target;if(type==='route')return research.rotas.find(x=>x.id===target)?.titulo||target;if(type==='book')return target;return key;}
@@ -575,16 +615,31 @@ async function copyText(s){try{await navigator.clipboard.writeText(s);toast('Rot
 function toggleFavorite(key){let i=store.favorites.indexOf(key);if(i===-1)store.favorites.push(key);else store.favorites.splice(i,1);saveStore();render();toast(i===-1?'Adicionado aos favoritos.':'Removido dos favoritos.');}
 window.addEventListener('hashchange',()=>{state.filter='Todos';render();if(!$('#search-dialog').classList.contains('hidden'))searchClose();});
 document.addEventListener('click',e=>{
- const button=e.target.closest('[data-map-focus]');
+ const button=e.target.closest('[data-map-testament]');
  if(!button)return;
- const requested=button.dataset.mapFocus;
- const places=requested==='all'?research.rotas.flatMap(r=>r.locais):research.rotas.find(r=>r.id===requested)?.locais;
- if(places?.length)focusBiblicalMap(places,true);
- document.querySelectorAll('[data-map-focus]').forEach(b=>{const selected=b.dataset.mapFocus===requested;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});
+ state.mapTestamento=button.dataset.mapTestament;
+ state.mapGrupo='Todos';
+ selectedMapRoute();render();
 });
 document.addEventListener('click',e=>{const font=e.target.closest('[data-bible-font]');if(font){changeBibleFontSize(Number(font.dataset.bibleFont));return;}const verse=e.target.closest('[data-copy-verse]');if(verse){copyBibleVerse(verse);return;}let filter=e.target.closest('[data-filter]');if(filter){state.filter=filter.dataset.filter;render();return;}let fav=e.target.closest('[data-favorite]');if(fav){toggleFavorite(fav.dataset.favorite);return;}let article=e.target.closest('[data-copy-prompt]');if(article){let a=data.articles.find(x=>x.id===article.dataset.copyPrompt);if(a)copyText(promptForArticle(a));return;}let word=e.target.closest('[data-copy-word]');if(word){let w=research.palavras.find(x=>x.id===word.dataset.copyWord);if(w)copyText(promptForWord(w));return;}let route=e.target.closest('[data-copy-route]');if(route){let r=research.rotas.find(x=>x.id===route.dataset.copyRoute);if(r)copyText(promptForRoute(r));return;}if(e.target.closest('[data-export]')){exportData();return;}if(e.target.closest('[data-import]')){$('#import-file').click();return;}if(e.target===$('#search-dialog'))searchClose();if(e.target.closest('[data-search-result]'))searchClose();});
-document.addEventListener('change',e=>{if(e.target.matches('#acervo-categoria, #acervo-pais'))updateCatalogFilters();});
-document.addEventListener('input',e=>{if(e.target.matches('[data-note]')){store.notes[e.target.dataset.note]=e.target.value.slice(0,25000);saveStore();let status=$('#note-status');if(status)status.textContent='Anotação salva localmente.';}if(e.target===$('#search-input'))searchUpdate();if(e.target.matches('#acervo-pesquisa'))updateCatalogFilters();});
+document.addEventListener('change',e=>{
+ if(e.target.matches('#acervo-categoria, #acervo-pais'))updateCatalogFilters();
+ if(e.target.matches('#map-group-select')){
+  state.mapGrupo=e.target.value;selectedMapRoute();render();
+ }
+ if(e.target.matches('#map-route-select')){
+  const chosen=mapVisibleRoutes().find(r=>r.id===e.target.value);
+  if(chosen){
+   state.mapSelectedId=chosen.id;
+   if(liveMap){liveMap.remove();liveMap=null;}
+   initBiblicalMap([chosen],chosen.locais);
+   const title=$('#map-selected-title'),subtitle=$('#map-selected-ref');
+   if(title)title.textContent=chosen.titulo;
+   if(subtitle)subtitle.textContent=chosen.texto+' · '+chosen.qualidade;
+  }
+ }
+});
+document.addEventListener('input',e=>{if(e.target.matches('[data-note]')){store.notes[e.target.dataset.note]=e.target.value.slice(0,25000);saveStore();let status=$('#note-status');if(status)status.textContent='Anotação salva localmente.';}if(e.target===$('#search-input'))searchUpdate();if(e.target.matches('#acervo-pesquisa'))updateCatalogFilters();if(e.target.matches('#map-search'))filterMapStudies();});
 $('#search-trigger').addEventListener('click',searchOpen);$('#search-close').addEventListener('click',searchClose);
 $('#theme-toggle').addEventListener('click',()=>{store.theme=store.theme==='dark'?'light':'dark';saveStore();theme();if(['mapas','rota'].includes(path()[0]))render();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#search-dialog').classList.contains('hidden'))searchClose();if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)&&!document.activeElement?.isContentEditable&&$('#search-dialog').classList.contains('hidden')){e.preventDefault();searchOpen();}});
@@ -595,7 +650,7 @@ if('serviceWorker' in navigator && location.protocol!=='file:') {
     let refreshing=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{
       if(refreshing)return;
-      const marker='fet-reloaded-20261014-061';
+      const marker='fet-reloaded-20261014-070';
       if(sessionStorage.getItem(marker)==='1')return;
       refreshing=true;
       sessionStorage.setItem(marker,'1');
