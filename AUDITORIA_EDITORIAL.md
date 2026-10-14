@@ -1,3 +1,5 @@
+> **Este documento registra a auditoria estrutural anterior.** A revisão individual dos 35 artigos e as correções posteriores estão documentadas em [REVISAO_DOUTRINARIA_2026-10-14.md](./REVISAO_DOUTRINARIA_2026-10-14.md). A documentação não constitui aprovação formal da Igreja.
+
 # Auditoria técnica e editorial inicial — 14/10/2026
 
 **Escopo:** projeto independente alinhado à Igreja Católica Apostólica Romana, com foco no rito romano em uso no Brasil. Este documento **não atesta revisão eclesial**.
