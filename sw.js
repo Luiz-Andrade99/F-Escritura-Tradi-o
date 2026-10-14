@@ -1,5 +1,5 @@
-/* FET v0.3.1: páginas/scripts usam rede primeiro para evitar versões antigas da Bíblia. */
-const VERSION='fet-v7-2026-10-14-biblia-73-livros';
+/* FET v0.4.1: arquivos do site usam rede primeiro para evitar versões antigas. */
+const VERSION='fet-v8-2026-10-14-mapas-gerais';
 const ASSETS=[
  './','./index.html','./styles.css','./content.js',
  './pesquisa.js','./app.js','./manifest.webmanifest',

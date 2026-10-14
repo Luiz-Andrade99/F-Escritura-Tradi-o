@@ -1,3 +1,12 @@
+# Atualização v0.4.1 — mapa geral dos percursos
+
+- Menu público: Meu caderno e Fontes e método continuam ocultos; anotações salvas não são excluídas.
+- Mapas bíblicos: visualização real do OpenStreetMap agora na página de entrada, com filtros por percurso; continuam disponíveis mapas individuais, localização aproximada e ressalvas geográficas.
+- Bíblia: 73 livros incorporados, sem redirecionar para outro site. **A tradução Figueiredo da Samytech3D ainda não foi incorporada**. O leitor permanece usando Matos Soares, com procedência e limitações de OCR documentadas em `biblia-dados/ORIGEM_E_LICENCA.md`.
+- Pendências de QA: confirmar visualização de tiles no GitHub Pages e conferir capítulos individualmente contra fontes impressas. Os mapas dependem de internet.
+
+---
+
 # Atualização v0.4.0 — Bíblia integrada
 
 - Leitura integral **dentro do aplicativo**: 73 livros, 1.334 capítulos e 35.816 versículos, em 10 arquivos JSON (~5 MB).
