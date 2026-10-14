@@ -86,10 +86,10 @@ Rute|rt|4
 2 Reis|2rs|25
 1 Crônicas|1cr|29
 2 Crônicas|2cr|36
-Esdras|es|10
+Esdras|esd|10
 Neemias|ne|13
 Tobias|tb|14
-Judite|jdt|16
+Judite|jt|16
 Ester|est|16
 1 Macabeus|1mc|16
 2 Macabeus|2mc|15
