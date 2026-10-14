@@ -40,7 +40,7 @@ function articleCard(a){return `<a class="study-card" href="#/estudo/${id(a.id)}
 function renderHome(){
 const topics=[...sections.slice(1,7),sections[7]];
 const highlights=['biblia-lucas9','missa-visao','igreja-visao'].map(i=>data.articles.find(x=>x.id===i)).filter(Boolean);
-const totalNotes=Object.values(store.notes).filter(x=>String(x).trim()).length;
+// Contagem de notas ocultada temporariamente na interface pública.
 return `<div class="container home">
  <section class="hero"><div class="hero-text"><div class="eyebrow">UMA JORNADA DE CONHECIMENTO E FÉ</div><h1>Conhecer para <i>amar.</i><br>Estudar para viver.</h1><p>Escritura, liturgia do rito romano, história e tradição da Igreja Católica Apostólica Romana em um só lugar. Explore com curiosidade e confira cada fonte.</p><a class="btn" href="#/biblia">Começar a estudar <span>→</span></a></div><div class="hero-art" aria-hidden="true"><span class="art-top">Verbum Domini</span><div class="art-orbit"><span class="art-cross">✝</span></div><span class="art-bottom">Fides et Ratio</span></div></section>
  <div class="summary-bar"><div class="summary-stat"><strong>${data.books.length}</strong><span>livros no cânon católico</span></div><div class="summary-stat"><strong>${data.articles.length}</strong><span>estudos introdutórios</span></div><div class="summary-stat"><strong>7</strong><span>sacramentos</span></div></div>
@@ -146,16 +146,85 @@ Tiago|tg|5
 Judas|jd|1
 Apocalipse|ap|22
 `.trim().split('\n').map(row=>{const [book,slug,count]=row.trim().split('|');return [book,{slug,chapters:Number(count)}]}));
+
+/* Leitor interno: tradução católica Pe. Manuel de Matos Soares (não Figueiredo).
+ * Edição digital CC0 independente; 73 livros, 1.334 capítulos, 35.816 versículos.
+ * Não usar dados automáticos como prova de aprovação eclesial da transcrição.
+ */
+const BIBLE_EDITION='Pe. Manuel de Matos Soares';
+const BIBLE_PART_CACHE=new Map();
+const BIBLE_GROUP_SIZE=8;
+async function loadBiblePart(partNo){
+ if(!Number.isInteger(partNo)||partNo<1||partNo>10)throw Error('Parte da Bíblia inválida.');
+ if(BIBLE_PART_CACHE.has(partNo))return BIBLE_PART_CACHE.get(partNo);
+ const url='./biblia-dados/parte-'+String(partNo).padStart(2,'0')+'.json';
+ const promise=fetch(url).then(async response=>{
+   if(!response.ok)throw new Error('Não foi possível abrir os dados da Bíblia ('+response.status+').');
+   const body=await response.json();
+   if(body.translation!==BIBLE_EDITION||body.part!==partNo||!Array.isArray(body.books))throw new Error('Dados bíblicos inesperados.');
+   return body.books;
+ });
+ BIBLE_PART_CACHE.set(partNo,promise);
+ promise.catch(()=>BIBLE_PART_CACHE.delete(partNo));
+ return promise;
+}
+function bibleHref(name,chapter){return '#/leitura/'+id(name)+'/'+Number(chapter);}
 function renderBible(){
  const tests=['Antigo Testamento','Novo Testamento'];
- return `<div class="container">${sectionHead('biblia','A ESCRITURA SAGRADA')}<div class="warning"><strong>Leitura bíblica em português:</strong> o catálogo abre os capítulos na Bíblia Católica de Pe. Antônio Pereira de Figueiredo, disponível no site Samytech3D. A tradução original é de domínio público, mas a transcrição digital indicada pode conter erros de digitalização; compare passagens importantes com uma edição conferida. O conteúdo dos capítulos é exibido no site de origem e depende de conexão. Não copiamos nem garantimos a exatidão da edição digital de 1950.</div><div class="summary-bar"><div class="summary-stat"><strong>46</strong><span>Antigo Testamento</span></div><div class="summary-stat"><strong>27</strong><span>Novo Testamento</span></div><div class="summary-stat"><strong>73</strong><span>Livros reconhecidos no cânon católico</span></div></div><div class="section-title-line"><h2>Livros da Bíblia</h2><span class="lesson-count">Escolha um livro e capítulo</span></div><div class="book-layout">${tests.map(test=>`<div class="book-heading">${test}</div>${data.books.filter(b=>b.testament===test).map(b=>`<a href="#/livro/${id(b.name)}" class="book-pill">${esc(b.name)} <span style="float:right;color:var(--gold)">↗</span></a>`).join('')}`).join('')}</div><div class="section-title-line"><h2>Guias para começar</h2></div><div class="mini-list">${data.articles.filter(a=>a.section==='biblia').map(articleCard).join('')}</div></div>`;
+ return `<div class="container">${sectionHead('biblia','A ESCRITURA SAGRADA')}
+ <div class="warning"><strong>Agora você pode ler os 73 livros aqui dentro, inclusive sem internet após a instalação completa.</strong> Edição integrada: <strong>Pe. Manuel de Matos Soares</strong>, tradução católica histórica a partir da Vulgata. <strong>É diferente da tradução de Pe. Antônio Pereira de Figueiredo indicada anteriormente.</strong> A base digital foi revisada de erros de OCR por um projeto independente, mas ainda pode conter imperfeições; consulte uma edição impressa conferida quando houver dúvida textual.</div>
+ <div class="summary-bar"><div class="summary-stat"><strong>46</strong><span>Antigo Testamento</span></div><div class="summary-stat"><strong>27</strong><span>Novo Testamento</span></div><div class="summary-stat"><strong>1.334</strong><span>Capítulos disponíveis</span></div></div>
+ <div class="section-title-line"><h2>Escolha um livro</h2><span class="lesson-count">Leitura dentro do aplicativo</span></div>
+ <div class="book-layout">${tests.map(test=>`<div class="book-heading">${test}</div>${data.books.filter(b=>b.testament===test).map(b=>`<a href="#/livro/${id(b.name)}" class="book-pill">${esc(b.name)} <span style="float:right;color:var(--gold)">↗</span></a>`).join('')}`).join('')}</div>
+ <div class="section-title-line"><h2>Guias para começar</h2></div>
+ <div class="mini-list">${data.articles.filter(a=>a.section==='biblia').map(articleCard).join('')}</div></div>`;
 }
 function renderBook(name){
  const b=data.books.find(b=>b.name===name);if(!b)return renderMissing();
- const info=sourceBooks[name];
- const target=info?`${FIGUEIREDO_SITE}/${info.slug}`:FIGUEIREDO_SITE;
- const chapterLinks=info?Array.from({length:info.chapters},(_,n)=>`<a class="chapter-link" target="_blank" rel="noopener noreferrer" href="${esc(target+'/'+(n+1))}" aria-label="Ler ${esc(name)} capítulo ${n+1} na Bíblia de Figueiredo">${n+1}</a>`).join(''):'';
- return `<div class="container"><div class="backline"><a href="#/biblia" class="text-link">← Todos os livros</a></div><div class="article-card book-detail"><span class="eyebrow">${esc(b.testament)} · ${esc(b.group)}</span><h1>${esc(b.name)}</h1><p>Escolha um capítulo para ler a tradução de Pe. Antônio Pereira de Figueiredo em português. A leitura abre o site de origem em outra aba, com seus próprios recursos de marcação e anotação.</p><div class="warning"><strong>Nota editorial:</strong> nesta etapa os textos não foram copiados para o aplicativo. A ortografia e a numeração podem diferir de outras Bíblias; há indícios de falhas de transcrição na edição digital de referência. A leitura dos capítulos depende de internet.</div><h2>Capítulos</h2><div class="chapter-grid">${chapterLinks||link(FIGUEIREDO_SITE,'Abrir o catálogo da Bíblia em português')}</div><div class="article-actions">${link(target,'Ver este livro na Bíblia de Figueiredo','btn secondary')}</div></div></div>`;
+ const info=sourceBooks[name];if(!info)return renderMissing();
+ const chapterLinks=Array.from({length:info.chapters},(_,n)=>`<a class="chapter-link" href="${bibleHref(name,n+1)}" aria-label="Ler ${esc(name)}, capítulo ${n+1}">${n+1}</a>`).join('');
+ return `<div class="container">
+ <div class="backline"><a href="#/biblia" class="text-link">← Todos os livros</a></div>
+ <div class="article-card book-detail"><span class="eyebrow">${esc(b.testament)} · ${esc(b.group)}</span><h1>${esc(name)}</h1>
+ <p>Texto completo disponível no próprio aplicativo na tradução católica de Pe. Manuel de Matos Soares. Escolha um capítulo abaixo. A numeração de alguns livros segue a tradição da Vulgata.</p>
+ <div class="warning"><strong>Origem editorial:</strong> esta não é a tradução de Figueiredo. Os textos desta versão digital foram organizados e corrigidos de forma independente e ainda exigem conferência textual especializada; não são uma nova edição aprovada oficialmente pela Igreja.</div>
+ <h2>Capítulos</h2><div class="chapter-grid">${chapterLinks}</div></div></div>`;
+}
+function renderChapter(name,chapterNumber){
+ const b=data.books.find(b=>b.name===name),info=sourceBooks[name];
+ const n=Number(chapterNumber);
+ if(!b||!info||!Number.isInteger(n)||n<1||n>info.chapters)return renderMissing();
+ const pos=data.books.findIndex(x=>x.name===name);
+ const prev=n>1?bibleHref(name,n-1):(pos>0?bibleHref(data.books[pos-1].name,sourceBooks[data.books[pos-1].name].chapters):null);
+ const next=n<info.chapters?bibleHref(name,n+1):(pos+1<data.books.length?bibleHref(data.books[pos+1].name,1):null);
+ return `<div class="container"><div class="backline"><a href="#/livro/${id(name)}" class="text-link">← Capítulos de ${esc(name)}</a></div>
+ <article class="article-card bible-reader">
+ <div class="eyebrow">SAGRADA ESCRITURA · EDIÇÃO CATÓLICA HISTÓRICA</div>
+ <h1>${esc(name)} ${n}</h1><p class="article-lead">Tradução do Pe. Manuel de Matos Soares. Texto digital independente — revisão editorial em andamento.</p>
+ <div class="reading-navigation"><span>${prev?`<a class="btn secondary" href="${prev}">← Anterior</a>`:''}</span><span>${next?`<a class="btn secondary" href="${next}">Próximo →</a>`:''}</span></div>
+ <div id="chapter-status" class="bible-loading" role="status" aria-live="polite">Carregando texto do capítulo…</div>
+ <div id="chapter-verses" class="bible-verses" aria-label="Texto integral do capítulo"></div>
+ <div class="reading-navigation"><span>${prev?`<a class="btn secondary" href="${prev}">← Anterior</a>`:''}</span><span>${next?`<a class="btn secondary" href="${next}">Próximo →</a>`:''}</span></div>
+ <div class="warning"><strong>Nota de exatidão:</strong> versão transcrita e corrigida de OCR por terceiros, não confrontada integralmente com a edição impressa. O texto não é o de Figueiredo. Se encontrar falhas, registre a passagem para revisão.</div></article></div>`;
+}
+async function showBibleChapter(name,chapterNumber){
+ const n=Number(chapterNumber),idx=data.books.findIndex(b=>b.name===name);
+ if(idx<0)return;
+ const partNo=Math.floor(idx/BIBLE_GROUP_SIZE)+1,within=idx%BIBLE_GROUP_SIZE;
+ const target=$('#chapter-verses'),status=$('#chapter-status');if(!target||!status)return;
+ const atRoute=()=>location.hash===bibleHref(name,n);
+ try{
+  const books=await loadBiblePart(partNo);
+  if(!atRoute())return;
+  const book=books[within],verses=book?.chapters?.[String(n)];
+  if(!Array.isArray(verses)||!verses.length)throw new Error('Capítulo não encontrado no pacote bíblico.');
+  target.innerHTML=verses.map(v=>`<p class="bible-verse" id="versiculo-${v.v}"><a class="verse-number" href="#/leitura/${id(name)}/${n}" data-reference="${esc(name)} ${n},${v.v}" title="Versículo ${v.v}">${v.v}</a><span>${esc(v.t)}</span></p>`).join('');
+  status.textContent=`${verses.length} versículos · leitura disponível neste aplicativo`;
+ }catch(err){
+  if(!atRoute())return;
+  status.textContent='Não foi possível abrir este capítulo. Verifique a conexão inicial ou tente novamente.';
+  target.innerHTML='<p class="warning">O arquivo não foi carregado. Reabra o capítulo com conexão para salvar a leitura offline.</p>';
+ }
 }
 function renderWords(){return `<div class="container">${sectionHead('idiomas','LEITURA E PESQUISA BÍBLICA')}<div class="warning"><strong>Como ler estes estudos:</strong> cada palavra admite nuances de sentido. A etimologia isolada não prova a interpretação de um versículo; a gramática, o gênero literário, o contexto e a tradição interpretativa também importam.</div><div class="section-title-line"><h2>Palavras em contexto</h2><span class="lesson-count">${research.palavras.length} verbetes iniciais</span></div><div class="grid two">${research.palavras.map(w=>`<a href="#/palavra/${w.id}" class="tile"><span class="word-original">${esc(w.termo)}</span><span class="tile-title">${esc(w.titulo)}</span><span class="tile-description">${esc(w.transliteracao)} · ${esc(w.idioma)} · ${esc(w.referencia)}</span><span class="tile-arrow">↗</span></a>`).join('')}</div><div class="install-info"><h3>Como a IA entrará aqui?</h3><p>O projeto poderá propor perguntas, identificar paralelos e ajudar na pesquisa. Antes de publicar qualquer explicação, o texto será associado a uma edição, a uma referência e a uma classificação de evidência. Não há IA automática nem cobrança de API nesta primeira versão.</p></div></div>`;}
 function renderWord(w){let key='word:'+w.id;return `<div class="container"><div class="backline"><a href="#/idiomas" class="text-link">← Palavras originais</a></div><div class="article-layout"><article class="article-card"><span class="eyebrow">${esc(w.idioma)} · ${esc(w.nivel)}</span><div class="original-title" lang="${w.idioma.startsWith('Hebraico')?'he':'el'}">${esc(w.termo)}</div><h1>${esc(w.titulo)}</h1><div class="tags"><span class="tag">${esc(w.transliteracao)}</span><span class="tag muted">${esc(w.referencia)}</span></div><div class="article-body"><section><h3>Significados encontrados</h3><ul class="meaning-list">${w.sentidos.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></section><section><h3>Contexto e interpretação</h3><p>${esc(w.analise)}</p></section><section><h3>Variações e história das interpretações</h3><ol class="meaning-list">${(w.leituras||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section><section><h3>Outras passagens para comparar</h3><p>${esc(w.passagens.join(' · '))}</p></section></div><div class="article-tip"><strong>Cuidado com conclusões apressadas</strong>${esc(w.cuidado)}</div><div class="article-actions"><button class="btn secondary" type="button" data-copy-word="${w.id}">✣ Preparar análise com IA</button></div></article><aside class="article-aside"><div class="aside-card"><h3>Fontes e edições</h3><p>São recursos linguísticos acadêmicos; não constituem aprovação eclesiástica.</p>${w.fontes.map(s=>link(s.url,s.label)).join('')}</div><div class="aside-card"><h3>O que falta conferir</h3><p>Comparação completa de manuscritos e variantes textuais, aparato crítico, comentários patrísticos atribuídos com precisão e validação por especialistas.</p></div></aside></div></div>`;}
@@ -207,7 +276,7 @@ function renderSources(){const src=[
  ['Geografia','OpenStreetMap','Links externos com localização moderna aproximada; não é prova de trajetos históricos.','https://www.openstreetmap.org/']
 ];const groups=[...new Set(src.map(x=>x[0]))];return `<div class="container">${sectionHead('fontes','METODOLOGIA E TRANSPARÊNCIA')}<div class="article-card"><h2>Nem toda informação tem o mesmo peso</h2><p class="article-lead">O projeto distingue o ensinamento da Igreja, os relatos bíblicos, os resultados da pesquisa acadêmica e as hipóteses de reconstrução.</p><div class="source-levels"><div><span class="tag">Fonte eclesial</span><p>Doutrina e liturgia com referência ao documento e parágrafo.</p></div><div><span class="tag muted">Dado acadêmico</span><p>Edição, autor, licença, manuscrito ou evidência histórica identificável.</p></div><div><span class="tag muted">Interpretação</span><p>Explicação autoral que pode ser revista, sempre com fontes consultáveis.</p></div><div><span class="tag muted">Hipótese</span><p>Afirmação ou rota incerta, explicitamente marcada como tal.</p></div></div><div class="warning"><strong>IA com responsabilidade:</strong> um modelo pode ajudar a organizar ideias, mas também inventar citações e exagerar certezas. Antes de compartilhar, exigiremos revisão das fontes, da tradução, da atribuição e do contexto. O conteúdo atual é um protótipo editorial e não tem aprovação eclesiástica formal.</div><div class="article-body">${groups.map(g=>`<section><h3>${esc(g)}</h3><div class="mini-list">${src.filter(s=>s[0]===g).map(s=>`<div class="reference-row"><strong>${esc(s[1])}</strong><p>${esc(s[2])}</p>${link(s[3],'Abrir fonte')}</div>`).join('')}</div></section>`).join('')}</div><div class="article-tip"><strong>Sobre direitos autorais</strong>Um documento estar disponível na internet não significa que pode ser copiado integralmente para outro aplicativo. Os textos originais em grego e hebraico listados possuem licenças específicas; traduções modernas, Missal e Catecismo devem ser tratados conforme os direitos de cada publicação.</div><p class="article-lead" style="margin-top:18px">Independente, gratuito, sem publicidade nesta versão. Sem autenticação ou coleta de dados por nosso projeto; links externos têm suas próprias políticas.</p></div></div>`;}
 function renderMissing(){return `<div class="container"><div class="empty"><h3>Conteúdo não encontrado</h3><p>Este estudo pode ter sido movido ou ainda não estar disponível.</p><a class="btn" href="#/inicio">Ir para o início</a></div></div>`;}
-function render(){const p=path();let html;const name=p[0]||'inicio';if(name==='inicio')html=renderHome();else if(name==='biblioteca')html=renderAll();else if(name==='biblia')html=renderBible();else if(['missa','igreja','sacramentos','oracoes'].includes(name))html=renderSection(name);else if(name==='estudo'){const a=data.articles.find(x=>x.id===p[1]);html=a?renderArticle(a):renderMissing();}else if(name==='livro')html=renderBook(p[1]);else if(name==='idiomas')html=renderWords();else if(name==='palavra')html=research.palavras.find(x=>x.id===p[1])?renderWord(research.palavras.find(x=>x.id===p[1])):renderMissing();else if(name==='mapas')html=renderMaps();else if(name==='rota')html=research.rotas.find(x=>x.id===p[1])?renderRoute(research.rotas.find(x=>x.id===p[1])):renderMissing();else html=renderMissing();if(liveMap){liveMap.remove();liveMap=null;}$('#app').innerHTML=html;renderNav();if(name==='rota')initRouteMap(research.rotas.find(x=>x.id===p[1]));let s=sections.find(x=>x.id===activeSection());$('#breadcrumbs').innerHTML=`Início <span>/</span> <strong>${esc(s?.label||'Estudos')}</strong>`;document.title=`${s?.label||'Estudos'} | Fé, Escritura & Tradição`;window.scrollTo({top:0,behavior:'instant'});}
+function render(){const p=path();let html;const name=p[0]||'inicio';if(name==='inicio')html=renderHome();else if(name==='biblioteca')html=renderAll();else if(name==='biblia')html=renderBible();else if(['missa','igreja','sacramentos','oracoes'].includes(name))html=renderSection(name);else if(name==='estudo'){const a=data.articles.find(x=>x.id===p[1]);html=a?renderArticle(a):renderMissing();}else if(name==='livro')html=renderBook(p[1]);else if(name==='leitura')html=renderChapter(p[1],p[2]);else if(name==='idiomas')html=renderWords();else if(name==='palavra')html=research.palavras.find(x=>x.id===p[1])?renderWord(research.palavras.find(x=>x.id===p[1])):renderMissing();else if(name==='mapas')html=renderMaps();else if(name==='rota')html=research.rotas.find(x=>x.id===p[1])?renderRoute(research.rotas.find(x=>x.id===p[1])):renderMissing();else html=renderMissing();if(liveMap){liveMap.remove();liveMap=null;}$('#app').innerHTML=html;renderNav();if(name==='rota')initRouteMap(research.rotas.find(x=>x.id===p[1]));if(name==='leitura')showBibleChapter(p[1],p[2]);let s=sections.find(x=>x.id===activeSection());$('#breadcrumbs').innerHTML=`Início <span>/</span> <strong>${esc(s?.label||'Estudos')}</strong>`;document.title=`${s?.label||'Estudos'} | Fé, Escritura & Tradição`;window.scrollTo({top:0,behavior:'instant'});}
 function searchOpen(){let d=$('#search-dialog');d.classList.remove('hidden');$('#search-input').value='';searchUpdate();setTimeout(()=>$('#search-input').focus(),50);}
 function searchClose(){let d=$('#search-dialog');d.classList.add('hidden');$('#search-trigger').focus();}
 function searchUpdate(){let q=$('#search-input').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();let xs=[...data.articles.map(a=>({title:a.title,summary:a.summary,url:'#/estudo/'+id(a.id),section:a.category})),...research.palavras.map(w=>({title:w.titulo+' ('+w.transliteracao+')',summary:w.analise,url:'#/palavra/'+w.id,section:'Idiomas'})),...research.rotas.map(r=>({title:r.titulo,summary:r.subtitulo,url:'#/rota/'+r.id,section:'Mapas'}))];if(q)xs=xs.filter(x=>(x.title+' '+x.summary+' '+x.section).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(q));xs=xs.slice(0,22);$('#search-results').innerHTML=xs.length?xs.map(x=>`<a class="study-card" href="${x.url}" data-search-result="1"><span class="study-card-content"><small>${esc(x.section)}</small><span class="study-card-title" style="display:block">${esc(x.title)}</span><span class="study-card-summary">${esc(x.summary)}</span></span><span class="study-card-arrow">→</span></a>`).join(''):'<div class="empty"><p>Nenhum estudo encontrado para esta pesquisa.</p></div>';}
